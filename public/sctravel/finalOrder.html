@@ -1,0 +1,166 @@
+﻿
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="utf-8">
+            <title>成都旅游网</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                
+                
+                <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css"><link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+                    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+                        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+                        <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+                        
+                        
+                        <link href="http://www.eyecon.ro/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+                            <script src="http://www.eyecon.ro/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+                            <!-- Le styles -->
+                            <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+                                <link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.10.3.custom.css">
+                                    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+                                        <!--[if IE 7]>
+                                         <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css">
+                                         <![endif]-->
+                                        <!--[if lt IE 9]>
+                                         <link rel="stylesheet" href="css/custom-theme/jquery.ui.1.10.3.ie.css">
+                                         <![endif]-->
+                                        <link rel="stylesheet" href="/assets/css/docs.css">
+                                            <link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css">
+                                                
+                                                <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+                                                <!--[if lt IE 9]>
+                                                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                                                 <![endif]-->
+                                                
+                                                <!-- Le fav and touch icons -->
+                                                <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+                                                    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+                                                        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+                                                            <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+                                                                <link rel="shortcut icon" href="assets/ico/favicon.png">
+                                                                    <!-- googlemap -->
+                                                                    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=weather" type="text/javascript"></script>
+                                                                    <!-- End googlemap -->
+    </head>
+    
+    <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+        
+        <!-- Navbar
+         ================================================== -->
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="/sctravel/spots.html">成都旅游网</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="./index.html">首页</a>
+                            </li>
+                            <li>
+                                <a href="./components.html">服务</a>
+                            </li>
+                            <li>
+                                <a href="./extra.html">关于我们</a>
+                            </li>
+                            <li class="active">
+                                <a href="./map.html">地图</a>
+                            </li>
+                            <li>
+                                <a href="http://github.com/addyosmani/jquery-ui-bootstrap/issues">反馈</a>
+                            </li>
+                            <li>
+                                <a href="http://twitter.com/addyosmani">联系我们</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    选择服务 <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li><a tabindex="-1" href="./index.html">Default Bootstrap Theme (Non LESS'd)</a></li>
+                                    <li><a tabindex="-1" href="theme/united/index.html">United Theme via Bootswatch (LESS'd)</a></li>
+                                    <li><a tabindex="-1" href="theme/base/index.html">Default Bootstrap Theme (LESS'd)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div id="twitter-share" class="pull-right">
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://addyosmani.github.com/jquery-ui-bootstrap/" data-text="A new jQuery UI Bootstrap theme" data-via="addyosmani" data-size="large">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Subhead
+         ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>成都旅游网</h1>
+                <p class="lead">天府之国，美食家园，吃货天堂</p>
+            </div>
+        </header>
+        
+        <script language="JavaScript">
+            preorder = {};
+            t={};
+            $(function(){
+              //##### Accordion with gmap3 http://127.0.0.1:3000/test
+              
+              $.ajax({url:"/orderConfir", success:function(results){
+                     t = results;
+                     preorder = results.preorders;
+                     con_num = results.confir;
+                     
+                     
+                     // if(preroder.satus)
+                     var status;
+                     if(preorder[0].order_status == '1'){ status = "否";}
+                     
+                     $('#orders').append("<div class=\"row-fluid\" ><div class=\"span4\"><bold>确认码：&nbsp&nbsp</bold><input class=\"input-large\" type=\"text\" readonly value=" + con_num + "></input></div><div class=\"span4\"><bold>已付款：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" + status + "></input></div></div>");
+                     for(var i = 0 ; i < preorder.length; i ++) {
+                     
+                     $('#orders').append("<form  class=\"well form-inline\"><div class=\"row-fluid\" ><div class=\"span2\"><bold>姓名：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].name + "></input></div><div class=\"span2\"><bold>Email：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].email + "></input></div><div class=\"span2\"><bold>电话：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].phone + "></input></div><div class=\"span2\"><bold>出发地：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].departure + "></input></div></div><div class=\"row-fluid\" ><div class=\"span2\"><bold>景点：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].spot_name + "></input></div>" + "<div class=\"span2\"><bold>日期：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].valid_date + "></input></div><div class=\"span2\"><bold>时间：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].time_slot + "></input></div>" + "<div class=\"span2\"><bold>人数：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].quantity + "></input></div>" + "<div class=\"span2\"><bold>总价：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[i].total_amount + "></input></div>" + "</div></form>" );
+                     }
+                     
+                     $('#orders').append("<div class=\"row-fluid\" ><div class=\"span2\"><bold>合计：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" +preorder[0].order_total_amount + "></input></div></div>");
+                     
+                     }});
+              // force maps to refresh on show
+              
+              });
+              
+              
+              
+              
+            </script>
+        
+        <div class="container" id="buyTicketContainer">
+            <div class="page-header">
+                <h1>成功预定以下行程:</h1>
+            </div>
+            <div id="orders"></div>
+            
+            
+        </div>
+        
+        
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/assets/js/jquery-1.9.1.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/holder.js"></script>
+        <script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="/assets/js/google-code-prettify/prettify.js"></script>
+        <script src="/assets/js/docs.js"></script>
+        <!--gmap3-->
+        <script src="/third-party/gmap3/gmap3.min.js" type="text/javascript"></script>
+        <!--End gmap3-->
+        <script src="calmap.js"></script>
+    </body>
+</html>
