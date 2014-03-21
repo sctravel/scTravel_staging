@@ -233,6 +233,9 @@ $('#resetButton').click(
 	
 	$( "#count" ).spinner();
 function selectCity(index, updateAccordion) {
+
+
+
     if (updateAccordion) {
         $( "#accordion-map" ).accordion("option", "active", index);
     }
@@ -258,6 +261,22 @@ function selectCity(index, updateAccordion) {
          header: "h3",
          activate: function(event, ui) {
              // index / 2 because of the 2 elements by set (h3 + div)
+              var img_src = "images/pic" +  ui.newHeader.index() + ".jpg";
+
+
+                  $("#testImage1").attr("src", img_src);
+                  $("#firstImage").attr("href", img_src);
+
+                  $("#testImage2").attr("src", img_src);
+                  $("#secondImage").attr("href", img_src);
+
+                  $("#testImage3").attr("src", img_src);
+                  $("#thirdImage").attr("href", img_src);
+
+                  $("#testImage4").attr("src", img_src);
+                  $("#forthImage").attr("href", img_src);
+
+
              selectCity(ui.newHeader.index() / 2);
          }
      });
@@ -279,6 +298,7 @@ function selectCity(index, updateAccordion) {
            events:{
                    click: function (marker, event, context) {
 
+
                        selectCity(context.data.index, true);
                    }
                }
@@ -287,6 +307,7 @@ function selectCity(index, updateAccordion) {
 
      $("#tabs").tabs({
          activate: function(event, ui) {
+
              if (ui.newPanel.hasClass("gmap3")) {
                  ui.newPanel.gmap3({trigger: "resize"});
              }
