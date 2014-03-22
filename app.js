@@ -5,10 +5,10 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
-var test = require('./routes/test');
-var orders = require('./routes/orders');
-var orderConfir = require('./routes/orderConfir');
+//var user = require('./routes/user');
+//var test = require('./routes/test');
+//var orders = require('./routes/orders');
+//var orderConfir = require('./routes/orderConfir');
 var mail=require('./node_modules/emailUtil');
 
 var http = require('http');
@@ -40,7 +40,14 @@ if ('development' == app.get('env')) {
 }app.get('/', function (req,res){
     res.redirect('/sctravel/spots.html');
 });
-app.get('/test', test.test);
+
+app.get('/services/getAll/scenerySpots', function(req,res) {
+
+    queryDB.getAllScenerySpots(function(results){
+        res.send(results);
+    })
+});
+/*
 app.get('/orders', orders.orders);
 
 app.get('/users', user.list);
@@ -122,7 +129,7 @@ app.post('/email', function(req,res){
                         }
                         });
          });
-
+*/
 http.createServer(app).listen(app.get('port'), function(){
                               console.log('Express server listening on port ' + app.get('port'));
                               });

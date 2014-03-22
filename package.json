@@ -9,6 +9,8 @@
     "express": "3.4.8",
     "jade": "*", "ejs":"*",
     "stylus":"*",
+    "async":"*",
+    "memory-cache":"*",
     "email-templates": "0.0.5",
     "nodemailer": "0.3.x"
   }

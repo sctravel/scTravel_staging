@@ -6,11 +6,7 @@
 	
 	var confirmCode="BV46YFA1UD2WDTZ";
 	
-	var order;
-	queryDB.checkOrder(confirmCode,function(results){
-	    order=results;
-	    console.log(order);
-	})
+
 	var spots;
 	queryDB.getAllScenerySpots(function(results){
 	    spots = results;
