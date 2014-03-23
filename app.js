@@ -47,6 +47,41 @@ app.get('/services/getAll/scenerySpots', function(req,res) {
         res.send(results);
     })
 });
+
+app.get('/services/getAll/offers', function(req,res) {
+
+    queryDB.getAllOffers(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/routes', function(req,res) {
+
+    queryDB.getAllRoutes(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/buses', function(req,res) {
+
+    queryDB.getAllBuses(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/drivers', function(req,res) {
+
+    queryDB.getAllDrivers(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/validSchedules', function(req,res) {
+
+    queryDB.getAllValidSchedules(function(results){
+        res.send(results);
+    })
+});
 /*
 app.get('/orders', orders.orders);
 
