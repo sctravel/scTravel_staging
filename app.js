@@ -4,15 +4,14 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
+var http = require('http');
+var path = require('path');
 //var user = require('./routes/user');
 //var test = require('./routes/test');
 //var orders = require('./routes/orders');
 //var orderConfir = require('./routes/orderConfir');
+var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
-
-var http = require('http');
-var path = require('path');
 var queryDB = require('./node_modules/queryDB');
 var confirm=require('./node_modules/confirmationCodeGenerator');
 
@@ -37,10 +36,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
-}app.get('/', function (req,res){
+};
+
+//Home page
+app.get('/', function (req,res){
     res.redirect('/sctravel/spots.html');
 });
 
+
+/*************************************************************
+ * Data Services using http GET method
+ *************************************************************/
 app.get('/services/getAll/scenerySpots', function(req,res) {
 
     queryDB.getAllScenerySpots(function(results){
@@ -81,6 +87,21 @@ app.get('/services/getAll/validSchedules', function(req,res) {
     queryDB.getAllValidSchedules(function(results){
         res.send(results);
     })
+});
+
+/********************************************************************
+ * Actions using http POST methods
+ ********************************************************************/
+app.post('/services/common/email', function(req,res){
+    var mailOptions=req.body.mailOptions;
+    mail.sendEmail(mailOptions,function(error, response){
+        if(error){
+            console.log(error);
+        }else{
+            console.log("Email sent: " + response.message);
+            res.send("ok");
+        }
+    });
 });
 /*
 app.get('/orders', orders.orders);
@@ -153,17 +174,7 @@ app.post('/preorder', function (req,res) {
          });
 
 app.get('/orderConfir',orderConfir.orderConfir);
-app.post('/email', function(req,res){
-         var mailOptions=req.body.mailOptions;
-         mail.sendEmail(mailOptions,function(error, response){
-                        if(error){
-                        console.log(error);
-                        }else{
-                        console.log("Message sent: " + response.message);
-                        res.send("ok");
-                        }
-                        });
-         });
+
 */
 http.createServer(app).listen(app.get('port'), function(){
                               console.log('Express server listening on port ' + app.get('port'));
