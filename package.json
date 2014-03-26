@@ -10,7 +10,9 @@
     "jade": "*", "ejs":"*",
     "stylus":"*",
     "async":"*",
+    "mysql":"*",
     "memory-cache":"*",
+    "mysql-queues":"*",
     "email-templates": "0.0.5",
     "nodemailer": "0.3.x"
   }
