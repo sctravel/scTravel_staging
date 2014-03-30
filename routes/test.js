@@ -1,6 +1,6 @@
 	/*
-	 * GET home page.
-	 */
+	 * Retired
+	 
 	var queryDB = require('../node_modules/queryDB');
 	
 	
@@ -10,6 +10,7 @@
 	var spots;
 	queryDB.getAllScenerySpots(function(results){
 	    spots = results;
+		console.log("Get all scenerySpots");
 	    console.log(results);
 	} )
 	
@@ -30,3 +31,4 @@
 	   res.json(test);
 	 //   res.send("test");
 	};
+*/

@@ -60,10 +60,10 @@ hr.soften {
 ------------------------- */
 .jumbotron {
     position: relative;
-    padding: 40px 0;
+    padding: 20px 0;
     color: #fff;
     text-align: center;
-    text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+    text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 20px rgba(0,0,0,.075);
     background: #B24926; /* Old browsers */
     background: -moz-linear-gradient(45deg,  #B24926 0%, #FAA523 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#B24926), color-stop(100%,#FAA523)); /* Chrome,Safari4+ */
@@ -77,16 +77,16 @@ hr.soften {
     box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
 }
 .jumbotron h1 {
-    font-size: 80px;
+    font-size: 50px;
     font-weight: bold;
     letter-spacing: -1px;
     line-height: 1;
 }
 .jumbotron p {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 300;
     line-height: 1.25;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 /* Link styles (used on .masthead-links as well) */
@@ -220,7 +220,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
     border-bottom: 1px solid #ddd;
 }
 .subhead h1 {
-    font-size: 60px;
+    font-size: 50px;
 }
 .subhead p {
     margin-bottom: 20px;

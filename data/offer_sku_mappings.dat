@@ -1,4 +1,5 @@
-﻿1020,102,R,,1
+﻿offerid, sku_id, sku_type, category, sequence
+1020,102,R,,1
 1020,2,T,全价,2
 1021,102,R,,1
 1021,2,T,半价,2
