@@ -7,13 +7,15 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "jade": "*", "ejs":"*",
+    "jade": "*",
+    "ejs":"*",
     "stylus":"*",
     "async":"*",
     "mysql":"*",
     "memory-cache":"*",
     "mysql-queues":"*",
     "email-templates": "0.0.5",
-    "nodemailer": "0.3.x"
+    "nodemailer": "0.3.x",
+    "dateformat":"*"
   }
 }

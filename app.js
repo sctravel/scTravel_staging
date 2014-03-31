@@ -6,6 +6,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var dateFormat = require('dateformat');
 //var user = require('./routes/user');
 //var test = require('./routes/test');
 //var orders = require('./routes/orders');
@@ -14,8 +15,13 @@ var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var confirm=require('./node_modules/confirmationCodeGenerator');
+var stringUtils = require('./node_modules/stringUtils');
+
 
 var app = express();
+
+
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
