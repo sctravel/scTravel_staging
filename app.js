@@ -54,6 +54,29 @@ app.get('/services/getAll/scenerySpots', function(req,res) {
     })
 });
 
+app.get('/services/getAll/startSpots', function(req,res) {
+
+    queryDB.getAllStartSpots(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/routesByStartSpot', function(req,res) {
+
+    queryDB.getRoutesFromStartSpots(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/offersByRoute', function(req,res) {
+
+    queryDB.getOffersFromRouteId(function(results){
+        res.send(results);
+    })
+});
+
+
+
 app.get('/services/getAll/offers', function(req,res) {
 
     queryDB.getAllOffers(function(results){

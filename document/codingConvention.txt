@@ -12,4 +12,7 @@ We use the following conventions throughout the code
 
 3. static url for a scenery spot "A"  /data/staticUrl/spots/A.html
 
-
+1.  Route is the schedule unit.  If A->B->C (customers don’t change bus) then it is one route. But if A->B->C and customers can change bus, then it is 2 routes (A->B and B->C)
+2. We may want to change routeid to string. Currently I use startSpotid + 0 + endSpotid as routeid. If A->B->C then routeid = Aid + Bid + Cid.
+3. If A->B is 101, B->A is 100101 (100 as prefix)
+4. If routeid = 102,  1020 is the full price offer, 1021 is the half price offer and 1022 is the bus-ticket only offer.
