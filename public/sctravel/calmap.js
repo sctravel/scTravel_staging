@@ -1,4 +1,214 @@
- $("#buyButton").click(function() {
+function compute_total(){
+   
+    subs = $('.subtotal');
+    var total = 0;
+    for(var i = 0; i <subs.length; i ++ ) {
+
+        if(subs[i].value == "") {
+
+            sub_total = 0;
+        }else {
+
+            sub_total =subs[i].value;
+        }
+
+        total = total + parseInt(sub_total);
+
+
+    }
+    $('#total').prop('value', total);
+
+}
+function init(lineNum){
+    var line_Num = lineNum;
+
+    $('.datepicker').datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
+
+
+    date = new Date();
+
+    var n = date.getDay();
+
+    endDate = new Date();
+
+    endDate.setDate(endDate.getDate() + 14);
+
+    startDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+
+
+    $('#date_' + line_Num).datepicker( "option", "minDate",startDate);
+    $('#date_' + line_Num).datepicker( "option", "maxDate", endDate);
+
+    $.ajax({url:"/services/getAll/startSpots", success:function(results) {
+
+        var startSpots = results;
+        var option = "<option value =  0>" +  "请选择" + "</option>";
+
+        $(option).appendTo($('#start_' + line_Num));
+        for(var startSpotIndex in startSpots) {
+
+          var  startSpot = startSpots[startSpotIndex];
+
+
+            var option = "<option value = "  +  startSpot.spot_id + ">" +  startSpot.spot_name  + "</option>"
+
+            $(option).appendTo($('#start_' + line_Num));
+        }
+
+    }});
+
+    start_id = '#start_' + line_Num;
+    $(start_id).change(function() {
+        var id = this.id;
+        var curr_lineNum= id.substring(id.indexOf('_') + 1);
+        var end_id = '#end_'+ curr_lineNum;
+
+        $(end_id).empty();
+
+        var option = "<option value =  0>" +  "请选择" + "</option>";
+
+        $(option).appendTo($(end_id));
+
+        $.ajax({url:"/services/getAll/routesByStartSpot", success:function(results) {
+
+            routes = results;
+            startSpot_id = $('#start_' + curr_lineNum).val();
+
+            route = routes[startSpot_id];
+            for( var i=0; i < route.length; i++) {
+
+
+                var end_spot_name = route[i].to_label;
+
+                var option = "<option value = "  +  route[i].route_id + ">" +  end_spot_name  + "</option>"
+
+                $(option).appendTo($(end_id));
+
+            }
+
+        }});
+
+
+    });
+    end_id = '#end_' + line_Num;
+    $(end_id).change(function(){
+        var id = this.id;
+        var curr_lineNum= id.substring(id.indexOf('_') + 1);
+        var type_id = '#type_'+ curr_lineNum;
+        $(type_id).empty();
+
+        var option = "<option value =  0>" +  "请选择" + "</option>";
+
+        $(option).appendTo($(type_id));
+        $.ajax({url:"/services/getAll/offersByRoute", success:function(results) {
+            route_id =  $('#end_' + curr_lineNum).val();
+            offers = results;
+            offer = offers[route_id];
+            for (var i =0; i < offer.length;i ++) {
+
+
+                var s= offer[i].offer_name.indexOf("(");
+                type='只含车票';
+                if(s>=0){
+
+                    var e = offer[i].offer_name.indexOf(")");
+
+                    if(e>0) {
+                        type =  offer[i].offer_name.substring(s+1,e);
+
+                    }
+                }
+                var option = "<option value = "  +  i + ">" +  type  + "</option>"
+
+                $(option).appendTo($(type_id));
+
+            }
+
+        }});
+    });
+
+    $('.type').change(function(){
+
+        id = this.id;
+        curr_lineNum = id.substring(id.indexOf("_")+1);
+
+        route_id = $('#end_' +curr_lineNum).val();
+
+        offer = offers[route_id];
+
+        type_id = "#" + id;
+
+        var price = offer[$(type_id).val()].offer_price;
+
+        var price_id = "#price_" + curr_lineNum
+        $(price_id).attr("value",price );
+
+
+    });
+
+
+  date_id = "#date_" +line_Num;
+    $(date_id).change(function(){
+        id = this.id;
+
+        curr_lineNum = id.substring(id.indexOf('_') + 1);
+
+        var time_id = "#time_" + curr_lineNum;
+        $(time_id).empty();
+        var option = "<option value =  0>" +  "请选择" + "</option>";
+
+        $(option).appendTo($(time_id));
+
+        $.ajax({url:"/services/getAll/validSchedules", success:function(results) {
+            var end_id = "#end_" + curr_lineNum;
+            var route_id = $(end_id).val();
+            schedules = results;
+            schedule = schedules[route_id];
+            var date_id = "#date_" + curr_lineNum;
+
+
+            for (var i =0; i < schedule.length;i ++) {
+
+                if( schedule[i].schedule_date == null || (schedule[i].schedule_date == $(date_id).val())){
+
+                    var option = "<option value = "  +  schedule[i].schedule_id + ">" +  schedule[i].departure_time  + "</option>"
+
+                    $(option).appendTo($(time_id));
+                }
+
+
+            }
+
+
+
+        }});
+
+    });
+
+    $( ".amount" ).change(function() {
+        id = this.id;
+        curr_lineNum = id.substring(id.indexOf("_")+1);
+
+        var num = $(this).val();
+
+        price_id = "#price_" + curr_lineNum;
+        var price = $(price_id).val();
+        var subtotal = price * num;
+        subtotal_id = "#subtotal_" + curr_lineNum;
+        $(subtotal_id).attr("value", subtotal);
+
+        compute_total();
+
+    });
+
+
+
+
+}
+
+$("#buyButton").click(function() {
 
     var spot = $('option:selected','.spotSelect');
     var from = $('option:selected','.fromSelect');
@@ -35,13 +245,33 @@
  });
  
  $("#addButton").click(function(){
-     
-  $("#buyTicket").append("<div class=\"row-fluid order new\" ><div  class=\"span2\"><bold>出发地：</bold><select id=\"fromselect\" class=\"fromSelect\" style=\"width:140px;\"><option value=\"1\">香格里拉大酒店</option><option value=\"2\">望江宾馆</option><option value=\"3\">凯丽假日酒店</option></select></div><div class=\"span2\"><bold>景点：</bold><select class=\"spotSelect input-small\"><option value=\"1\">武侯祠</option><option value=\"2\">杜甫草堂</option><option value=\"3\">青羊宫</option></select></div><div class=\"span2\"><label for=\"datepicker\">日期：<input type=\"text\" class=\"datepicker input-small\" ></label></div><div  class=\"span2\"><bold>时间：</bold><select class=\"time input-small\"><option value=\"9:00\">9:00</option><option value=\"9:30\">9:30</option><option value=\"10:00\">10:00</option><option value=\"10:30\">10:30</option><option value=\"11:00\">11:00</option><option value=\"11:30\">11:30</option><option value=\"12:00\">12:00</option><option value=\"12:30\">12:30</option><option value=\"13:00\">13:00</option><option value=\"13:30\">13:30</option><option value=\"14:00\">14:00</option><option value=\"14:30\">14:30</option><option value=\"15:00\">15:00</option></select></div><div  class=\"span2\"><bold>人数：</bold><input  type=\"text\" class=\"amount input-small\" value=\"1\"></input></div><div  class=\"span2\"><bold>单价：</bold><input  id = \"price\"  class=\"price input-small\" type=\"text\" readonly value=999></input></div><div class=\"span2\"><bold>总价：</bold><input  class=\"subtotal input-small\" width=\"60px\" type=\"text\" readonly value=\"999\"></input></div><div>&nbsp;</div><button class=\"del_button\">删除</button></div></div>");
-     //$("#buyTicket").append("<p>test</p>");
+     lineNum ++;
 
-     $('.datepicker').datepicker({
-         dateFormat: 'yy-mm-dd'
-     });
+     var start_id =   'start_' + lineNum ;
+
+     var end_id = 'end_' + lineNum;
+
+     var type_id = 'type_' + lineNum;
+     var date_id = 'date_' + lineNum;
+     var time_id = 'time_' + lineNum;
+     var amount_id = 'amount_' + lineNum;
+     var price_id = 'price_' + lineNum;
+     var subtotal_id = 'subtotal_' + lineNum;
+
+  $("#buyTicket").append("<div class=\"row-fluid order\" >" +
+    " <div  class=\"span2\"><bold>出发地：</bold><select id=\"" +start_id + "\" class=\"start\" style=\"width:140px;\"></select></div>"
+     +  " <div  class=\"span2\"><bold>景点：</bold><select id=\"" +end_id + "\" class=\"end input-small\" ></select></div>"
+     +"<div  class=\"span1\" ><bold>票种：</bold><select id=\"" +type_id + "\" class=\"type input-small\"  ></select></div>"
+     + " <div  class=\"span2\"><bold>日期：<input  id = \"" +date_id + "\"class=\"datepicker input-small\" type=\"text\"></input></bold></div>"
+     + " <div  class=\"span2\"><bold>时间：</bold><select id = \"" +time_id + "\" class=\"time input-small\"></select></div>"
+     + " <div  class=\"span2\"><bold>人数：</bold><input id= \"" +amount_id + "\" type=\"text\" class=\"amount input-small\" width=\"50px\" value=\"1\"/></div>"
+     + " <div  class=\"span2\"><bold>单价：</bold><input  id = \"" +price_id + "\"  class=\"price input-small\" type=\"text\" readonly value=\"\" width=\"50px\"></input></div>"
+     + " <div  class=\"span2\"><bold>总价：</bold><input  id = \"" +subtotal_id + "\"  class=\"subtotal input-small\" type=\"text\" readonly value=0></input></div>"
+
+     +   "</div>");
+
+     init(lineNum);
+     compute_total();
 	
 	 $(".del_button").click(function(){
 	
@@ -77,136 +307,13 @@
 
          $("#buyButton").removeAttr('disabled');
      }
-   $( ".spotSelect" ).change(function() {
-       
-	   var new_Price = 999;
-	   var new_subtotal=999;
-	  if($(this).val()=="1"){
-	            $(this).parent().next().next().next().next().children().first().next().val(999);
 
-      
-	  }else if($(this).val()=="2"){
-	            
-				$(this).parent().next().next().next().next().children().first().next().val(900);
-			     new_Price = 900;
-	  
-	  }else if($(this).val()=="3"){
-	            $(this).parent().next().next().next().next().children().first().next().val(998);
-                new_Price = 998;
-      }
-      
-	  var num = $(this).parent().next().next().next().children().next().val();
-
-	  new_subtotal = new_Price * num;
-	 
-	 $(this).parent().next().next().next().next().next().children().val(new_subtotal);
-    
-	    var total =0;
-		var array = $('.subtotal');
-		for(var i = 0; i <array.length;i ++) {
-		
-		total = total + parseInt(array[i].value) ;
-		
-		}
-		$("#total").val(total);
-       if($("#total").val()==0){
-
-           $("#buyButton").attr('disabled','disabled');
-       }else {
-
-           $("#buyButton").removeAttr('disabled');
-       }
-	});
 	
-	 $( ".amount" ).change(function() {
-	  
-	    var num = $(this).val();
-	    var price = $(this).parent().next().children().first().next().val();
-	    var subtotal = price * num;
-		$(this).parent().next().next().children().first().next().val(subtotal);
-		 var total =0;
-		var array = $('.subtotal');
-		for(var i = 0; i <array.length;i ++) {
-		
-		total = total + parseInt(array[i].value) ;
-		
-		}
-		$("#total").val(total);
-	    if($("#total").val()==0){
 
-            $("#buyButton").attr('disabled','disabled');
-        }else {
-
-            $("#buyButton").removeAttr('disabled');
-        }
-	 });
-  });
    
-  $( ".spotSelect" ).change(function() {
-     
-       var new_Price = 999;
-	   var new_subtotal=999;
-	  if($(this).val()=="1"){
-	             
-	           
-	             $(this).parent().next().next().next().next().children().first().next().val('999');
 
-      
-	  }else if($(this).val()=="2"){
-
-				$(this).parent().next().next().next().next().children().first().next().val('900');
-			     new_Price = 900;
-	  
-	  }else if($(this).val()=="3"){
-	            $(this).parent().next().next().next().next().children().first().next().val('998');
-          new_Price = 998;
-      }
-
-	  var num = $(this).parent().next().next().next().children().next().val();
-	 
-	  new_subtotal = new_Price * num;
-	 
-	 $(this).parent().next().next().next().next().next().children().val(new_subtotal);
-	  var total =0;
-		var array = $('.subtotal');
-		for(var i = 0; i <array.length;i ++) {
-		
-		total = total + parseInt(array[i].value) ;
-		
-		}
-		$("#total").val(total);
-      if($("#total").val()==0){
-
-          $("#buyButton").attr('disabled','disabled');
-      }else {
-
-          $("#buyButton").removeAttr('disabled');
-      }
-	  
-	});
 	
-	 $( ".amount" ).change(function() {
-	  
-	    var num = $(this).val();
-	    var price = $(this).parent().next().children().first().next().val();
-	    var subtotal = price * num;
-		$(this).parent().next().next().children().first().next().val(subtotal);
-		 var total =0;
-		var array = $('.subtotal');
-		for(var i = 0; i <array.length;i ++) {
-		
-		total = total + parseInt(array[i].value) ;
-		
-		}
-		$("#total").val(total);
-         if($("#total").val()==0){
 
-             $("#buyButton").attr('disabled','disabled');
-         }else {
-
-             $("#buyButton").removeAttr('disabled');
-         }
-	 
 	 });
 $('#resetButton').click(
     function(){
@@ -227,11 +334,10 @@ $('#resetButton').click(
 );
 	
    
-   $('.datepicker').datepicker({
-          dateFormat: 'yy-mm-dd'
-    });
-	
-	$( "#count" ).spinner();
+
+
+
+ $( "#count" ).spinner();
 function selectCity(index, updateAccordion) {
 
 
@@ -285,7 +391,7 @@ function selectCity(index, updateAccordion) {
              map:{
                  options:{
                      center:[30.652343,104.054664],
-                     zoom: 12
+                     zoom: 11
                  }
              },
 
@@ -321,11 +427,40 @@ function selectCity(index, updateAccordion) {
 $(function(){
     //##### Accordion with gmap3 http://127.0.0.1:3000/test
 
-    $.ajax({url:"/test", success:function(results){
+    lineNum = 1;
+    $.ajax({url:"/services/getAll/sceneryspots", success:function(results){
 
-        initMap(results);
+        spots = results;
+        cordinators = [];
+        for(var spotIndex in spots) {
 
+            spot = spots[spotIndex];
+
+            var latLng = [];
+
+            latLng.push(spot.longitude);
+            latLng.push(spot.latitude);
+
+            var data = { index : (spot.spot_id-1)};
+
+            var cordinator={};
+
+            cordinator.latLng = latLng;
+            cordinator.data = data;
+            cordinators.push(cordinator);
+
+           var url = "/sctravel/spotDesc/1.html";
+
+            desc = "<h3 id =" + spot.spot_id + ">" + spot.spot_name + "</h3>" + "<div><iframe src="  +  url + " frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"90%\"  ></iframe></div>"
+
+            $('#accordion-map').append(desc);
+
+        }
+        initMap(cordinators);
     }});
+
+
+    init(lineNum);
     // force maps to refresh on show
 
 });
