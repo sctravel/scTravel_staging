@@ -396,8 +396,8 @@ function selectCity(index, updateAccordion) {
      $('#gmap3').gmap3({
              map:{
                  options:{
-                     center:[30.652343,104.054664],
-                     zoom: 11
+                     center:[30.782343,104.054664],
+                     zoom: 10
                  }
              },
 
