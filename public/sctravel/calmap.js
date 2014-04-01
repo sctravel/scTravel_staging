@@ -145,6 +145,13 @@ function init(lineNum){
         var price_id = "#price_" + curr_lineNum
         $(price_id).attr("value",price );
 
+		var amount_id = "#amount_" + curr_lineNum
+        num = $(amount_id).val();
+        
+		var subtotal = price * num;
+        subtotal_id = "#subtotal_" + curr_lineNum;
+        $(subtotal_id).attr("value", subtotal);
+        compute_total();
 
     });
 
@@ -177,12 +184,7 @@ function init(lineNum){
 
                     $(option).appendTo($(time_id));
                 }
-
-
             }
-
-
-
         }});
 
     });
