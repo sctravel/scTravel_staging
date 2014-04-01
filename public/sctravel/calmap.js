@@ -367,23 +367,27 @@ function selectCity(index, updateAccordion) {
          header: "h3",
          activate: function(event, ui) {
              // index / 2 because of the 2 elements by set (h3 + div)
-              var img_src = "images/pic" +  ui.newHeader.index() + ".jpg";
+			      var city = ui.newHeader.index() / 2;
+                  var img_src = "images/pic" +  city;
 
+                  $("#boxImage1").attr("src", img_src + "_1.jpg");
+                  $("#firstImage").attr("href", img_src + "_1.jpg");
 
-                  $("#testImage1").attr("src", img_src);
-                  $("#firstImage").attr("href", img_src);
+                  $("#boxImage2").attr("src", img_src + "_2.jpg");
+                  $("#secondImage").attr("href", img_src + "_2.jpg");
 
-                  $("#testImage2").attr("src", img_src);
-                  $("#secondImage").attr("href", img_src);
+                  $("#boxImage3").attr("src", img_src + "_3.jpg");
+                  $("#thirdImage").attr("href", img_src + "_3.jpg");
 
-                  $("#testImage3").attr("src", img_src);
-                  $("#thirdImage").attr("href", img_src);
+                  $("#boxImage4").attr("src", img_src + "_4.jpg");
+                  $("#forthImage").attr("href", img_src + "_4.jpg");
 
-                  $("#testImage4").attr("src", img_src);
-                  $("#forthImage").attr("href", img_src);
+                  $("#boxImage5").attr("src", img_src + "_5.jpg");
+                  $("#fifthImage").attr("href", img_src + "_5.jpg");
 
-
-             selectCity(ui.newHeader.index() / 2);
+                  $("#boxImage6").attr("src", img_src + "_6.jpg");
+                  $("#sixthImage").attr("href", img_src + "_6.jpg");
+             selectCity(city);
          }
      });
 
@@ -449,7 +453,7 @@ $(function(){
             cordinator.data = data;
             cordinators.push(cordinator);
 
-           var url = "/sctravel/spotDesc/1.html";
+           var url = "/sctravel/spotDesc/" + spot.spot_id + ".html";
 
             desc = "<h3 id =" + spot.spot_id + ">" + spot.spot_name + "</h3>" + "<div><iframe src="  +  url + " frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"90%\"  ></iframe></div>"
 
