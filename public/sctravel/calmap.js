@@ -374,21 +374,27 @@ function selectCity(index, updateAccordion) {
 
                   $("#boxImage1").attr("src", img_src + "_1.jpg");
                   $("#firstImage").attr("href", img_src + "_1.jpg");
+				  $("#firstImage").attr("title", $("#"+ (city+1)).attr("name"));
 
                   $("#boxImage2").attr("src", img_src + "_2.jpg");
                   $("#secondImage").attr("href", img_src + "_2.jpg");
+				  $("#secondImage").attr("title", $("#"+ (city+1)).attr("name"));
 
                   $("#boxImage3").attr("src", img_src + "_3.jpg");
                   $("#thirdImage").attr("href", img_src + "_3.jpg");
+				  $("#thirdImage").attr("title", $("#"+ (city+1)).attr("name"));
 
                   $("#boxImage4").attr("src", img_src + "_4.jpg");
                   $("#forthImage").attr("href", img_src + "_4.jpg");
+				  $("#forthImage").attr("title", $("#"+ (city+1)).attr("name"));
 
                   $("#boxImage5").attr("src", img_src + "_5.jpg");
                   $("#fifthImage").attr("href", img_src + "_5.jpg");
+				  $("#fifthImage").attr("title", $("#"+ (city+1)).attr("name"));
 
                   $("#boxImage6").attr("src", img_src + "_6.jpg");
                   $("#sixthImage").attr("href", img_src + "_6.jpg");
+				  $("#sixthImage").attr("title", $("#"+ (city+1)).attr("name"));
              selectCity(city);
          }
      });
@@ -457,7 +463,7 @@ $(function(){
 
            var url = "/sctravel/spotDesc/" + spot.spot_id + ".html";
 
-            desc = "<h3 id =" + spot.spot_id + ">" + spot.spot_name + "</h3>" + "<div><iframe src="  +  url + " frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"90%\"  ></iframe></div>"
+            desc = "<h3 id =" + spot.spot_id + " name='" + spot.spot_name + "'>" + spot.spot_name + "</h3>" + "<div><iframe src="  +  url + " frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"90%\"  ></iframe></div>"
 
             $('#accordion-map').append(desc);
 
