@@ -14,6 +14,14 @@ function compute_total(){
 
         total = total + parseInt(sub_total);
 
+        if(total==0){
+
+            $("#buyButton").attr('disabled','disabled');
+        }else {
+
+            $("#buyButton").removeAttr('disabled');
+        }
+
 
     }
     $('#total').prop('value', total);
@@ -23,8 +31,11 @@ function init(lineNum){
     var line_Num = lineNum;
 
     $('.datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yy-mm-dd',
+        regional: 'zh-CN'
     });
+
+
 
 
     date = new Date();
@@ -260,7 +271,7 @@ $("#buyButton").click(function() {
      var price_id = 'price_' + lineNum;
      var subtotal_id = 'subtotal_' + lineNum;
 
-  $("#buyTicket").append("<div class=\"row-fluid order\" >" +
+  $("#buyTicket").append("<div class=\"row-fluid order new\" >" +
     " <div  class=\"span2\"><bold>出发地：</bold><select id=\"" +start_id + "\" class=\"start\" style=\"width:140px;\"></select></div>"
      +  " <div  class=\"span2\"><bold>景点：</bold><select id=\"" +end_id + "\" class=\"end input-small\" ></select></div>"
      +"<div  class=\"span1\" ><bold>票种：</bold><select id=\"" +type_id + "\" class=\"type input-small\"  ></select></div>"
@@ -273,7 +284,9 @@ $("#buyButton").click(function() {
      +   "</div>");
 
      init(lineNum);
-     compute_total();
+   compute_total();
+
+
 	
 	 $(".del_button").click(function(){
 	
@@ -294,21 +307,8 @@ $("#buyButton").click(function() {
              $("#buyButton").removeAttr('disabled');
          }
      });
-	  var total =0;
-		var array = $('.subtotal');
-		for(var i = 0; i <array.length;i ++) {
-		
-		total = total + parseInt(array[i].value) ;
-		
-		}
-		$("#total").val(total);
-     if($("#total").val()==0){
 
-         $("#buyButton").attr('disabled','disabled');
-     }else {
 
-         $("#buyButton").removeAttr('disabled');
-     }
 
 	
 
@@ -435,6 +435,28 @@ function selectCity(index, updateAccordion) {
 
 
  }
+
+jQuery(function($){
+    $.datepicker.regional['zh-CN'] = {
+        closeText: '关闭',
+        prevText: '<上月',
+        nextText: '下月>',
+        currentText: '今天',
+        monthNames: ['一月','二月','三月','四月','五月','六月',
+            '七月','八月','九月','十月','十一月','十二月'],
+        monthNamesShort: ['一','二','三','四','五','六',
+            '七','八','九','十','十一','十二'],
+        dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+        dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+        dayNamesMin: ['日','一','二','三','四','五','六'],
+        weekHeader: '周',
+        dateFormat: 'yy-mm-dd',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: true,
+        yearSuffix: '年'};
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+});
 
 $(function(){
     //##### Accordion with gmap3 http://127.0.0.1:3000/test
