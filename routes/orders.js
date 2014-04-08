@@ -6,7 +6,7 @@ exports.orders = function(req, res){
 
 exports.placeOrder = function(req,res) {
 
-        var preorders = req.body.order;
+        var preorders = req.body.preorders;
 
         var userInfo = preorders.userInfo;
 
@@ -26,7 +26,7 @@ exports.placeOrder = function(req,res) {
             order.time_slot = row.cell[3];
             order.quantity=row.cell[4];
             //order.price = preorders.row[i].cell[3];
-            order.order_status='booked';
+            order.order_status='1';
             order.total_amount = row.cell[6];
 
             orderInfoArray[i]=order;
