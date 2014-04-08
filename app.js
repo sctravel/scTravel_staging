@@ -7,6 +7,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var dateFormat = require('dateformat');
+var alipay = require('alipayUtil.js');
 //var user = require('./routes/user');
 //var test = require('./routes/test');
 var orders = require('./routes/orders');
@@ -206,8 +207,14 @@ app.post('/preorder', function (req,res) {
          });
 
 app.get('/orderConfir',orderConfir.orderConfir);
-
+a
 */
+
+app.get('/', routes.index);
+app.post('/sctravel/alipayto',alipay.alipayto);
+app.post('/paynotify',alipay.paynotify);
+app.get('/payreturn',alipay.payreturn);
+
 http.createServer(app).listen(app.get('port'), function(){
                               console.log('Express server listening on port ' + app.get('port'));
                               });
