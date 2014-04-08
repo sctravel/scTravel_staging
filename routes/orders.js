@@ -4,9 +4,12 @@ exports.orders = function(req, res){
     res.send(req.session.orderlist);
 };
 
+var queryDB = require('../node_modules/queryDB');
+
 exports.placeOrder = function(req,res) {
 
-        var preorders = req.body.order;
+
+        preorders = req.body.preorders;
 
         var userInfo = preorders.userInfo;
 
@@ -18,17 +21,18 @@ exports.placeOrder = function(req,res) {
 
             var order = {};
             var row = preorders.rows[i]
+            order.start= row.cell[0];
+            order.end= row.cell[1];
 
-            order.spot_id = row.spot_id;
-            console.log("spot_id=" + row.spot_id);
-            order.departure= row.cell[0];
-            order.valid_date= row.cell[2];
-            order.time_slot = row.cell[3];
-            order.quantity=row.cell[4];
+            order.type= row.cell[2];
+            order.validDate = row.cell[3];
+            order.time=row.cell[4];
             //order.price = preorders.row[i].cell[3];
-            order.order_status='booked';
-            order.total_amount = row.cell[6];
-
+            order.amount=row.cell[5];
+            order.price = row.cell[6];
+            order.subtotal=row.cell[7];
+            order.offerId = row.
+            console.log(order);
             orderInfoArray[i]=order;
         }
         var result ={};
@@ -53,8 +57,7 @@ exports.placeOrder = function(req,res) {
 
         }
 
-        var confirmationCode=confirm.generateConfirmationCode();
-        queryDB.placeOrder(userInfo,orderInfoArray,confirmationCode,'1',handleOrder);
+        queryDB.placeOrder(userInfo,orderInfoArray,handleOrder);
 
 
 }

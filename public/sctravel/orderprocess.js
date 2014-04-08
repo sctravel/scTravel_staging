@@ -62,6 +62,21 @@ $("#cancel").click(function() {
 });
 
 
+$('#preorder').click(function(){
+
+    var name = $('#name').val();
+    var phone = $('#phone').val();
+    var email = $('#name').val();
+
+    userInfo = {};
+    userInfo.name = name ;
+    userInfo.phone = phone;
+    userInfo.email = email;
+
+
+
+});
+
 $(function(){
     orders={};
     $.get( "/orders", function(data) {
