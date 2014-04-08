@@ -73,9 +73,10 @@ $(function(){
     jQuery(document).ready(function(){
         jQuery("#list2").jqGrid({ url:'/orders',
             datatype: "json",
-            colNames:['出发地','景点','日期','时间','人数','价格','总价'],
-            colModel:[  {name:'from',index:'index',align:'right'},
-                        {name:'spot',index:'spot', align:"right"},
+            colNames:['出发地','景点','票种','日期','时间','人数','价格','总价'],
+            colModel:[  {name:'start',index:'start',align:'right'},
+                        {name:'end',index:'end', align:"right"},
+                         {name:'type', index:'type', align:"right" },
                         {name:'date',index:'date', align:"right"},
                         {name:'time',index:'time', align:"right"},
                         {name:'amount',index:'amount', align:"right"},

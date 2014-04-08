@@ -72,8 +72,13 @@ function init(lineNum){
 
     start_id = '#start_' + line_Num;
     $(start_id).change(function() {
+
+
         var id = this.id;
         var curr_lineNum= id.substring(id.indexOf('_') + 1);
+
+       delete picked_offers[curr_lineNum] ;
+        delete picked_routes[curr_lineNum] ;
         var end_id = '#end_'+ curr_lineNum;
 
         $(end_id).empty();
@@ -107,6 +112,8 @@ function init(lineNum){
     $(end_id).change(function(){
         var id = this.id;
         var curr_lineNum= id.substring(id.indexOf('_') + 1);
+        delete picked_offers[curr_lineNum] ;
+        delete picked_routes[curr_lineNum] ;
         var type_id = '#type_'+ curr_lineNum;
         $(type_id).empty();
 
@@ -145,6 +152,7 @@ function init(lineNum){
         id = this.id;
         curr_lineNum = id.substring(id.indexOf("_")+1);
 
+
         route_id = $('#end_' +curr_lineNum).val();
 
         offer = offers[route_id];
@@ -162,6 +170,12 @@ function init(lineNum){
 		var subtotal = price * num;
         subtotal_id = "#subtotal_" + curr_lineNum;
         $(subtotal_id).attr("value", subtotal);
+
+
+        picked_offers.push(offer[$(type_id).val()].offer_id);
+
+        picked_routes.push(offer[$(type_id).val()].route_id);
+      //  picked_offers.push(offer[$(type_id).val()]);
         compute_total();
 
     });
@@ -223,27 +237,31 @@ function init(lineNum){
 
 $("#buyButton").click(function() {
 
-    var spot = $('option:selected','.spotSelect');
-    var from = $('option:selected','.fromSelect');
+    var start = $('.start option:selected');
+    var end  = $('.end option:selected');
+    var type = $('.type option:selected');
+
     var date = $('.datepicker');
+    var time = $('.time option:selected');
     var amount= $('.amount');
+
     var price = $('.price');
     var subtotal= $('.subtotal');
     var total = $('.total');
-    var time = $('.time');
 
-
-
-    var orders = [];
-    for(var i = 0; i < spot.length;i ++){
-        var order = { "cell" : [from[i].text, spot[i].text, date[i].value, time[i].value, amount[i].value, price[i].value, subtotal[i].value ],"spot_id" : spot[i].value, "from_id":from[i].value };
-          orders.push(order);
+    var orders_picked = [];
+    for(var i = 0; i < start.length;i ++){
+        var order = { "cell" : [start[i].text, end[i].text, type[i].text, date[i].value, time[i].text, amount[i].value, price[i].value, subtotal[i].value ]};
+        orders_picked.push(order);
 
     }
 
-     var order = {"cell": [' ',' ',' ',' ',' ','合计',total.val()]};
-     orders.push(order);
-   var orderlist= {"rows" : orders};
+     var order_total = {"cell": [' ',' ',' ',' ',' ',' ','合计',total.val()]};
+    orders_picked.push(order_total);
+     orderlist= {"rows" : orders_picked};
+    orderlist.offers = picked_offers;
+    orderlist.routes = picked_routes;
+
        orderlist.total_amount=total.val();
     //var total = { "total" : total[0].value}
     //orders.push(total);
@@ -460,6 +478,9 @@ jQuery(function($){
 
 $(function(){
     //##### Accordion with gmap3 http://127.0.0.1:3000/test
+
+    picked_offers = [];
+    picked_routes=[];
 
     lineNum = 1;
     $.ajax({url:"/services/getAll/sceneryspots", success:function(results){

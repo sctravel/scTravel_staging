@@ -9,7 +9,7 @@ var path = require('path');
 var dateFormat = require('dateformat');
 //var user = require('./routes/user');
 //var test = require('./routes/test');
-//var orders = require('./routes/orders');
+var orders = require('./routes/orders');
 //var orderConfir = require('./routes/orderConfir');
 var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
@@ -132,17 +132,20 @@ app.post('/services/common/email', function(req,res){
         }
     });
 });
-/*
+app.post('/orders', function (req,res){
+
+    var a = req.body.orderlist;
+    req.session.orderlist=a;
+    res.redirect('/sctravel/orderReview.html');
+});
+
 app.get('/orders', orders.orders);
+/*
+
 
 app.get('/users', user.list);
 
-app.post('/orders', function (req,res){
-         
-         var a = req.body.orderlist;
-         req.session.orderlist=a;
-         res.redirect('/sctravel/orderReview.html');
-         });
+
 
 app.post('/preorder', function (req,res) {
          
