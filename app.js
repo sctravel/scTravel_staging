@@ -145,7 +145,7 @@ app.get('/orders', orders.orders);
 
 app.post('/placeOrder', orders.placeOrder);
 
-app.get('/orderConfir',orderConfir.orderConfir);
+//app.get('/orderConfir',orderConfir.orderConfir);
 
 app.post('/sctravel/alipayto',alipay.alipayto);
 app.post('/paynotify',alipay.paynotify);
