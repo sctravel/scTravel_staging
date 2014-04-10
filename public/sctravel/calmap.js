@@ -230,6 +230,14 @@ function init(lineNum){
 
     });
 
+    $( ".time" ).change(function() {
+
+        var scheduleId  =  $(this).val();
+
+        picked_schedules.push(scheduleId);
+
+    });
+
 
 
 
@@ -261,6 +269,7 @@ $("#buyButton").click(function() {
      orderlist= {"rows" : orders_picked};
     orderlist.offers = picked_offers;
     orderlist.routes = picked_routes;
+    orderlist.schedules = picked_schedules;
 
        orderlist.total_amount=total.val();
     //var total = { "total" : total[0].value}
@@ -481,6 +490,7 @@ $(function(){
 
     picked_offers = [];
     picked_routes=[];
+    picked_schedules = [];
 
     lineNum = 1;
     $.ajax({url:"/services/getAll/sceneryspots", success:function(results){
