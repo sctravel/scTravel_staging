@@ -143,7 +143,7 @@ app.post('/orders', function (req,res){
 app.get('/orders', orders.orders);
 
 
-app.post('/placeOrder', orders.placeOrder);
+app.post('/preorder', orders.placeOrder);
 
 //app.get('/orderConfir',orderConfir.orderConfir);
 
