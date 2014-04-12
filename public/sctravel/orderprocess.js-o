@@ -1,0 +1,73 @@
+﻿$("#preorder").click(function() {
+
+  if(orders !==null) {
+
+
+    var userInfo= {};
+
+    userInfo.first_name = $('#firstname').val();
+    userInfo.last_name  =  $('#lastname').val();
+    userInfo.email = $('#email').val();
+    userInfo.phone = $('#phone').val();
+    orders.userInfo = userInfo;
+
+      $.post('/preorder', {"preorders" : orders},  function(data){
+
+          if(data=='ok'){
+          window.location.href="/sctravel/finalOrder.html";
+          }
+      });
+  }
+
+});
+
+$("#pay").click(function() {
+
+    var r=confirm("您即将进入网上银行付款");
+    if(r == true) {
+
+        window.location.href="http://www.icbc.com.cn";
+
+    }else {
+
+    }
+
+});
+
+$("#cancel").click(function() {
+
+    var r=confirm("你确定取消吗？");
+    if(r == true) {
+
+        window.location.href="/sctravel/spots.html";
+
+    }else {
+
+    }
+
+});
+
+
+$(function(){
+    orders={};
+    $.get( "/orders", function(data) {
+
+             orders = data;
+
+        });
+
+    jQuery(document).ready(function(){
+        jQuery("#list2").jqGrid({ url:'/orders',
+            datatype: "json",
+            colNames:['景点','日期','时间','人数','价格','总价'],
+            colModel:[  {name:'spot',index:'spot', align:"right"},
+                        {name:'date',index:'date', align:"right"},
+                        {name:'time',index:'time', align:"right"},
+                        {name:'amount',index:'amount', align:"right"},
+                        {price:'price',index:'price', align:"right"},
+                        {name:'subtotal',index:'subtotal', align:"right"}
+
+            ]
+        });
+    });
+})

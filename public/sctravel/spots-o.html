@@ -1,0 +1,203 @@
+﻿ <!DOCTYPE html>
+        <html lang="cn">
+        <head>
+            <meta charset="utf-8">
+            <title>成都旅游网</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                .subtotal {width: 60px;}
+            </style>
+            
+            <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css"><link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css"> 
+	        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+	        <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+            <!-- Le styles -->
+			<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+			<link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.10.3.custom.css">
+            <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+            <!--[if IE 7]>
+            <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css">
+            <![endif]-->
+            <!--[if lt IE 9]>
+            <link rel="stylesheet" href="css/custom-theme/jquery.ui.1.10.3.ie.css">
+            <![endif]-->
+            <link rel="stylesheet" href="/assets/css/docs.css">
+            <link rel="stylesheet" href="/assets/js/google-code-prettify/prettify.css">
+
+            <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+            <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+
+            <!-- Le fav and touch icons -->
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+            <link rel="shortcut icon" href="assets/ico/favicon.png">
+            <!-- googlemap -->
+            <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=weather" type="text/javascript"></script>
+            <!-- End googlemap -->
+        </head>
+
+        <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+        <!-- Navbar
+        ================================================== -->
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="/">成都旅游网</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="./">首页</a>
+                            </li>
+                            <li>
+                                <a href="./components.html">服务</a>
+                            </li>
+                            <li>
+                                <a href="./extra.html">关于我们</a>
+                            </li>
+                            <li class="active">
+                                <a href="./map.html">地图</a>
+                            </li>
+                            <li>
+                                <a href="/">反馈</a>
+                            </li>
+                            <li>
+                                <a href="/">联系我们</a>
+                            </li>
+                            <li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									选择服务 <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+									<li><a tabindex="-1" href="./">服务</a></li>
+ 								</ul>
+                            </li>
+                        </ul>
+                        <div id="twitter-share" class="pull-right">
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="/" data-text="Test" data-via="test" data-size="large">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Subhead
+        ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>成都旅游网</h1>
+                <p class="lead">天府之国，美食家园，吃货天堂</p>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Accordion gmap3 ================================================== -->
+            <section id="block-accordion">
+                <div class="page-header">
+                    <h1>景点介绍</h1>
+                </div>
+                <div class="row-fluid">
+                    <div id="gmap3" class="span5"></div>
+                    <div class="span7">
+                        <div id="accordion-map">
+                            <h3>武侯祠</h3>
+                            <div>
+                                <p>
+                                    武侯祠是纪念中国古代三国时期蜀汉丞相诸葛亮的祠宇。<br/>
+									公元二三四年八月，诸葛亮因积劳成疾，病卒于北伐前线的五丈原，时年五十四岁。<br/>
+									诸葛亮为蜀汉丞相，生前曾被封为“武乡侯”（武乡在今汉中市的武乡镇），死后又被蜀汉后主刘禅追谥为“忠武侯”，<br/>
+									因此历史上尊称其祠庙为“武侯祠”。
+                                    <br /><br />
+                                    <a href="http://en.wikipedia.org/wiki/Paris" target="_blank">Paris on Wikipedia</a>
+                                </p>
+                            </div>
+                            <h3>宽窄巷子</h3>
+                            <div>
+                                <p>
+                                    宽窄巷子，成都市三大历史文化保护区之一，由宽巷子、窄巷子和井巷子三条<br/>
+									平行排列的城市老式街道及其之间的四合院群落组成，20世纪80年代列入<br/>
+									《成都历史文化名城保护规划》。宽窄巷子是最能代表成都、最能体现市井民间文化的巷子。
+                                    <br /><br />
+                                    <a href="http://en.wikipedia.org/wiki/Poitiers" target="_blank">Poitiers on Wikipedia</a>
+                                </p>
+                            </div>
+                            <h3>四川大学</h3>
+                            <div>
+                                <p>
+                                    四川大学奠基于1896年成立的近代新式学堂四川中西学堂， 现四川大学由原四川大学、成都科技大学、华西医<br/>
+									科大学合并而成，直属于中华人民共和国教育部。四川大学是进入“985工程 ”和“211工程”重点建设的高水平研究型<br/>
+									综合大学之一，是32所校长行政级别为副部级的高校之一，是入选“111计划”、“珠峰计划”、“卓越计划”的高校之一，<br/>
+									也是金砖国家大学联盟成员。
+                                    <br /><br />
+                                    <a href="http://en.wikipedia.org/wiki/Perpignan" target="_blank">Perpignan on Wikipedia</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+
+            </section>
+
+        </div>
+             
+ 
+   </div>
+</div>
+<script language="javascript" type="text/javascript">
+  $(function(){
+	  $('#datepicker').datepicker({
+		inline: true
+	   });
+});
+</script>
+<div class="container" id="buyTicketContainer">
+		<div class="page-header">
+			<h1>购票</h1>
+		</div>
+		<div >
+		  <form  class="well form-inline">
+		  <div id = "buyTicket">                
+                <div class="row-fluid order" >
+                <div  class="span2"><bold>出发地：</bold><select id="fromselect" style="width:140px;"><option value="1">香格里拉大酒店</option><option value="2">望江宾馆</option><option value="3">凯丽假日酒店</option></select></div>
+                <div  class="span2"><bold>景点：</bold><select id="myselect" class="spotSelect input-small" ><option value="1">武侯祠</option><option value="2">杜甫草堂</option><option value="3">青羊宫</option></select></div>
+                   <div  class="span2"><bold>日期：<input  class="datepicker input-small" type="text"></input></bold></div>
+                   <div  class="span2"><bold>时间：</bold><select class="time input-small"><option value="9:00">9:00</option><option value="9:30">9:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option></select></div>
+                   <div  class="span2"><bold>人数：</bold><input type="text" class="amount input-small" width="50px"/></div>
+                   <div  class="span2"><bold>单价：</bold><input  id = "price"  class="price input-small" type="text" readonly value="999" width="50px"></input></div>
+		   <div  class="span2"><bold>总价：</bold><input  id = "subtotal"  class="subtotal input-small" type="text" readonly value="999"></input></div>
+			 </div></div>
+			<div class="row-fluid order" >			   
+			   <div  class="span10"> </div>
+			   <div><bold> 合计： </bold><input  id = "total"  class="total input-small" type="text" readonly value="999"></input></div>
+			</div>
+		  </form>	
+	    </div>
+        <div class="row-fluid" > <button id="addButton">添加</button> <button id="buyButton">订购</button> <button id="resetButton">重设</button></div>
+</div>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/assets/js/jquery-1.9.1.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/holder.js"></script>
+<script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/assets/js/google-code-prettify/prettify.js"></script>
+<script src="/assets/js/docs.js"></script>
+<!--gmap3-->
+<script src="/third-party/gmap3/gmap3.min.js" type="text/javascript"></script>
+<!--End gmap3-->
+<script src="calmap.js"></script>
+</body>
+</html>
