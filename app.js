@@ -11,7 +11,7 @@ var alipay = require('alipayUtil.js');
 //var user = require('./routes/user');
 //var test = require('./routes/test');
 var orders = require('./routes/orders');
-//var orderConfir = require('./routes/orderConfir');
+var orderConfir = require('./routes/orderConfir');
 var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
@@ -144,7 +144,7 @@ app.get('/orders', orders.orders);
 
 
 app.post('/preorder', orders.placeOrder);
-
+app.get('/orderConfir',orderConfir.orderConfir);
 //app.get('/orderConfir',orderConfir.orderConfir);
 
 app.post('/sctravel/alipayto',alipay.alipayto);

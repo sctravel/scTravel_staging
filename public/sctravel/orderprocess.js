@@ -15,6 +15,7 @@ $("#preorder").click(function() {
                             console.log("Preorder finished");
                             console.dir(data);
                             if(data.isSuccess==true){
+                                //req.session.results = data;
                                 window.location.href="/sctravel/finalOrder.html";
 
                                 /* email should be send backend

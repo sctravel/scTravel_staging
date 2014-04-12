@@ -56,6 +56,7 @@ exports.placeOrder = function(req,res) {
 
                 res.send("ok");
             }*/
+            req.session.results=number;
             res.send(number);
 
 

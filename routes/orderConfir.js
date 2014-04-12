@@ -1,8 +1,11 @@
 var queryDB = require('../node_modules/queryDB');
 exports.orderConfir = function(req, res){
-    var confirCode = req.session.confirCode;
+    var results = req.session.results;
+    var confirCode = results.confirmCode;
+
     console.log("/orderConfir:" + confirCode);
-    queryDB.checkOrder(confirCode, function(results){
+
+    queryDB.getVouchersFromConfirmationCode(confirCode, function(results){
         console.log("orderConfir:" + results);
         var orders = {}
         orders.confir = confirCode;
