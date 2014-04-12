@@ -122,6 +122,7 @@ app.get('/services/getAll/validSchedules', function(req,res) {
 /********************************************************************
  * Actions using http POST methods
  ********************************************************************/
+/*
 app.post('/services/common/email', function(req,res){
     var mailOptions=req.body.mailOptions;
     mail.sendEmail(mailOptions,function(error, response){
@@ -132,7 +133,7 @@ app.post('/services/common/email', function(req,res){
             res.send("ok");
         }
     });
-});
+});*/
 app.post('/orders', function (req,res){
 
     var a = req.body.orderlist;

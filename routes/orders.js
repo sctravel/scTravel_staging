@@ -36,6 +36,7 @@ exports.placeOrder = function(req,res) {
             console.log(preorders.schedules[i]);
             orderInfoArray.vouchersArray[i].validDate = preorders.rows[i].cell[3];
             orderInfoArray.vouchersArray[i].quantity = preorders.rows[i].cell[5];
+            orderInfoArray.vouchersArray[i].offerSubtotalAmount = preorders.rows[i].cell[7];
 
         }
 
