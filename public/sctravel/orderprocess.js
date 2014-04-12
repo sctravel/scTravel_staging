@@ -5,35 +5,39 @@ $("#preorder").click(function() {
                      
                      var userInfo= {};
                      
-                     userInfo.name = $('#name').val();
+                     userInfo.customerName = $('#name').val();
                      userInfo.email = $('#email').val();
-                     userInfo.phone = $('#phone').val();
-                     userInfo.order_total_amount = orders.total_amount;
+                     userInfo.mobilePhone = $('#phone').val();
+                     //userInfo.order_total_amount = orders.total_amount;
                      orders.userInfo = userInfo;
-                     
+                     console.log("userName-"+userInfo.customerName+"; email-"+userInfo.email);
                      $.post('/preorder', {"preorders" : orders},  function(data){
-                            
-                            if(data=='ok'){
-                            var mailOptions = {
-                            from: "SCTravel <sctravel2014@gmail.com>", // sender address
-                            to: userInfo.email, // list of receivers
-                            subject: "Your order confirmation from SC travel ", // Subject line
-                            text: "Welcome to use SCTravel", // plaintext body
-                            html: "<b>Welcome to use SCTravel</b> <p>Your order has been placed. Enjoy your trip!</p>" // html body
-                            }
-                            
-                            $.post('/email',{"mailOptions":mailOptions}, function(edata){
+                            console.log("Preorder finished");
+                            console.dir(data);
+                            if(data.isSuccess==true){
+                                window.location.href="/sctravel/finalOrder.html";
+
+                                /* email should be send backend
+                                var mailOptions = {
+                                    from: "SCTravel <sctravel2014@gmail.com>", // sender address
+                                    to: userInfo.email, // list of receivers
+                                    subject: "Your order confirmation from SC travel ", // Subject line
+                                    text: "Welcome to use SCTravel", // plaintext body
+                                html: "<b>Welcome to use SCTravel</b> <p>Your order has been placed. Enjoy your trip!</p>" // html body
+                                }
+
+                                $.post('/email',{"mailOptions":mailOptions}, function(edata){
                                    if(edata==ok){
                                    console.long("email has been sent");
                                    }
-                                   })
-                            
-                            window.location.href="/sctravel/finalOrder.html";
-                            }
+                                })
+
+                                */
+                             }
                             });
                      }
                 
-                     });
+});
 
 $("#pay").click(function() {
 

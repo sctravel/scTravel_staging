@@ -18,6 +18,7 @@ exports.placeOrder = function(req,res) {
 
         var orderInfoArray= {};
 
+        console.dir(userInfo);
         console.log("preorders=" + preorders.rows.length);
 
     orderInfoArray.vouchersArray=[];
@@ -44,7 +45,7 @@ exports.placeOrder = function(req,res) {
         var result ={};
 
         var handleOrder=function(number) {
-            if(number==0) {
+         /*   if(number==0) {
                 isSuccess=false;
                 console.log("handle order failed");
             }
@@ -54,7 +55,8 @@ exports.placeOrder = function(req,res) {
                 req.session.confirCode = confirCode;
 
                 res.send("ok");
-            }
+            }*/
+            res.send(number);
 
 
         }
