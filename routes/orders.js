@@ -8,10 +8,6 @@ var queryDB = require('../node_modules/queryDB');
 
 exports.placeOrder = function(req,res) {
 
-
-
-        preorders = req.body.preorders;
-
         var preorders = req.body.preorders;
 
         var userInfo = preorders.userInfo;
