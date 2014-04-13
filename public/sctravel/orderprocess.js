@@ -84,18 +84,14 @@ $('#preorder').click(function(){
 
 $('#paybutton').click(function(){
 
-    console.log("pay to alipay!");
-    var name = $('#name').val();
-    var phone = $('#phone').val();
-    var email = $('#name').val();
 
-    orderInfo = {};
-    orderInfo.order
-    $.post('/sctravel/alipayto', {"orderInfo" : orderInfo},  function(data){
+    console.log("pay to alipay!");
+
+    $.post('/sctravel/alipayto', {"orderInfo" : t.preorders[0]},  function(data){
         console.log("redirect to alipay finished");
         console.dir(data);
-
     });
+
 
 });
 
