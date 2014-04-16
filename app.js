@@ -119,6 +119,29 @@ app.get('/services/getAll/validSchedules', function(req,res) {
     })
 });
 
+app.get('/services/search/orders', function(req,res){
+    //console.dir(req);
+    var confirmCode = req.query.confirmCode;
+    var customerInfo = req.query.customerInfo;
+
+    console.log("ConfirmCode-"+confirmCode);
+    console.log("CustomerInfo-"+customerInfo);
+    if(confirmCode) {
+        console.log("Searching orders by confirmCode-"+confirmCode);
+        queryDB.getVouchersFromConfirmationCode(confirmCode,function(results){
+            console.log("Search order by confirmation code!");
+            console.dir(results);
+            res.send(results);
+        });
+    } else if(customerInfo) {
+        console.log("Searching orders by customerInfo");
+        queryDB.getVouchersFromCustomerInfo(customerInfo,function(results){
+            console.log("Search order by customer information!");
+            console.dir(results);
+            res.send(results);
+        });
+    }
+});
 /********************************************************************
  * Actions using http POST methods
  ********************************************************************/
@@ -146,7 +169,6 @@ app.get('/orders', orders.orders);
 
 app.post('/preorder', orders.placeOrder);
 app.get('/orderConfir',orderConfir.orderConfir);
-//app.get('/orderConfir',orderConfir.orderConfir);
 
 app.post('/sctravel/alipayto',alipay.alipayto);
 app.post('/paynotify',alipay.paynotify);
