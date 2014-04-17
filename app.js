@@ -54,9 +54,11 @@ app.get('/', function (req,res){
 /*************************************************************
  * Data Services using http GET method
  *************************************************************/
-app.get('/services/getAll/scenerySpots', function(req,res) {
 
-    queryDB.getAllScenerySpots(function(results){
+app.get('/services/getAll/GetCustomersBasedOnPhoneNumber/:phone', function(req,res) {
+    var phone = req.params.phone;
+    console.log("Parameter: " + phone);
+    queryDB.getCustomersFromPhoneNumber(phone,function(results){
         res.send(results);
     })
 });
