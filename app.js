@@ -85,7 +85,7 @@ app.get('/services/getAll/GetCustomersBasedOnOrder/:orderNum', function(req,res)
 
 //look up by ticket number
 app.get('/services/getAll/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
-    var phone = req.params.ticketNum;
+    var ticketNum = req.params.ticketNum;
     console.log("Parameter: " +ticketNum);
     queryDB.getCustomersFromTicketNumber(ticketNum,function(results){
         res.send(results);
