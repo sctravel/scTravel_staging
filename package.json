@@ -16,6 +16,9 @@
     "mysql-queues":"*",
     "email-templates": "0.0.5",
     "nodemailer": "0.3.x",
-    "dateformat":"*"
+    "dateformat":"*",
+    "passport":"*",
+    "passport-local":"*",
+    "connect-flash":"*"
   }
 }
