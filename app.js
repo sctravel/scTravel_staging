@@ -101,6 +101,13 @@ app.get('/services/getAll/GetCustomersBasedOnPhoneNumber/:phone', function(req,r
     })
 });
 
+app.get('/services/getAll/scenerySpots', function(req,res) {
+
+    queryDB.getAllScenerySpots(function(results){
+        res.send(results);
+    })
+});
+
 app.get('/services/getAll/startSpots', function(req,res) {
 
     queryDB.getAllStartSpots(function(results){
