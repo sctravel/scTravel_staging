@@ -54,9 +54,49 @@ app.get('/', function (req,res){
 /*************************************************************
  * Data Services using http GET method
  *************************************************************/
-app.get('/services/getAll/scenerySpots', function(req,res) {
 
-    queryDB.getAllScenerySpots(function(results){
+// lookup by confirmation number
+app.get('/services/getAll/GetCustomersBasedOnConfirmation/:confirmNum', function(req,res) {
+    var confirmNum = req.params.confirmNum;
+    console.log("Parameter: " + confirmNum);
+    queryDB.getCustomersFromConfirmationNumber(confirmNum,function(results){
+        res.send(results);
+    })
+});
+
+
+// lookup by name
+app.get('/services/getAll/GetCustomersBasedOnName/:name', function(req,res) {
+    var name = req.params.name;
+    console.log("Parameter: " + name);
+    queryDB.getCustomersFromName(name,function(results){
+        res.send(results);
+    })
+});
+
+//look up by order number
+app.get('/services/getAll/GetCustomersBasedOnOrder/:orderNum', function(req,res) {
+    var orderNum = req.params.orderNum;
+    console.log("Parameter: " + orderNum);
+    queryDB.getCustomersFromOrderNumber(orderNum,function(results){
+        res.send(results);
+    })
+});
+
+//look up by ticket number
+app.get('/services/getAll/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
+    var ticketNum = req.params.ticketNum;
+    console.log("Parameter: " +ticketNum);
+    queryDB.getCustomersFromTicketNumber(ticketNum,function(results){
+        res.send(results);
+    })
+});
+
+//lookup by phone
+app.get('/services/getAll/GetCustomersBasedOnPhoneNumber/:phone', function(req,res) {
+    var phone = req.params.phone;
+    console.log("Parameter: " + phone);
+    queryDB.getCustomersFromPhoneNumber(phone,function(results){
         res.send(results);
     })
 });
