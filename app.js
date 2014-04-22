@@ -17,6 +17,7 @@ var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var confirm=require('./node_modules/confirmationCodeGenerator');
 var stringUtils = require('./node_modules/stringUtils');
+var tableNames = require('./node_modules/tableNames');
 
 
 var app = express();
@@ -54,9 +55,23 @@ app.get('/', function (req,res){
 /*************************************************************
  * Data Services using http GET method
  *************************************************************/
+// Order: insert data record:
+app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,res) {
 
-// lookup by confirmation number
-app.get('/services/getAll/GetCustomersBasedOnConfirmation/:confirmNum', function(req,res) {
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.orderTable ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+
+// Order: lookup by confirmation number
+app.get('/services/admin/GetCustomersBasedOnConfirmation/:confirmNum', function(req,res) {
     var confirmNum = req.params.confirmNum;
     console.log("Parameter: " + confirmNum);
     queryDB.getCustomersFromConfirmationNumber(confirmNum,function(results){
@@ -65,17 +80,8 @@ app.get('/services/getAll/GetCustomersBasedOnConfirmation/:confirmNum', function
 });
 
 
-// lookup by name
-app.get('/services/getAll/GetCustomersBasedOnName/:name', function(req,res) {
-    var name = req.params.name;
-    console.log("Parameter: " + name);
-    queryDB.getCustomersFromName(name,function(results){
-        res.send(results);
-    })
-});
-
-//look up by order number
-app.get('/services/getAll/GetCustomersBasedOnOrder/:orderNum', function(req,res) {
+//Order: look up by order number
+app.get('/services/admin/GetCustomersBasedOnOrder/:orderNum', function(req,res) {
     var orderNum = req.params.orderNum;
     console.log("Parameter: " + orderNum);
     queryDB.getCustomersFromOrderNumber(orderNum,function(results){
@@ -83,8 +89,43 @@ app.get('/services/getAll/GetCustomersBasedOnOrder/:orderNum', function(req,res)
     })
 });
 
-//look up by ticket number
-app.get('/services/getAll/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
+
+
+//Customer:  lookup by name
+app.get('/services/admin/GetCustomersBasedOnName/:name', function(req,res) {
+    var name = req.params.name;
+    console.log("Parameter: " + name);
+    queryDB.getCustomersFromName(name,function(results){
+        res.send(results);
+    })
+});
+
+//Customer: lookup by phone
+app.get('/services/admin/GetCustomersBasedOnPhoneNumber/:phone', function(req,res) {
+    var phone = req.params.phone;
+    console.log("Parameter: " + phone);
+    queryDB.getCustomersFromPhoneNumber(phone,function(results){
+        res.send(results);
+    })
+});
+
+// Customer: insert data record:
+app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+
+//Ticket: look up by ticket number
+app.get('/services/admin/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
     var ticketNum = req.params.ticketNum;
     console.log("Parameter: " +ticketNum);
     queryDB.getCustomersFromTicketNumber(ticketNum,function(results){
@@ -92,14 +133,50 @@ app.get('/services/getAll/GetCustomersBasedOnTicket/:ticketNum', function(req,re
     })
 });
 
-//lookup by phone
-app.get('/services/getAll/GetCustomersBasedOnPhoneNumber/:phone', function(req,res) {
-    var phone = req.params.phone;
-    console.log("Parameter: " + phone);
-    queryDB.getCustomersFromPhoneNumber(phone,function(results){
+// Ticket: insert data record:
+app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
+
+//Ticket : delete\Disable ticket
+app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+// Routes: insert data record:
+app.get('/services/admin/InsertRoutes/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.routeTable ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+
+
 
 app.get('/services/getAll/scenerySpots', function(req,res) {
 
