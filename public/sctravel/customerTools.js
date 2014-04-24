@@ -3,6 +3,24 @@
  */
 
 var searchResults={};
+function gridFormatter(srs){
+   var results = {rows: [ ] };
+    for(var i =0; i < srs.length;i ++ ){
+
+        var result = srs[i];
+
+        var cell = [];
+        for(var attr in result) {
+           if(attr==)
+            cell.put(result[attr]);
+
+        }
+
+        results.rows.put({"cell" : cell});
+    }
+   return results;
+
+}
 
 $('#searchOrder1').click(function(){
 
@@ -15,11 +33,15 @@ $('#searchOrder1').click(function(){
     $.get('/services/search/orders', {"customerInfo" : customerInfo},  function(data){
         //console.log("redirect to alipay finished");
         searchResults=data;
+
+
+
+  
         console.dir(data);
         //jQuery(document).ready(function(){
             jQuery("#orderSearchResult").jqGrid({
-                userData: searchResults,
-                datatype: "json",
+                datastr: results,
+                datatype: "jsonstring",
                 colNames:['出发地','景点','票种','日期','时间','人数','价格','总价'],
                 colModel:[  {name:'start',index:'start',align:'right'},
                     {name:'end',index:'end', align:"right"},
@@ -45,13 +67,17 @@ $('#searchOrder2').click(function(){
 
     $.get('/services/search/orders', {"confirmCode" : confirmCode},  function(data){
         searchResults=data;
+
+      var results =   gridFormatter(searchResults);
+
         console.dir(data);
         //jQuery(document).ready(function(){
             jQuery("#orderSearchResult").jqGrid({
-                data: searchResults,
+                data: results,
                 datatype: "json",
                 colNames:['出发地','景点','票种','日期','时间','人数','价格','总价'],
-                colModel:[  {name:'start',index:'start',align:'right'},
+                colModel:[
+                    {name:'start',index:'start',align:'right'},
                     {name:'end',index:'end', align:"right"},
                     {name:'type', index:'type', align:"right" },
                     {name:'date',index:'date', align:"right"},
