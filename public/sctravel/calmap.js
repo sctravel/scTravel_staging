@@ -21,12 +21,10 @@ function compute_total(){
 
             $("#buyButton").removeAttr('disabled');
         }
-
-
     }
     $('#total').prop('value', total);
-
 }
+
 function init(lineNum){
     var line_Num = lineNum;
 
@@ -35,17 +33,10 @@ function init(lineNum){
         regional: 'zh-CN'
     });
 
-
-
-
     date = new Date();
-
     var n = date.getDay();
-
     endDate = new Date();
-
     endDate.setDate(endDate.getDate() + 14);
-
     startDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
 
@@ -73,15 +64,18 @@ function init(lineNum){
     start_id = '#start_' + line_Num;
     $(start_id).change(function() {
 
-
         var id = this.id;
         var curr_lineNum= id.substring(id.indexOf('_') + 1);
-
-       delete picked_offers[curr_lineNum] ;
+        delete picked_offers[curr_lineNum] ;
         delete picked_routes[curr_lineNum] ;
         var end_id = '#end_'+ curr_lineNum;
-
         $(end_id).empty();
+        var type_id = '#type_'+ curr_lineNum;
+        $(type_id).empty();
+		var date_id = "#date_" + curr_lineNum;
+		$(date_id).datepicker( "setDate", "" ); 
+        var time_id = "#time_" + curr_lineNum;
+        $(time_id).empty();
 
         var option = "<option value =  0>" +  "请选择" + "</option>";
 
@@ -116,6 +110,10 @@ function init(lineNum){
         delete picked_routes[curr_lineNum] ;
         var type_id = '#type_'+ curr_lineNum;
         $(type_id).empty();
+		var date_id = "#date_" + curr_lineNum;
+		$(date_id).datepicker( "setDate", "" ); 
+        var time_id = "#time_" + curr_lineNum;
+        $(time_id).empty();
 
         var option = "<option value =  0>" +  "请选择" + "</option>";
 
@@ -151,16 +149,15 @@ function init(lineNum){
 
         id = this.id;
         curr_lineNum = id.substring(id.indexOf("_")+1);
-
-
+		var date_id = "#date_" + curr_lineNum;
+		$(date_id).datepicker( "setDate", "" ); 
+        var time_id = "#time_" + curr_lineNum;
+        $(time_id).empty();
+		
         route_id = $('#end_' +curr_lineNum).val();
-
         offer = offers[route_id];
-
         type_id = "#" + id;
-
         var price = offer[$(type_id).val()].offer_price;
-
         var price_id = "#price_" + curr_lineNum
         $(price_id).attr("value",price );
 
@@ -184,9 +181,7 @@ function init(lineNum){
   date_id = "#date_" +line_Num;
     $(date_id).change(function(){
         id = this.id;
-
         curr_lineNum = id.substring(id.indexOf('_') + 1);
-
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
         var option = "<option value =  0>" +  "请选择" + "</option>";
@@ -237,9 +232,6 @@ function init(lineNum){
         picked_schedules.push(scheduleId);
 
     });
-
-
-
 
 }
 
@@ -335,22 +327,18 @@ $("#buyButton").click(function() {
          }
      });
 
-
-
-	
-
-   
-
-	
-
 	 });
 $('#resetButton').click(
     function(){
 
         $('.well')[0].reset();
-        $('.new').remove();
+        $('.new').remove();		
+		$("#price_1").attr("value", 0);
+		$("#subtotal_1").attr("value", 0);
+		$("#end_1").empty();
+		$("#type_1").empty();
+		$("#time_1").empty();		
         if($("#total").val()==0){
-
             $("#buyButton").attr('disabled','disabled');
         }else {
 
@@ -358,12 +346,8 @@ $('#resetButton').click(
         }
 
  }
-
-
 );
-	
-   
-
+ 
 
 
  $( "#count" ).spinner();

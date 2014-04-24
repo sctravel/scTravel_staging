@@ -19,6 +19,7 @@
     "dateformat":"*",
     "passport":"*",
     "passport-local":"*",
-    "connect-flash":"*"
+    "connect-flash":"*",
+    "log4js":"*"
   }
 }
