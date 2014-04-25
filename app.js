@@ -358,6 +358,12 @@ app.get('/admin', isLoggedIn, function (req, res) {
     res.render('admin.ejs',{title: 'res vs app render', username : req.user.username }  );
 });
 
+app.get('/queryspots', function(req,res){
+
+    res.render('query_spots.ejs');
+});
+
+
 //app.all('/users', isLoggedIn);
 app.get('/logout', function (req, res) {
     req.logout();

@@ -83,7 +83,6 @@ $(function(){
     $.get( "/orders", function(data) {
 
              orders = data;
-
         });
 
     jQuery(document).ready(function(){
