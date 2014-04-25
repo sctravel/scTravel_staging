@@ -350,7 +350,7 @@ passport.deserializeUser(function (username, done) {//删除user对象
 
 app.get('/adminLogin', function (req, res) {
     console.dir(req.user);
-    res.redirect('/sctravel/adminLogin.html');
+    res.render('adminLogin.ejs');
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
