@@ -332,7 +332,8 @@ passport.use('local', new LocalStrategy(
                 return done(null, false, { message: 'Internal error.' });
             }
             if(results.isAuthenticated == true ) {
-                return done(null, {username : username} );
+                console.dir(results);
+                return done(null, {username : username, randomKey: results.randomKey} );
             } else {
                 return done(null, false, { message: results.errorMessage });
             }
@@ -341,11 +342,11 @@ passport.use('local', new LocalStrategy(
 ));
 
 passport.serializeUser(function (user, done) {//保存user对象
-    done(null, user.username);//可以通过数据库方式操作
+    done(null, {username:user.username, randomKey:user.randomKey});//可以通过数据库方式操作
 });
 
-passport.deserializeUser(function (username, done) {//删除user对象
-    done(null, {username:username} );//可以通过数据库方式操作
+passport.deserializeUser(function (user, done) {//删除user对象
+    done(null, {username:user.username, randomKey:user.randomKey} );//可以通过数据库方式操作
 });
 
 app.get('/adminLogin', function (req, res) {
@@ -354,8 +355,8 @@ app.get('/adminLogin', function (req, res) {
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
-    console.dir(req);
-    res.render('admin.ejs',{title: 'res vs app render', username : req.user.username }  );
+    console.dir(req.user);
+    res.render('admin.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
 });
 
 app.get('/queryspots', function(req,res){
@@ -388,6 +389,5 @@ function isLoggedIn(req, res, next) {
         return next();
     }
 
-    //
-    res.redirect("/adminLogin");
+    res.render("adminLogin.ejs");
 }
