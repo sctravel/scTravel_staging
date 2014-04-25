@@ -354,7 +354,7 @@ app.get('/adminLogin', function (req, res) {
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
-    console.dir(req.user);
+    console.dir(req);
     res.render('admin.ejs',{title: 'res vs app render', username : req.user.username }  );
 });
 

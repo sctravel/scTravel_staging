@@ -81,8 +81,8 @@
 <div class="container" >
     <!-- Menu -->
     <div class = "row">
-        <div>
-            你好!  Your name is <%= username %>
+        <div style="float:right;">
+            <font size="20">你好，<b><%= username %></b>! 欢迎登陆!</font>
         </div>
         <div class="page-header">
             <h1>管理菜单</h1>
@@ -151,7 +151,6 @@
 
         $(".tag").click( function(){
             $('#content').load("query_spots.html");
-
         });
 
     </script>
