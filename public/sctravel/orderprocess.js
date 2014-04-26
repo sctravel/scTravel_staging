@@ -17,23 +17,6 @@ $("#preorder").click(function() {
                             if(data.isSuccess==true){
                                 //req.session.results = data;
                                 window.location.href="/sctravel/finalOrder.html";
-
-                                /* email should be send backend
-                                var mailOptions = {
-                                    from: "SCTravel <sctravel2014@gmail.com>", // sender address
-                                    to: userInfo.email, // list of receivers
-                                    subject: "Your order confirmation from SC travel ", // Subject line
-                                    text: "Welcome to use SCTravel", // plaintext body
-                                html: "<b>Welcome to use SCTravel</b> <p>Your order has been placed. Enjoy your trip!</p>" // html body
-                                }
-
-                                $.post('/email',{"mailOptions":mailOptions}, function(edata){
-                                   if(edata==ok){
-                                   console.long("email has been sent");
-                                   }
-                                })
-
-                                */
                              }
                             });
                      }
@@ -100,7 +83,6 @@ $(function(){
     $.get( "/orders", function(data) {
 
              orders = data;
-
         });
 
     jQuery(document).ready(function(){
