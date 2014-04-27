@@ -33,8 +33,8 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.cookieParser('123'));
-app.use(express.session());
+app.use(express.cookieParser('123456xyz'));
+app.use(express.session({cookie: { maxAge : 4*60*60*1000}})); // Session expires in 4 hours
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -366,9 +366,13 @@ app.get('/queryspots', function(req,res){
 
 
 //app.all('/users', isLoggedIn);
-app.get('/logout', function (req, res) {
+app.get('/logout', isLoggedIn, function (req, res) {
+    console.log(req.user.username + " logged out.");
+    adminUtil.logoutAdminLoginHistory(req.user.username,req.user.randomKey, function(err, results){
+        console.info("");//write logout history success
+    })
     req.logout();
-    res.redirect('/');
+    res.redirect("/adminLogin");
 });
 
 app.post('/adminLogin',
