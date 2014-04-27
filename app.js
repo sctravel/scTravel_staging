@@ -14,11 +14,15 @@ var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var stringUtils = require('./node_modules/stringUtils');
+var tableNames = require('./node_modules/tableNames');
+
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var adminUtil = require('./node_modules/adminLogin');
 var tableNames = require('./node_modules/tableNames');
+
 
 var app = express();
 
@@ -91,6 +95,7 @@ app.get('/', function (req,res){
 // Order: insert data record:
 app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,res) {
 
+
     var tableColumnNames = req.params.tableColumnNames;
     console.log("Parameter: " + tableColumnNames);
 
@@ -157,6 +162,21 @@ app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req
 });
 
 
+// Customer: insert data record:
+app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+
 //Ticket: look up by ticket number
 app.get('/services/admin/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
     var ticketNum = req.params.ticketNum;
@@ -176,6 +196,7 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     console.log("Parameter: " + values);
 
     queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+
         res.send(results);
     })
 });
@@ -190,9 +211,27 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     console.log("Parameter: " + values);
 
     queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+
         res.send(results);
     })
 });
+
+
+
+//Ticket : delete\Disable ticket
+app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
 
 // Routes: insert data record:
 app.get('/services/admin/InsertRoutes/:tableColumnNames/:values', function(req,res) {
