@@ -81,9 +81,12 @@
             $("#menu").menu();
         })
 
-        $(".tag").click( function(){
-            $('#content').load("query_spots.html");
-        });
+        var query_spots = document.getElementById('query_spots');
+
+        query_spots.style.cursor = 'pointer';
+        query_spots.onclick = function() {
+            $.get("\queryspots");
+        };
 
     </script>
 
