@@ -81,7 +81,7 @@ if ('development' == app.get('env')) {
 
 //Home page
 app.get('/', function (req,res){
-    res.redirect('/sctravel/spots.html');
+    res.render('spots.ejs');
 });
 
 
