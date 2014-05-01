@@ -269,7 +269,7 @@ $("#buyButton").click(function() {
 
      $.post('/orders', {"orderlist" : orderlist},  function(data){
 
-         window.location.href="/sctravel/orderReview.html";
+         req.="/sctravel/orderReview.html";
      });
 
 
@@ -381,7 +381,7 @@ function selectCity(index, updateAccordion) {
          activate: function(event, ui) {
              // index / 2 because of the 2 elements by set (h3 + div)
 			      var city = ui.newHeader.index() / 2;
-                  var img_src = "images/pic" +  city;
+                  var img_src = "../sctravel/images/pic" +  city;
 
                   $("#boxImage1").attr("src", img_src + "_1.jpg");
                   $("#firstImage").attr("href", img_src + "_1.jpg");
@@ -490,6 +490,8 @@ $(function(){
             latLng.push(spot.longitude);
             latLng.push(spot.latitude);
 
+
+
             var data = { index : (spot.spot_id-1)};
 
             var cordinator={};
@@ -498,7 +500,7 @@ $(function(){
             cordinator.data = data;
             cordinators.push(cordinator);
 
-           var url = "/sctravel/spotDesc/" + spot.spot_id + ".html";
+           var url = "../sctravel/spotDesc/" + spot.spot_id + ".html";
 
             desc = "<h3 id =" + spot.spot_id + " name='" + spot.spot_name + "'>" + spot.spot_name + "</h3>" + "<div><iframe src="  +  url + " frameborder=\"0\" scrolling=\"auto\" width=\"100%\" height=\"90%\"  ></iframe></div>"
 
