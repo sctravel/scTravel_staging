@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="cn">
+<head>
+    <%include bootstrap.ejs%>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+<%include navibar.ejs%>
+<center>
+    <h1>管理员账户登陆:</h1>
+    <form action="/adminLogin" method="post">
+        <div>
+            <label>账号:</label> <input type="text" name="username"/>
+
+        </div>
+        <div>
+            <label>密码:</label>  <input type="password" name="password"/>
+        </div>
+        <div>
+            <input type="submit" value="登陆"/>
+        </div>
+    </form>
+</center>
+</body>
+</html>

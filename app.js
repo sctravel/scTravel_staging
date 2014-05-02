@@ -14,11 +14,15 @@ var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var stringUtils = require('./node_modules/stringUtils');
+var tableNames = require('./node_modules/tableNames');
+
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var adminUtil = require('./node_modules/adminLogin');
 var tableNames = require('./node_modules/tableNames');
+
 
 var app = express();
 
@@ -33,8 +37,8 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.cookieParser('123'));
-app.use(express.session());
+app.use(express.cookieParser('123456xyz'));
+app.use(express.session({cookie: { maxAge : 4*60*60*1000}})); // Session expires in 4 hours
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -90,6 +94,7 @@ app.get('/', function (req,res){
  *************************************************************/
 // Order: insert data record:
 app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,res) {
+
 
     var tableColumnNames = req.params.tableColumnNames;
     console.log("Parameter: " + tableColumnNames);
@@ -157,6 +162,21 @@ app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req
 });
 
 
+// Customer: insert data record:
+app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
+
 //Ticket: look up by ticket number
 app.get('/services/admin/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
     var ticketNum = req.params.ticketNum;
@@ -176,6 +196,7 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     console.log("Parameter: " + values);
 
     queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+
         res.send(results);
     })
 });
@@ -190,9 +211,27 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     console.log("Parameter: " + values);
 
     queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+
         res.send(results);
     })
 });
+
+
+
+//Ticket : delete\Disable ticket
+app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,res) {
+
+    var tableColumnNames = req.params.tableColumnNames;
+    console.log("Parameter: " + tableColumnNames);
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+        res.send(results);
+    })
+});
+
 
 // Routes: insert data record:
 app.get('/services/admin/InsertRoutes/:tableColumnNames/:values', function(req,res) {
@@ -332,7 +371,8 @@ passport.use('local', new LocalStrategy(
                 return done(null, false, { message: 'Internal error.' });
             }
             if(results.isAuthenticated == true ) {
-                return done(null, {username : username} );
+                console.dir(results);
+                return done(null, {username : username, randomKey: results.randomKey} );
             } else {
                 return done(null, false, { message: results.errorMessage });
             }
@@ -341,21 +381,21 @@ passport.use('local', new LocalStrategy(
 ));
 
 passport.serializeUser(function (user, done) {//保存user对象
-    done(null, user.username);//可以通过数据库方式操作
+    done(null, {username:user.username, randomKey:user.randomKey});//可以通过数据库方式操作
 });
 
-passport.deserializeUser(function (username, done) {//删除user对象
-    done(null, {username:username} );//可以通过数据库方式操作
+passport.deserializeUser(function (user, done) {//删除user对象
+    done(null, {username:user.username, randomKey:user.randomKey} );//可以通过数据库方式操作
 });
 
 app.get('/adminLogin', function (req, res) {
     console.dir(req.user);
-    res.redirect('/sctravel/adminLogin.html');
+    res.render('adminLogin.ejs');
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
     console.dir(req.user);
-    res.render('admin.ejs',{title: 'res vs app render', username : req.user.username }  );
+    res.render('admin.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
 });
 
 app.get('/queryspots', function(req,res){
@@ -365,9 +405,13 @@ app.get('/queryspots', function(req,res){
 
 
 //app.all('/users', isLoggedIn);
-app.get('/logout', function (req, res) {
+app.get('/logout', isLoggedIn, function (req, res) {
+    console.log(req.user.username + " logged out.");
+    adminUtil.logoutAdminLoginHistory(req.user.username,req.user.randomKey, function(err, results){
+        console.info("");//write logout history success
+    })
     req.logout();
-    res.redirect('/');
+    res.redirect("/adminLogin");
 });
 
 app.post('/adminLogin',
@@ -388,6 +432,5 @@ function isLoggedIn(req, res, next) {
         return next();
     }
 
-    //
-    res.redirect("/adminLogin");
+    res.render("adminLogin.ejs");
 }

@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="cn">
+<<<<<<< HEAD
 <%include bootstrap.ejs%>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
 <% include navibar.ejs%>
+=======
+<head>
+    <%include bootstrap.ejs%>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+<%include navibar.ejs%>
+>>>>>>> f62f60547cc63dfdb52fba2f25f4ebea6369da63
 
 
 <div class="container" >
     <!-- Menu -->
     <div class = "row">
+<<<<<<< HEAD
         <div>
             你好!  Your name is <%= username %>
+=======
+        <div style="float:right;">
+            <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
+            <font size="2">你的随机数是，<b><%= randomKey %></b></font>
+>>>>>>> f62f60547cc63dfdb52fba2f25f4ebea6369da63
         </div>
         <div class="page-header">
             <h1>管理菜单</h1>
@@ -72,16 +88,29 @@
             <section id="blank2"  class = "span1"></section>
         </div>
 
+<<<<<<< HEAD
     </div></div>
+=======
+    </div>
+>>>>>>> f62f60547cc63dfdb52fba2f25f4ebea6369da63
     <script>
         $(function(){
             $("#menu").menu();
         })
 
+<<<<<<< HEAD
         $(".tag").click( function(){
             $('#content').load("queryspots");
 
         });
+=======
+        var query_spots = document.getElementById('query_spots');
+
+        query_spots.style.cursor = 'pointer';
+        query_spots.onclick = function() {
+            $.get("\queryspots");
+        };
+>>>>>>> f62f60547cc63dfdb52fba2f25f4ebea6369da63
 
     </script>
 
