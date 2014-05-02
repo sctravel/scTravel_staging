@@ -81,12 +81,21 @@
         $(function(){
             $("#menu").menu();
         })
+
         $("#logout").click( function(){
             window.location.href=("/logout");
         });
+        
         $(".tag").click( function(){
             $('#content').load("queryspots");
         });
+
+        var query_spots = document.getElementById('query_spots');
+
+        query_spots.style.cursor = 'pointer';
+        query_spots.onclick = function() {
+            $.get("\queryspots");
+        };
 
     </script>
 
