@@ -41,7 +41,8 @@
 </div>
 
 <script>
-    $("#searchPermission").click( function(){
+
+    $(function(){
         $.get( "/services/admin/allAdminUsers", function(data) {
             console.log(data);
             var adminUsers = data;
@@ -59,18 +60,23 @@
                 $(option).appendTo($('#usernameSelect'));
             }
         });
-
-        //$('#content').load("queryspots");
-    });
-    $("#logout").click( function(){
-        window.location.href=("/logout");
-    });
-    $("#submitChange").click( function(){
-
+    })
+    $("#searchPermission").click( function(){
         var selectedUsername = $('#usernameSelect').val();
         $.get( "/services/admin/toolIdsByAdminUser/"+selectedUsername, function(data) {
             console.log(data);
         });
+    });
+
+
+    $("#logout").click( function(){
+        window.location.href=("/logout");
+    });
+
+
+    $("#submitChange").click( function(){
+
+
     });
 
 

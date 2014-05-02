@@ -7,22 +7,10 @@
 
 <% include navibar.ejs%>
 
-<head>
-    <%include bootstrap.ejs%>
-</head>
-
-<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
-
-<%include navibar.ejs%>
-
-
 
 <div class="container" >
     <!-- Menu -->
     <div class = "row">
-
-        <div>
-            你好!  Your name is <%= username %>
 
         <div style="float:right;">
             <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
@@ -90,9 +78,6 @@
             <section id="blank2"  class = "span1"></section>
         </div>
 
-
-    </div></div>
-
     </div>
 
     <script>
@@ -100,16 +85,10 @@
             $("#menu").menu();
         })
 
-
-        $(".tag").click( function(){
-            $('#content').load("queryspots");
-
-        });
-
         $("#logout").click( function(){
             window.location.href=("/logout");
         });
-        
+
         $(".tag").click( function(){
             $('#content').load("queryspots");
         });

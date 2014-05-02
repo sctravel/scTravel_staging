@@ -51,27 +51,52 @@
 
 
 <script>
-                jQuery(document).ready(function(){
-                    jQuery("#list2").jqGrid({
-                        datastr: spot_show,
-                        datatype: "jsonstring",
+    $(function(){
 
-                        colNames:['id','名称','类型','纬度','精度','是否景点','是否发车地','是否有效'],
-                        colModel:[  {name:'spot_id',index:'spot_id',align:'right'},
-                                    {name:'spot_name ',index:'spot_name', align:"right"},
-                                    {name:'type ',index:'type', align:"right"},
-                                    {name:'longitude',index:'longitude', align:"right"},
-                                    {name:'latitude',index:'latitude', align:"right"},
-                                    {name:'is_scenery',index:'is_scenery', align:"right"},
-                                    {name:'is_start',index:'is_scenery', align:"right"},
-                                    {name:'is_active',index:'is_active', align:"right"}
+        $.ajax({url:"/services/getAll/sceneryspots", success:function(results){
 
-                        ],
-                        width: 770,
-                        height: "100%"
-                    });
+            spots = results;
+
+            spot_show =  {"rows" : [
+
+            ]
+
+            };
+
+            for( var spot_index in spots){
+                spot = spots[spot_index];
+                var val = [];
+                for(var attr in spot){
+                    val.push(spot[attr]);
+
+                }
+                var cell = {"cell" : val};
+                spot_show.rows.push(cell);
+            }
+
+            jQuery(document).ready(function(){
+                jQuery("#list2").jqGrid({
+
+                    datastr: spot_show,
+                    datatype: "jsonstring",
+                    colNames:['id','名称','类型','纬度','精度','是否景点','是否发车地','是否有效'],
+                    colModel:[  {name:'spot_id',index:'spot_id',align:'right'},
+                    {name:'spot_name ',index:'spot_name', align:"right"},
+                    {name:'type ',index:'type', align:"right"},
+                    {name:'longitude',index:'longitude', align:"right"},
+                    {name:'latitude',index:'latitude', align:"right"},
+                    {name:'is_scenery',index:'is_scenery', align:"right"},
+                    {name:'is_start',index:'is_scenery', align:"right"},
+                    {name:'is_active',index:'is_active', align:"right"}
+
+                    ],
+                    width: 770,
+                    height: "100%"
                 });
+            });
 
+        }})              
+    })
 </script>
 
 
