@@ -15,13 +15,14 @@ var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var stringUtils = require('./node_modules/stringUtils');
 var tableNames = require('./node_modules/tableNames');
-
+var constants = require('./node_modules/constants')
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var adminUtil = require('./node_modules/adminLogin');
-var tableNames = require('./node_modules/tableNames');
+var adminManager = require('./node_modules/adminUserManagement');
+var permissionManager = require('./node_modules/adminToolPermission');
 
 
 var app = express();
@@ -38,7 +39,7 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser('123456xyz'));
-app.use(express.session({cookie: { maxAge : 4*60*60*1000}})); // Session expires in 4 hours
+app.use(express.session({cookie: { maxAge : constants.SESSION_HOURS*60*60*1000 }})); // Session expires in SESSION_HOURS hours
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -315,6 +316,7 @@ app.get('/services/getAll/validSchedules', function(req,res) {
     })
 });
 
+
 app.get('/services/search/orders', function(req,res){
     //console.dir(req);
     var confirmCode = req.query.confirmCode;
@@ -338,6 +340,8 @@ app.get('/services/search/orders', function(req,res){
         });
     }
 });
+
+
 /********************************************************************
  * Actions using http POST methods
  ********************************************************************/
@@ -389,18 +393,52 @@ passport.deserializeUser(function (user, done) {//删除user对象
 });
 
 app.get('/adminLogin', function (req, res) {
-    console.dir(req.user);
     res.render('adminLogin.ejs');
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
-    console.dir(req.user);
+    //console.dir(req.user);
     res.render('admin.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
 });
 
-app.get('/queryspots', function(req,res){
+app.get('/services/admin/allAdminUsers', isLoggedIn, function(req,res){
 
-    res.render('query_spots.ejs');
+    adminManager.getAllAdminUsers(req.user.username, req.user.randomKey, function(err, results) {
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+
+    })
+})
+
+app.get('/services/admin/toolIdsByAdminUser/:username', isLoggedIn, function(req,res){
+
+    var selectedUsername = req.params.username;
+
+    permissionManager.getToolIdsFromUsername(req.user.username, req.user.randomKey, selectedUsername, function(err, results) {
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+
+    })
+})
+
+app.get('/queryspots', isLoggedIn, function(req,res){
+
+    res.render('query_spots.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
+
+app.get('/toolPermission', isLoggedIn, function(req,res){
+
+    res.render('toolPermissionManagement.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
 
@@ -432,5 +470,5 @@ function isLoggedIn(req, res, next) {
         return next();
     }
 
-    res.render("adminLogin.ejs");
+    res.redirect("/adminLogin");
 }
