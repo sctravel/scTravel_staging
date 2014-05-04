@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="cn">
 
-<%include bootstrap.ejs%>
+<%include layout/bootstrap.ejs%>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
-<% include navibar.ejs%>
+<% include layout/navibar.ejs%>
 
 
 <div class="container" >
@@ -83,7 +83,7 @@
     <script>
         $(function(){
             $("#menu").menu();
-            
+
         })
 
         $("#logout").click( function(){

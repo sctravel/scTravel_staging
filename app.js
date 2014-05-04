@@ -442,6 +442,7 @@ app.get('/toolPermission', isLoggedIn, function(req,res){
 });
 
 
+
 //app.all('/users', isLoggedIn);
 app.get('/logout', isLoggedIn, function (req, res) {
     console.log(req.user.username + " logged out.");
@@ -458,6 +459,23 @@ app.post('/adminLogin',
             failureRedirect: '/adminLogin',
             failureFlash: true })
 );
+//Data services for editing the permissions
+app.post('/services/admin/editPermissions', isLoggedIn, function(req,res){
+
+    var selectedUsername = req.body.selectedUsername;
+    var permissionChanges = req.body.permissionChanges;
+
+    permissionManager.editPermissionsForUser(req.user.username,req.user.randomKey,selectedUsername,permissionChanges, function(err,results){
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+    });
+
+});
 
 http.createServer(app).listen(app.get('port'), function(){
                               console.log('Express server listening on port ' + app.get('port'));
