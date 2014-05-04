@@ -39,10 +39,10 @@
                         <li>
                             <a href="#">路线管理</a>
                             <ul>
-                                <li><a href="#">查找路线</a></li>
-                                <li><a href="#">修改路线</a></li>
-                                <li><a href="#">增加路线</a></li>
-                                <li><a href="#">删除路线</a></li>
+                                <li><a id="query_routes" class="route">查找路线</a></li>
+                                <li><a id="change_routes" class="route">修改路线</a></li>
+                                <li><a id="add_routes" class="route">增加路线</a></li>
+                                <li><a id="delete_routes" class="route">>删除路线</a></li>
                             </ul>
                         </li>
                         <li>
@@ -92,6 +92,10 @@
 
         $(".tag").click( function(){
             $('#content').load("queryspots");
+        });
+
+        $(".route").click( function(){
+            $('#content').load("queryroutes");
         });
 
         /*
