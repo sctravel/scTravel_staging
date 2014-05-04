@@ -159,14 +159,14 @@
                     //datastr: data_show,
                     datatype: "local",
                     data: allTools,
-                    colNames:['权限代码','权限名称', '有无权限'],
+                    colNames:['权限代码','权限名称'],// '有无权限'],
                     colModel:[
-                        {name:'tool_id',index:'tool_id', key:true, align:"center",editable: true,sortable:false,cellEdit:true},
-                        {name:'tool_name',index:'tool_name', align:"center",editable: true,sortable:false,cellEdit:true},
-                        {name: 'has_permission', index: 'has_permission',formatter: "checkbox",
+                        {name:'tool_id',index:'tool_id', key:true, align:"center"},//,editable: true,sortable:false,cellEdit:true},
+                        {name:'tool_name',index:'tool_name', align:"center"}//,editable: true,sortable:false,cellEdit:true},
+                        /*{name: 'has_permission', index: 'has_permission',formatter: "checkbox",
                             formatoptions:{disabled:false},
                             editable:true, edittype:'checkbox', cellEdit:true, sortable:false,
-                            editoptions: { value: "1:0", defaultValue: 0 }  }
+                            editoptions: { value: "1:0", defaultValue: 0 }  }*/
                     ],
                     caption: "用户"+selectedUsername+"的权限列表",
                     //rowNum:10,
@@ -178,7 +178,7 @@
 
                 //Display all the possible permissions,
                 // and check the permissions the user already have
-                for(var i in tools) {
+                for(var i in selectedUserPermissions) {
                     $('#permissionList').jqGrid('setCell',selectedUserPermissions[i].tool_id,'has_permission',1)
                 }
 
