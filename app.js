@@ -441,6 +441,12 @@ app.get('/queryroutes', isLoggedIn, function(req,res){
     res.render('query_routes.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
+app.get('/queryoffers', isLoggedIn, function(req,res){
+
+    res.render('query_offers.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
+
+
 app.get('/toolPermission', isLoggedIn, function(req,res){
 
     res.render('toolPermissionManagement.ejs',{username : req.user.username, randomKey: req.user.randomKey });

@@ -48,10 +48,10 @@
                         <li>
                             <a href="?Delphi">Offer管理</a>
                             <ul>
-                                <li><a href="#">查找Offer</a></li>
-                                <li><a href="#">修改Offerd</a></li>
-                                <li><a href="#">增加Offer</a></li>
-                                <li><a href="#">删除Offer</a></li>
+                                <li><a id="query_offers" class="offers">查找路线</a></li>
+                                <li><a id="change_offers" class="offers">修改路线</a></li>
+                                <li><a id="add_offers" class="offers">增加路线</a></li>
+                                <li><a id="delete_offers" class="offers">>删除路线</a></li>
                             </ul>
                         </li>
                         <li><a href="#">订单管理</a>
@@ -98,6 +98,9 @@
             $('#content').load("queryroutes");
         });
 
+        $(".offers").click( function(){
+            $('#content').load("queryoffers");
+        });
         /*
         */
 
