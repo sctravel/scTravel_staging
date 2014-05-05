@@ -30,7 +30,7 @@
                 </form>
                 <div class="row-fluid" > <button id="searchPermission">查询权限</button></div>
             </div>
-            <div>
+            <div id="toolPermissionResults">
                 </br>
                  <table id="permissionList">
                  </table>
@@ -62,7 +62,7 @@
     selectedUserPermissions=[];
 
     var searchUserPermissions = function(){
-
+        $('#toolPermissionResults').show();
         selectedUsername = $('#usernameSelect').val();
         if(selectedUsername == 0) {
             console.warn("没有选择用户");
@@ -110,6 +110,11 @@
 
 
     };
+
+    $('#usernameSelect').change(function(){
+        $('#toolPermissionResults').hide();
+    })
+
 
     $("#logout").click( function(){
         window.location.href=("/logout");
@@ -172,6 +177,7 @@
         $.post("/services/admin/editPermissions", {permissionChanges:permissionChanges, selectedUsername:selectedUsername},function(data){
             if(data=="done") {
                 searchUserPermissions();
+                $('#toolPermissionResults').hide();
             } else {
                 //TODO deal with the edit failed case
             }
@@ -179,11 +185,7 @@
 
     });
 
-
-
-    $(function(){
-
-        $('#submitChange').hide();
+    var loadAdminUsers = function() {
         $.get( "/services/admin/allAdminUsers", function(data) {
             console.log(data);
             var adminUsers = data;
@@ -200,6 +202,12 @@
                 $(option).appendTo($('#usernameSelect'));
             }
         });
+    }
+
+    $(function(){
+
+        $('#toolPermissionResults').hide();
+        loadAdminUsers();
 
 
     })

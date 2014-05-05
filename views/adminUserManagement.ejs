@@ -87,6 +87,7 @@
 <script>
 
     $('#adminAccountOperationSelect').change(function(){
+        loadAdminUsers();
         var selectedOption = $( this ).val();
         /*if(selectedOption == -1) {
             $('#queryAdminAccountInfo').hide();
@@ -133,6 +134,7 @@
         }
         $.post("/services/admin/accounts/delete",{deleteUsername:username},function(data){
             if(data=="done") {
+                loadAdminUsers();
                 console.log("successfully deleted an account:"+username);
                 alert("successfully deleted an account:"+username);
             }
@@ -179,6 +181,7 @@
         var newAccountInfo={username:username,name:name,password:password,passwordConfirm:passwordConfirm};
         $.post("/services/admin/accounts/new",{newAccountInfo:newAccountInfo},function(data){
             if(data=="done") {
+                loadAdminUsers();
                 console.log("successfully added a new account");
                 alert("successfully added a new account");
             }
@@ -186,23 +189,18 @@
 
     });
 
-
-    $(function(){
-        $('#queryAdminAccountInfo').show();
-        $('#addNewAdminAccount').hide();
-        $('#updateAdminPassword').hide();
-        $('#deleteAdminAccount').hide();
-
+    var loadAdminUsers = function() {
         $.get( "/services/admin/allAdminUsers", function(data) {
             console.log(data);
             adminUsers = data;
 
-           /* var option = "<option value =  0>" +  "请选择" + "</option>";
-            $(option).appendTo($('#deleteAdminSelect'));
-            $(option).appendTo($('#queryAdminSelect'));
-            $(option).appendTo($('#updateAdminSelect'));*/
-
-
+            /* var option = "<option value =  0>" +  "请选择" + "</option>";
+             $(option).appendTo($('#deleteAdminSelect'));
+             $(option).appendTo($('#queryAdminSelect'));
+             $(option).appendTo($('#updateAdminSelect'));*/
+            $('#deleteAdminSelect').empty();
+            $('#queryAdminSelect').empty();
+            $('#updateAdminSelect').empty();
             for(var i in adminUsers) {
 
                 var  adminUser = adminUsers[i];
@@ -212,6 +210,16 @@
                 $(option).appendTo($('#updateAdminSelect'));
             }
         });
+    }
+
+
+    $(function(){
+        $('#queryAdminAccountInfo').show();
+        $('#addNewAdminAccount').hide();
+        $('#updateAdminPassword').hide();
+        $('#deleteAdminAccount').hide();
+
+        loadAdminUsers();
 
     });
 
