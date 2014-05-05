@@ -39,27 +39,42 @@
                         <li>
                             <a href="#">路线管理</a>
                             <ul>
-                                <li><a href="#">查找路线</a></li>
-                                <li><a href="#">修改路线</a></li>
-                                <li><a href="#">增加路线</a></li>
-                                <li><a href="#">删除路线</a></li>
+                                <li><a id="query_routes" class="route">查找路线</a></li>
+                                <li><a id="change_routes" class="route">修改路线</a></li>
+                                <li><a id="add_routes" class="route">增加路线</a></li>
+                                <li><a id="delete_routes" class="route">>删除路线</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="?Delphi">Offer管理</a>
+                            <a href="#">套餐管理</a>
                             <ul>
-                                <li><a href="#">查找Offer</a></li>
-                                <li><a href="#">修改Offerd</a></li>
-                                <li><a href="#">增加Offer</a></li>
-                                <li><a href="#">删除Offer</a></li>
+                                <li><a id="query_offers" class="offers">查找套餐</a></li>
+                                <li><a id="change_offers" class="offers">修改套餐</a></li>
+                                <li><a id="add_offers" class="offers">增加套餐</a></li>
+                                <li><a id="delete_offers" class="offers">>删除套餐</a></li>
                             </ul>
                         </li>
                         <li><a href="#">订单管理</a>
                             <ul>
-                                <li><a href="#">查找订单</a></li>
-                                <li><a href="#">修改订单</a></li>
-                                <li><a href="#">增加订单</a></li>
-                                <li><a href="#">删除订单</a></li>
+                                <li><a id="query_orders" class="orders">查找订单</a></li>
+                                <li><a id="change_orders" class="orders">修改订单</a></li>
+                                <li><a id="add_orders" class="orders">增加订单</a></li>
+                                <li><a id="delete_orders" class="orders">>删除订单</a></li>>
+                            </ul>
+                        </li>
+                        <li><a href="#">用户管理</a>
+                            <ul>
+                                <li><a id="query_users" class="users">查找用户</a></li>
+                                <li><a id="change_users" class="users">修改用户</a></li>
+                                <li><a id="add_users" class="users">增加用户</a></li>
+                                <li><a id="delete_users" class="users">>删除用户</a></li>>
+                            </ul>
+                        </li>
+                        <li><a href="#">超级管理员管理</a>
+                            <ul>
+                                <li><a href="change_superusers" class="superusers">修改管理员</a></li>
+                                <li><a href="add_superusers" class="superusers">增加管理员</a></li>
+                                <li><a href="delete_superusers" class="superusers">删除管理员</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -94,6 +109,25 @@
             $('#content').load("queryspots");
         });
 
+        $(".route").click( function(){
+            $('#content').load("queryroutes");
+        });
+
+        $(".offers").click( function(){
+            $('#content').load("queryoffers");
+        });
+
+        $(".orders").click( function(){
+            $('#content').load("queryorders");
+        });
+
+        $(".users").click( function(){
+            $('#content').load("queryusers");
+        });
+
+        $(".superusers").click( function(){
+            $('#content').load("querysuperusers");
+        });
         /*
         */
 
