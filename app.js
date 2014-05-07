@@ -341,6 +341,12 @@ app.get('/services/search/orders', function(req,res){
     }
 });
 
+/********************************************************************
+ * Customer Tools page
+ ********************************************************************/
+app.get('/customerTools',function(req,res){
+    res.render('customerTools.ejs');
+});
 
 /********************************************************************
  * Actions using http POST methods
