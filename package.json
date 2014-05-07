@@ -20,6 +20,7 @@
     "passport":"*",
     "passport-local":"*",
     "connect-flash":"*",
-    "log4js":"*"
+    "log4js":"*",
+    "request":"*"
   }
 }
