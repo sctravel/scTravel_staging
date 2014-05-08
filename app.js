@@ -21,7 +21,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var adminUtil = require('./node_modules/adminLogin');
-var adminManager = require('./node_modules/adminUserManagement');
+var accountManager = require('./node_modules/adminUserManagement');
 var permissionManager = require('./node_modules/adminToolPermission');
 
 
@@ -341,6 +341,12 @@ app.get('/services/search/orders', function(req,res){
     }
 });
 
+/********************************************************************
+ * Customer Tools page
+ ********************************************************************/
+app.get('/customerTools',function(req,res){
+    res.render('customerTools.ejs');
+});
 
 /********************************************************************
  * Actions using http POST methods
@@ -403,7 +409,7 @@ app.get('/admin', isLoggedIn, function (req, res) {
 
 app.get('/services/admin/allAdminUsers', isLoggedIn, function(req,res){
 
-    adminManager.getAllAdminUsers(req.user.username, req.user.randomKey, function(err, results) {
+    accountManager.getAllAdminUsers(req.user.username, req.user.randomKey, function(err, results) {
         if(err) {
             console.error(err);
             res.send(err);
@@ -436,11 +442,25 @@ app.get('/queryspots', isLoggedIn, function(req,res){
     res.render('query_spots.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
+app.get('/queryroutes', isLoggedIn, function(req,res){
+
+    res.render('query_routes.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
+
+app.get('/queryoffers', isLoggedIn, function(req,res){
+
+    res.render('query_offers.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
+
+
 app.get('/toolPermission', isLoggedIn, function(req,res){
 
     res.render('toolPermissionManagement.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
+app.get('/adminUserManagement', isLoggedIn, function(req,res){
 
+    res.render('adminUserManagement.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
 
 
 //app.all('/users', isLoggedIn);
@@ -466,6 +486,49 @@ app.post('/services/admin/editPermissions', isLoggedIn, function(req,res){
     var permissionChanges = req.body.permissionChanges;
 
     permissionManager.editPermissionsForUser(req.user.username,req.user.randomKey,selectedUsername,permissionChanges, function(err,results){
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+    });
+
+});
+
+app.post('/services/admin/accounts/new',isLoggedIn, function(req,res) {
+    var newAccountInfo = req.body.newAccountInfo;
+
+    accountManager.addNewAccount(newAccountInfo,req.user.username,req.user.randomKey, function(err,results){
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+    });
+
+});
+app.post('/services/admin/accounts/update',isLoggedIn, function(req,res) {
+    var updateAccountInfo = req.body.updateAccountInfo;
+
+    accountManager.updatePasswordForAdminAccount(updateAccountInfo,req.user.username,req.user.randomKey, function(err,results){
+        if(err) {
+            console.error(err);
+            res.send(err);
+        } else {
+            console.info(results);
+            res.send(results);
+        }
+    });
+
+});
+app.post('/services/admin/accounts/delete',isLoggedIn, function(req,res) {
+    var deleteUsername = req.body.deleteUsername;
+
+    accountManager.deleteAccount(deleteUsername,req.user.username,req.user.randomKey, function(err,results){
         if(err) {
             console.error(err);
             res.send(err);

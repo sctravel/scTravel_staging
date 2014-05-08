@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <%include layout/bootstrap.ejs%>
+    <%include layout/jqGridInclude.ejs%>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+<%include layout/navibar.ejs%>
+
+
+<div class="container" >
+    <!-- Menu -->
+    <h1> 管理员账户管理界面 </h1>
+
+    <div class = "row">
+        <div style="float:right;">
+            <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
+            <font size="2">你的随机数是，<b><%= randomKey %></b></font>
+            <button id="logout">注销登陆</button>
+        </div>
+    </div>
+
+    <div id = "selectOperation">
+        <div class="row-fluid order" >
+            <div  class="span2"><bold>操作：</bold>
+                <select id="adminAccountOperationSelect" class="start" style="width:140px;">
+                    <option value = 0>查询用户信息</option>
+                    <option value = 1>添加新用户</option>
+                    <option value = 2>更改用户密码</option>
+                    <option value = 3>删除用户</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="queryAdminAccountInfo" class="well form-inline">
+            <form  class="well form-inline">
+                <div class="row-fluid order" >
+                    <div  class="span2"><bold>用户名：</bold><select id="queryAdminSelect" class="start" style="width:140px;"></select></div>
+                </div>
+            </form>
+            <div class="row-fluid" > <button id="queryAdminAccountButton" >查询用户</button></div>
+        </div>
+
+        <div id="addNewAdminAccount" class="well form-inline">
+            <form  class="well form-inline" >
+                <div class="row-fluid order" >
+                    账号: <input type="text" id="newUsername" name="newUsername"><br>
+                    姓名: <input type="text" id="newName" name="newName"><br>
+                    密码: <input type="password" id="newPassword" name="newPassword"><br>
+                    密码确认: <input type="password" id="newPasswordConfirm" name="newPasswordConfirm"><br>
+                </div>
+            </form>
+            <div class="row-fluid" > <button id="addNewAdminAccountButton" >添加用户</button></div>
+        </div>
+
+        <div id="updateAdminPassword" class="well form-inline">
+            <form  class="well form-inline">
+                <div class="row-fluid order" >
+                    <div  class="span2"><bold>用户名：</bold><select id="updateAdminSelect" class="start" style="width:140px;"></select></div>
+                </div>
+            </form>
+            <form  class="well form-inline" >
+                <div class="row-fluid order" >
+                    账号: <input type="text" id="updateUsername" name="updateUsername" readonly><br>
+                    密码: <input type="password" id="updatePassword" name="updatePassword"><br>
+                    密码确认: <input type="password" id="updatePasswordConfirm" name="updatePasswordConfirm"><br>
+                </div>
+            </form>
+            <div class="row-fluid" > <button id="updateAdminAccountButton" >更改用户密码</button></div>
+        </div>
+
+        <div id="deleteAdminAccount" class="well form-inline">
+            <form  class="well form-inline">
+                <div class="row-fluid order" >
+                    <div  class="span2"><bold>用户名：</bold><select id="deleteAdminSelect" class="start" style="width:140px;"></select></div>
+                </div>
+            </form>
+            <div class="row-fluid" > <button id="deleteAdminAccountButton" >删除用户</button></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $('#adminAccountOperationSelect').change(function(){
+        loadAdminUsers();
+        var selectedOption = $( this ).val();
+        /*if(selectedOption == -1) {
+            $('#queryAdminAccountInfo').hide();
+            $('#addNewAdminAccount').hide();
+            $('#updateAdminPassword').hide();
+            $('#deleteAdminAccount').hide();
+        } else*/
+        if(selectedOption == 0 ) { //query account
+            $('#queryAdminAccountInfo').show();
+            $('#addNewAdminAccount').hide();
+            $('#updateAdminPassword').hide();
+            $('#deleteAdminAccount').hide();
+
+        } else if(selectedOption == 1 ) { //adding new account
+            $('#queryAdminAccountInfo').hide();
+            $('#addNewAdminAccount').show();
+            $('#updateAdminPassword').hide();
+            $('#deleteAdminAccount').hide();
+        } else if(selectedOption == 2 ) { //change password for account
+            $('#queryAdminAccountInfo').hide();
+            $('#addNewAdminAccount').hide();
+            $('#updateAdminPassword').show();
+            $('#deleteAdminAccount').hide();
+        } else if(selectedOption == 3 ) { //delete account
+            $('#queryAdminAccountInfo').hide();
+            $('#addNewAdminAccount').hide();
+            $('#updateAdminPassword').hide();
+            $('#deleteAdminAccount').show();
+        }
+
+    })
+
+    $('#updateAdminSelect').change(function(){
+        var selectedUser = $(this).val();
+        $('#updateUsername').val(selectedUser);
+
+    })
+
+    $('#deleteAdminAccountButton').click(function(){
+        var username = $('#deleteAdminSelect').val();
+        if(username==0) {
+            alert("请选择一个用户。");
+            return;
+        }
+        $.post("/services/admin/accounts/delete",{deleteUsername:username},function(data){
+            if(data=="done") {
+                loadAdminUsers();
+                console.log("successfully deleted an account:"+username);
+                alert("successfully deleted an account:"+username);
+            }
+        })
+    });
+
+    $('#updateAdminAccountButton').click(function(){
+        var username = $('#updateUsername').val();
+
+        var password = $('#updatePassword').val();
+        var passwordConfirm = $('#updatePasswordConfirm').val();
+        if(!username||username=="") {
+            alert("Username is requred.")
+            return;
+        }
+        if(passwordConfirm!=password) {
+            alert("password do not match. Please confirm.");
+            return;
+        }
+
+        var updateAccountInfo={updateUsername:username,password:password,passwordConfirm:passwordConfirm};
+        $.post("/services/admin/accounts/update",{updateAccountInfo:updateAccountInfo},function(data){
+            if(data=="done") {
+                console.log("successfully updated the password of account:"+username);
+                alert("successfully updated the password of account:"+username);
+            }
+        })
+    })
+
+    $('#addNewAdminAccountButton').click(function(){
+        var username = $('#newUsername').val();
+        var name = $('#newName').val();
+        var password = $('#newPassword').val();
+        var passwordConfirm = $('#newPasswordConfirm').val();
+
+        if(!username||username=="") {
+            alert("Username is requred.")
+            return;
+        }
+        if(passwordConfirm!=password) {
+            alert("password do not match. Please confirm.");
+            return;
+        }
+        var newAccountInfo={username:username,name:name,password:password,passwordConfirm:passwordConfirm};
+        $.post("/services/admin/accounts/new",{newAccountInfo:newAccountInfo},function(data){
+            if(data=="done") {
+                loadAdminUsers();
+                console.log("successfully added a new account");
+                alert("successfully added a new account");
+            }
+        })
+
+    });
+
+    var loadAdminUsers = function() {
+        $.get( "/services/admin/allAdminUsers", function(data) {
+            console.log(data);
+            adminUsers = data;
+
+            /* var option = "<option value =  0>" +  "请选择" + "</option>";
+             $(option).appendTo($('#deleteAdminSelect'));
+             $(option).appendTo($('#queryAdminSelect'));
+             $(option).appendTo($('#updateAdminSelect'));*/
+            $('#deleteAdminSelect').empty();
+            $('#queryAdminSelect').empty();
+            $('#updateAdminSelect').empty();
+            for(var i in adminUsers) {
+
+                var  adminUser = adminUsers[i];
+                var option = "<option value = "  +  adminUser.username + ">" +  adminUser.name  + "</option>"
+                $(option).appendTo($('#deleteAdminSelect'));
+                $(option).appendTo($('#queryAdminSelect'));
+                $(option).appendTo($('#updateAdminSelect'));
+            }
+        });
+    }
+
+
+    $(function(){
+        $('#queryAdminAccountInfo').show();
+        $('#addNewAdminAccount').hide();
+        $('#updateAdminPassword').hide();
+        $('#deleteAdminAccount').hide();
+
+        loadAdminUsers();
+
+    });
+
+</script>

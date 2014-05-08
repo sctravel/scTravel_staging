@@ -12,6 +12,7 @@
 
 <div class="container" >
     <!-- Menu -->
+    <h1> 用户权限管理界面 </h1>
     <div class = "row">
         <div style="float:right;">
             <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
@@ -29,14 +30,15 @@
                 </form>
                 <div class="row-fluid" > <button id="searchPermission">查询权限</button></div>
             </div>
-            <div>
+            <div id="toolPermissionResults">
                 </br>
                  <table id="permissionList">
                  </table>
 
-            </div>
-            <div class="row-fluid" >
-                <button id="submitChange">提交</button>
+
+                <div class="row-fluid" >
+                  <button id="submitChange">提交</button>
+                </div>
             </div>
     </div>
 
@@ -60,6 +62,7 @@
     selectedUserPermissions=[];
 
     var searchUserPermissions = function(){
+        $('#toolPermissionResults').show();
         selectedUsername = $('#usernameSelect').val();
         if(selectedUsername == 0) {
             console.warn("没有选择用户");
@@ -101,11 +104,17 @@
             for(var i in selectedUserPermissions) {
                 $('#permissionList').jqGrid('setCell',selectedUserPermissions[i].tool_id,'has_permission',1)
             }
+            $('#submitChange').show();
 
         });
 
 
     };
+
+    $('#usernameSelect').change(function(){
+        $('#toolPermissionResults').hide();
+    })
+
 
     $("#logout").click( function(){
         window.location.href=("/logout");
@@ -168,6 +177,7 @@
         $.post("/services/admin/editPermissions", {permissionChanges:permissionChanges, selectedUsername:selectedUsername},function(data){
             if(data=="done") {
                 searchUserPermissions();
+                $('#toolPermissionResults').hide();
             } else {
                 //TODO deal with the edit failed case
             }
@@ -175,9 +185,7 @@
 
     });
 
-
-
-    $(function(){
+    var loadAdminUsers = function() {
         $.get( "/services/admin/allAdminUsers", function(data) {
             console.log(data);
             var adminUsers = data;
@@ -194,6 +202,12 @@
                 $(option).appendTo($('#usernameSelect'));
             }
         });
+    }
+
+    $(function(){
+
+        $('#toolPermissionResults').hide();
+        loadAdminUsers();
 
 
     })
