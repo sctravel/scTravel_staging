@@ -497,6 +497,26 @@ app.post('/services/admin/editPermissions', isLoggedIn, function(req,res){
 
 });
 
+
+app.get('/queryUsers', isLoggedIn, function (req, res) {
+    //console.dir(req.user);
+    res.render('query_users.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
+});
+
+/*
+ app.get('/queryUsersParametersByPhone', isLoggedIn, function (req, res) {
+ //console.dir(req.user);
+ res.render('query_users.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
+ });
+
+
+ app.get('/queryUsersParameters', isLoggedIn, function (req, res) {
+ //console.dir(req.user);
+ res.render('query_user_parameters.ejs',{username : req.user.username, randomKey: req.user.randomKey }  );
+ });
+ */
+
+
 app.post('/services/admin/accounts/new',isLoggedIn, function(req,res) {
     var newAccountInfo = req.body.newAccountInfo;
 
