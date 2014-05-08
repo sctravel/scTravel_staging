@@ -94,12 +94,16 @@
                      var status;
                      if(preorder[0].order_status == 'booked'){ status = "否";}
 
-                     $('#orders').append("<form name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\"> <div id=\"body\" style=\"clear: left\"> " +
-                          " <dt>订单号：</dt> <dd><input size=30 name=orderId readonly value=" + preorder[0].order_id + " /> </dd>" +
-                          " <dt>标题：</dt> <dd><input size=30 name=subject readonly value=\"成都旅游网\" /> </dd> " +
-                          " <dt>付款金额：</dt> <dd><input maxLength=10 size=30 name=total_fee readonly value=" + preorder[0].total_order_amount + " /> </dd> " +
-                          " <dt>备注：</dt> <dd><textarea name=alibody  readonly value=\"欢迎使用成都旅游网\" ></textarea><br /> </dd> " +
-                          " <dt></dt> <dd><span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></dd></dl></div></form> ");
+                     $('#orders').append( "<form  class=\"well form-inline\" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
+
+                          " <div class=\"row-fluid\" id=\"body\" style=\"clear: left\"> " +
+
+                          " <div class=\"span4 \"><bold>订单号：&nbsp&nbsp </bold> <input class=\" input-large\" type=\"text\" size=30 name=orderId readonly value=" + preorder[0].order_id + " /></div> " +
+                          " <div class=\"span4 \"><bold>标题：&nbsp&nbsp</bold> <input class=\"input-large\"  type=\"text\" size=30 name=subject readonly value=\"成都旅游网\" /> </div> " +
+                          " <div class=\"span4 \"><bold>付款金额：&nbsp&nbsp</bold> <input class=\"input-large\"   type=\"text\" maxLength=10 size=30 name=total_fee readonly value=" + preorder[0].total_order_amount + " /> </div>  " +
+                          " <div class=\"row-fluid\" id=\"body\" style=\"clear: left\"> " +
+                          " <div class=\"span4\"><bold>备&nbsp&nbsp&nbsp注：&nbsp&nbsp&nbsp</bold> <input class=\"input-large\" readonly type=\"text\" name=alibody  value=\"欢迎使用成都旅游网\" ></input></div></div>" +
+                          "  <span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></div></form> ");
 
 
                      $('#orders').append("<div class=\"row-fluid\" ><div class=\"span4\"><bold>确认码：&nbsp&nbsp</bold><input class=\"input-large\" type=\"text\" readonly value=" + con_num + "></input></div><div class=\"span4\"><bold>已付款：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" + status + "></input></div></div>");

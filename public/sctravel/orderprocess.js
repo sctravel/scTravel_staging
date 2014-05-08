@@ -85,20 +85,27 @@ $(function(){
              orders = data;
         });
 
-    jQuery(document).ready(function(){
-        jQuery("#list2").jqGrid({ url:'/orders',
-            datatype: "json",
-            colNames:['出发地','景点','票种','日期','时间','人数','价格','总价'],
-            colModel:[  {name:'start',index:'start',align:'right'},
-                        {name:'end',index:'end', align:"right"},
-                         {name:'type', index:'type', align:"right" },
-                        {name:'date',index:'date', align:"right"},
-                        {name:'time',index:'time', align:"right"},
-                        {name:'amount',index:'amount', align:"right"},
-                        {price:'price',index:'price', align:"right"},
-                        {name:'subtotal',index:'subtotal', align:"right"}
 
-            ]
-        });
+  //  jQuery("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
+});
+jQuery(document).ready(function(){
+    jQuery("#list2").jqGrid({ url:'/orders',
+        datatype: "json",
+        colNames:['出发地','景点','票种','日期','时间','人数','价格','总价'],
+        colModel:[  {name:'start',index:'start',align:'center'},
+            {name:'end',index:'end', align:"center"},
+            {name:'type', index:'type', align:"center" },
+            {name:'date',index:'date', align:"center"},
+            {name:'time',index:'time', align:"center"},
+            {name:'amount',index:'amount', align:"center"},
+            {price:'price',index:'price', align:"center"},
+            {name:'subtotal',index:'subtotal', align:"center"}
+
+        ],
+         height: 'auto',
+        // width: '800px',
+
+         autowidth: true,
+         caption:"选购订单"
     });
-})
+});
