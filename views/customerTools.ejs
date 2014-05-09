@@ -9,7 +9,12 @@
 
 <%include layout/navibar.ejs%>
 
+<div style="float:right;">
+    <font size="3"><a href="/">回到主页</a></font>
+</div>
+
 <div class="container">
+
     <div id = "orderSearch" class="container">
 
         <div class="row-fluid order" >
@@ -71,6 +76,7 @@
     var displayOrder = function(data){
         searchResults=data;
         console.dir(searchResults);
+        jQuery("#orderSearchResult").GridUnload();
         jQuery("#orderSearchResult").jqGrid({
             data: searchResults,
             datatype: "local",

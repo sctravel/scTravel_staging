@@ -89,12 +89,7 @@
     $('#adminAccountOperationSelect').change(function(){
         loadAdminUsers();
         var selectedOption = $( this ).val();
-        /*if(selectedOption == -1) {
-            $('#queryAdminAccountInfo').hide();
-            $('#addNewAdminAccount').hide();
-            $('#updateAdminPassword').hide();
-            $('#deleteAdminAccount').hide();
-        } else*/
+
         if(selectedOption == 0 ) { //query account
             $('#queryAdminAccountInfo').show();
             $('#addNewAdminAccount').hide();
