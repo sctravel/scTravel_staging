@@ -2,7 +2,7 @@
 <html lang="cn">
 
 <%include layout/bootstrap.ejs%>
-
+<%include layout/jqGridInclude.ejs%>
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
 <% include layout/navibar.ejs%>
@@ -123,7 +123,7 @@
 
 
         $(".managerPermission").click( function(){
-            $('#content').load("toolPermissionManagement");
+            $('#content').load("toolPermission");
         });
 
         $(".managerUser").click( function(){

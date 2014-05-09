@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="cn">
-<head>
-    <%include layout/bootstrap.ejs%>
-    <%include layout/jqGridInclude.ejs%>
-</head>
-
-<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
-
-<%include layout/navibar.ejs%>
-
-
+<%include layout/jqGridInclude.ejs%>
 <div class="container" >
-    <!-- Menu -->
+    <!-- Menu
     <h1> 用户权限管理界面 </h1>
     <div class = "row">
         <div style="float:right;">
             <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
-            <font size="2">你的随机数是，<b><%= randomKey %></b></font>
             <button id="logout">注销登陆</button>
         </div>
-    </div>
+    </div>-->
     <div >
         <!-- Menu -->
             <div id = "selectUser">
@@ -211,12 +199,6 @@
 
 
     })
-
-
-
-
-
-
 
 
 </script>
