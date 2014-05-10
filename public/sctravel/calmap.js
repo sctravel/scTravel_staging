@@ -198,8 +198,7 @@ function init(lineNum){
 
             for (var i =0; i < schedule.length;i ++) {
 
-                if( schedule[i].schedule_date == null || (schedule[i].schedule_date == $(date_id).val())){
-
+                if( schedule[i].schedule_date == null || (schedule[i].schedule_date == $(date_id).val())){					
                     var option = "<option value = "  +  schedule[i].schedule_id + ">" +  schedule[i].departure_time  + "</option>"
 
                     $(option).appendTo($(time_id));
@@ -214,6 +213,12 @@ function init(lineNum){
         curr_lineNum = id.substring(id.indexOf("_")+1);
 
         var num = $(this).val();
+		if (num >= 10)
+		{
+			$(this).val(1);
+			alert ("请打电话订购10张或更多的票.");			
+			return; 
+		}
 
         price_id = "#price_" + curr_lineNum;
         var price = $(price_id).val();
@@ -236,7 +241,6 @@ function init(lineNum){
 }
 
 $("#buyButton").click(function() {
-
     var start = $('.start option:selected');
     var end  = $('.end option:selected');
     var type = $('.type option:selected');
@@ -251,19 +255,19 @@ $("#buyButton").click(function() {
 
     var orders_picked = [];
     for(var i = 0; i < start.length;i ++){
+		if (subtotal[i].value == 0 || time[i].value == 0) return;		
         var order = { "cell" : [start[i].text, end[i].text, type[i].text, date[i].value, time[i].text, amount[i].value, price[i].value, subtotal[i].value ]};
         orders_picked.push(order);
-
     }
-
-     var order_total = {"cell": [' ',' ',' ',' ',' ',' ','合计',total.val()]};
+    
+	var order_total = {"cell": [' ',' ',' ',' ',' ',' ','合计',total.val()]};
     orders_picked.push(order_total);
-     orderlist= {"rows" : orders_picked};
+    orderlist= {"rows" : orders_picked};
     orderlist.offers = picked_offers;
     orderlist.routes = picked_routes;
     orderlist.schedules = picked_schedules;
 
-       orderlist.total_amount=total.val();
+     orderlist.total_amount=total.val();
     //var total = { "total" : total[0].value}
     //orders.push(total);
 
@@ -277,6 +281,11 @@ $("#buyButton").click(function() {
  });
  
  $("#addButton").click(function(){
+	 if (lineNum > 4)
+	 {
+	    alert ("网购只允许一次订购五种或以下的票");
+		return;
+	 }
      lineNum ++;
 
      var start_id =   'start_' + lineNum ;
