@@ -24,7 +24,6 @@ var adminUtil = require('./node_modules/adminLogin');
 var accountManager = require('./node_modules/adminUserManagement');
 var permissionManager = require('./node_modules/adminToolPermission');
 
-
 var app = express();
 
 
@@ -378,7 +377,7 @@ passport.use('local', new LocalStrategy(
         adminUtil.manualLogin(username,password, function(error,results){
             console.dir(results);
             if(error) {
-                return done(null, false, { message: 'Internal error.' });
+                return done(null, false, { message: '内部错误.' });
             }
             if(results.isAuthenticated == true ) {
                 console.dir(results);
@@ -399,7 +398,7 @@ passport.deserializeUser(function (user, done) {//删除user对象
 });
 
 app.get('/adminLogin', function (req, res) {
-    res.render('adminLogin.ejs');
+    res.render('adminLogin.ejs',{error: req.flash('error'), success: req.flash('success'), message:req.flash('message') });
 });
 
 app.get('/admin', isLoggedIn, function (req, res) {
@@ -469,6 +468,7 @@ app.get('/logout', isLoggedIn, function (req, res) {
     adminUtil.logoutAdminLoginHistory(req.user.username,req.user.randomKey, function(err, results){
         console.info("");//write logout history success
     })
+    req.flash('success','登出成功!');
     req.logout();
     res.redirect("/adminLogin");
 });
