@@ -269,7 +269,7 @@ $("#buyButton").click(function() {
 
      $.post('/orders', {"orderlist" : orderlist},  function(data){
 
-        window.location.href="/sctravel/orderReview.html";
+        window.location.href="/orderReview";
      });
 
 

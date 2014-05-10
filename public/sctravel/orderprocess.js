@@ -16,7 +16,7 @@ $("#preorder").click(function() {
                             console.dir(data);
                             if(data.isSuccess==true){
                                 //req.session.results = data;
-                                window.location.href="/sctravel/finalOrder.html";
+                                window.location.href="/finalOrder";
                              }
                             });
                      }
