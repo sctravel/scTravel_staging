@@ -1,13 +1,49 @@
+function isblank(s) {
+	for (var i = 0; i < s.length; i++) {
+		var c = s.charAt(i);
+		if ((c != ' ') && (c != '\n') && (c != '\t')) return false;
+	}
+	return true;
+}
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+} 
+
+function validatePhone(s) { 
+    if (s.length < 6) return false;
+	for (var i = 0; i < s.length; i++) {
+		var c = s.charAt(i);
+		if ((c >= '9') ||  (c <= '0')) return false;
+	}
+	return true;
+}
+
 $("#preorder").click(function() {
                      
-                     if(orders !==null) {
+                     if(orders !==null) {                     
                      
-                     
-                     var userInfo= {};
-                     
+                     var userInfo= {};                     
                      userInfo.customerName = $('#name').val();
                      userInfo.email = $('#email').val();
                      userInfo.mobilePhone = $('#phone').val();
+					 if(isblank(userInfo.customerName))
+					 {
+					    alert ("请输入您的姓名");
+						return;
+					 }
+					 if(!validateEmail(userInfo.email))
+					 {
+					    alert ("请输入您的电子邮件信箱");
+						return;
+					 }
+					 if(!validatePhone(userInfo.mobilePhone))
+					 {
+					    alert ("请输入您的手机号码");
+						return;
+					 }
+					 
                      //userInfo.order_total_amount = orders.total_amount;
                      orders.userInfo = userInfo;
                      console.log("userName-"+userInfo.customerName+"; email-"+userInfo.email);
@@ -16,7 +52,7 @@ $("#preorder").click(function() {
                             console.dir(data);
                             if(data.isSuccess==true){
                                 //req.session.results = data;
-                                window.location.href="/sctravel/finalOrder.html";
+                                window.location.href="/finalOrder";
                              }
                             });
                      }

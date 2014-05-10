@@ -7,15 +7,12 @@
 
 <% include layout/navibar.ejs%>
 
-
 <div class="container" >
     <!-- Menu -->
     <div class = "row">
 
         <div style="float:right;">
             <font size="2">你好，<b><%= username %></b>! 欢迎登陆!</font>
-            <font size="2">你的随机数是，<b><%= randomKey %></b></font>
-
             <button id="logout">注销登陆</button>
 
         </div>
@@ -31,7 +28,7 @@
                             <a href="#">景点管理</a>
                             <ul>
                                 <li><a id="query_spots" class="tag">查找景点</a></li>
-                                <li><a id="change_spots"  class="tag">修改景点</a></li>
+                                <li><a id="change_spots" class="tag">修改景点</a></li>
                                 <li><a id="add_spots" class="tag">增加景点</a></li>
                                 <li><a id="delete_spots" class="tag">删除景点</a></li>
                             </ul>
@@ -88,8 +85,19 @@
     </div>
 
     <script>
+
+        var toolIds=[];
+
         $(function(){
             $("#menu").menu();
+            username = "<%= username %>";
+            randomKey = "<%= randomKey %>";
+
+            $.get("/services/admin/toolIdsByAdminUser/"+username,function(results){
+                console.log(results);
+            });
+            console.log(username);
+
 
         })
 

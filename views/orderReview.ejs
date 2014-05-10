@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <% include layout/bootstrap.ejs%>
+    <% include layout/jqGridInclude.ejs%>
+    <% include layout/navibar.ejs%>
+</head>
+
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+≈
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery-ui-custom.min.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery.layout.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/i18n/grid.locale-en.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/ui.multiselect.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery.jqGrid.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery.tablednd.js"></script>
+        <script type="text/javascript" src="http://trirand.com/blog/jqgrid/js/jquery.contextmenu.js"></script>
+        <div class="container">
+
+            <section id="block-accordion">
+                <div class="page-header">
+                    <h1>订单审核</h1>
+                </div>
+                <div  id = "orderShow" class="row-fluid order">
+                    <table id="list2" ></table>
+                </div>
+                <br />
+            </section>
+            
+        </div>
+        
+        <div id = "unserInfo" class="container">
+            <section id="block-accordion-userInfo">
+                <div class="page-header">
+                    <h1>请填写您的信息</h1>
+                </div>
+                <form  class="well form-inline">
+                    <div class="row-fluid userInfo" >
+                        <div  class="span2"><bold>姓名：</bold><input id="name"  type="text" class="amount input-small" /></div>
+                        <div  class="span2"><bold>联系电话：</bold><input id="phone"  type="text" class="amount input-small" /></div>
+                        <div  class="span2"><bold>Email：</bold><input  id="email" type="text" class="input-large" /></div>
+                    </div>
+                </form>
+                <div class="row-fluid" >
+                    
+                    <div ><button id="preorder">预定</button><button id="cancel">取消</button></div>
+                </div>
+                
+            </section>
+        </div>
+        
+        
+        
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/assets/js/jquery-1.9.1.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/holder.js"></script>
+    <script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/assets/js/docs.js"></script>
+        <script src="/sctravel/grid.locale-en.js" type="text/javascript"></script>
+        <script src="/sctravel/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script src="/sctravel/orderprocess.js" type="text/javascript"></script>
+    </body>
+</html>

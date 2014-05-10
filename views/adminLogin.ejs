@@ -8,6 +8,16 @@
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
 <%include layout/navibar.ejs%>
+
+<div align="center" color="red">
+    <% if (error) { %>
+    <div><%= error %> </div>
+    <% } %>
+    <% if(success) {%>
+    <div><%= success %> </div>
+    <% } %>
+</div>
+
 <center>
     <h1>管理员账户登陆:</h1>
     <form action="/adminLogin" method="post">

@@ -354,8 +354,16 @@ app.get('/customerTools',function(req,res){
 app.post('/orders', function (req,res){
 
     var a = req.body.orderlist;
-    req.session.orderlist=a;
-    res.redirect('/sctravel/orderReview.html');
+    req.session.orderlist=a;	
+    res.redirect('/orderReview');
+});
+
+app.get('/orderReview', function (req,res){
+    res.render('orderReview.ejs');
+});
+
+app.get('/finalOrder', function (req,res){
+    res.render('finalOrder.ejs');
 });
 
 app.get('/orders', orders.orders);
