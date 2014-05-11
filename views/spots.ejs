@@ -1,19 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="cn">
-<%include layout/bootstrap.ejs%>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=weather" type="text/javascript"></script>
-<link href="http://www.eyecon.ro/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+<head>
+    <%include layout/bootstrap.ejs%>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=weather" type="text/javascript"></script>
+</head>
+
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 <% include layout/navibar.ejs%>
 
-
-        <script language="javascript" type="text/javascript">
-            $(function(){
-                $('#datepicker').datepicker({
-                    inline: true
-                });
-            });
-        </script>
 
         <div class="container" id="buyTicketContainer">
             <div class="page-header">
@@ -82,8 +76,8 @@
 					 <div id="gmap3"></div>
                   </div>
             </section>
-        </div>     
-        
+        </div>
+
         </div>
         </div>
     <!-- Placed at the end of the document so the pages load faster -->
