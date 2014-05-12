@@ -372,7 +372,7 @@ app.get('/orders', orders.orders);
 app.post('/preorder', orders.placeOrder);
 app.get('/orderConfir',orderConfir.orderConfir);
 
-app.post('/sctravel/alipayto',alipay.alipayto);
+app.post('/alipayto',alipay.alipayto);
 app.post('/paynotify',alipay.paynotify);
 app.get('/payreturn',alipay.payreturn);
 
