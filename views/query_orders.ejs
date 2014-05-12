@@ -3,16 +3,10 @@
     <%include layout/bootstrap.ejs%>
     <%include layout/jqGridInclude.ejs%>
 </head>
-<table id="list2"></table>
-<div id="pager2"></div>
 
-<script src="/assets/js/jquery-1.9.1.min.js"></script>
-<script src="/assets/js/bootstrap.min.js"></script>
-<script src="/assets/js/holder.js"></script>
-<script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-<script src="/assets/js/docs.js"></script>
-<script src="/sctravel/grid.locale-en.js" type="text/javascript"></script>
-<script src="/sctravel/jquery.jqGrid.min.js" type="text/javascript"></script>
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+<%include layout/navibar.ejs%>
 
 
 <div id = "orderSearch" class="container">
@@ -21,26 +15,40 @@
         <div  class="span2"><bold>请选择操作：</bold>
             <select id="customerToolOrderSearchSelect" class="start" style="width:140px;">
                 <option value = 0>根据确认码查询</option>
-                <option value = 1>根据用户信息查询</option>
+                <option value = 1>根据用户姓名信息</option>
+                <option value = 2>根据用户手机信息</option>
             </select>
         </div>
     </div>
 
-    <section id="orderSearchByCustomerInfo">
+    <section id="orderSearchByCustomerName">
         <div class="page-header">
-            <b>请输入您的姓名和手机号码: </b>
+            <b>请输入您的姓名: </b>
         </div>
         <form  class="well form-inline">
             <div class="row-fluid userInfo" >
                 <div  class="span2"><bold>姓名：</bold><input id="name"  type="text" class="amount input-small" /></div>
+            </div>
+        </form>
+        <div class="row-fluid" >
+            <div ><button id="searchOrderByCustomerName">查询</button></div>
+        </div>
+    </section>
+
+    <section id="orderSearchByCustomerPhone">
+        <div class="page-header">
+            <b>请输入您的手机号码: </b>
+        </div>
+        <form  class="well form-inline">
+            <div class="row-fluid userInfo" >
                 <div  class="span2"><bold>联系电话：</bold><input id="phone"  type="text" class="amount input-small" /></div>
             </div>
         </form>
         <div class="row-fluid" >
-            <div ><button id="searchOrderByCustomerInfo">查询</button></div>
+            <div ><button id="searchOrderByCustomerPhone">查询</button></div>
         </div>
-
     </section>
+
     <section id="orderSearchByConfirmCode">
         <div class="page-header">
             <b>请输入您的确认码: </b>
@@ -74,7 +82,7 @@
     var displayOrder = function(data){
         searchResults=data;
         console.dir(searchResults);
-        //jQuery("#orderSearchResult").GridUnload();
+        jQuery("#orderSearchResult").GridUnload();
         jQuery("#orderSearchResult").jqGrid({
             data: searchResults,
             datatype: "local",
@@ -103,28 +111,38 @@
         var selectedOption = $( this ).val();
         $('#searchResultsPage').hide();
 
-        if(selectedOption == 0 ) { //query account
+        if(selectedOption == 0 ) { //based on ConfirmCode
             $('#orderSearchByConfirmCode').show();
-            $('#orderSearchByCustomerInfo').hide();
+            $('#orderSearchByCustomerPhone').hide();
+            $('#orderSearchByCustomerName').hide();
 
-        } else if(selectedOption == 1 ) { //adding new account
+        } else if(selectedOption == 1 ) { //based on Customer Name
+            $('#orderSearchByCustomerName').show();
+            $('#orderSearchByCustomerPhone').hide();
             $('#orderSearchByConfirmCode').hide();
-            $('#orderSearchByCustomerInfo').show();
-
+        } else if (selectedOption == 2){ //based on Customer Phone
+            $('#orderSearchByCustomerPhone').show();
+            $('#orderSearchByCustomerName').hide();
+            $('#orderSearchByConfirmCode').hide();
         }
     });
 
-    $('#searchOrderByCustomerInfo').click(function(){
+    $('#searchOrderByCustomerName').click(function(){
 
-
-        console.log("Search orders by customer name and mobile phone");
-        var customerInfo={};
-        customerInfo.customerName = $('#name').val();
-        customerInfo.mobilePhone = $('#phone').val();
+        console.log("Search orders by customer name");
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
-        $.get('/services/search/orders', {"customerInfo" : customerInfo},  displayOrder);
+        $.get('/services/admin/GetOrdersBasedOnName/'+$('#name').val(),  displayOrder);
 
+    });
+
+
+    $('#searchOrderByCustomerPhone').click(function(){
+
+        console.log("Search orders by customer mobile phone");
+        jQuery("#orderSearchResult").empty();
+        $('#searchResultsPage').show();
+        $.get('/services/admin/GetOrderBasedOnPhoneNumber/'+$('#phone').val(),  displayOrder);
 
     });
 
@@ -134,14 +152,16 @@
         var confirmCode = $('#confirmCode').val();
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
-        $.get('/services/search/orders', {"confirmCode" : confirmCode}, displayOrder);
+        $.get('/services/admin/GetCustomersBasedOnConfirmation/'+confirmCode, displayOrder);
 
 
     });
 
     $(function(){
         $('#orderSearchByConfirmCode').show();
-        $('#orderSearchByCustomerInfo').hide();
+        $('#orderSearchByCustomerPhone').hide();
+        $('#orderSearchByCustomerName').hide();
+
         $('#searchResultsPage').hide();
 
 
