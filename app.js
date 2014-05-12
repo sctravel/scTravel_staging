@@ -119,10 +119,10 @@ app.get('/services/admin/GetCustomersBasedOnConfirmation/:confirmNum', function(
 
 
 //Order: look up by order number
-app.get('/services/admin/GetCustomersBasedOnOrder/:orderNum', function(req,res) {
+app.get('/services/admin/GetOrderBasedOnOrderId/:orderNum', function(req,res) {
     var orderNum = req.params.orderNum;
     console.log("Parameter: " + orderNum);
-    queryDB.getCustomersFromOrderNumber(orderNum,function(results){
+    queryDB.getOrderFromOrderNumber(orderNum,function(results){
         res.send(results);
     })
 });

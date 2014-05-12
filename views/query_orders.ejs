@@ -17,6 +17,7 @@
                 <option value = 0>根据确认码查询</option>
                 <option value = 1>根据用户姓名信息</option>
                 <option value = 2>根据用户手机信息</option>
+                <option value = 3>根据订单号信息</option>
             </select>
         </div>
     </div>
@@ -60,6 +61,23 @@
         </form>
         <div class="row-fluid" >
             <div ><button id="searchOrderByConfirmCode">查询</button></div>
+        </div>
+
+    </section>
+
+
+
+    <section id="orderSearchByOrderId">
+        <div class="page-header">
+            <b>请输入订单号: </b>
+        </div>
+        <form  class="well form-inline">
+            <div class="row-fluid userInfo" >
+                <div  class="span2"><bold>订单号：</bold><input id="OrderId"  type="text" class="amount input-small" /></div>
+            </div>
+        </form>
+        <div class="row-fluid" >
+            <div ><button id="searchOrderByOrderId">查询</button></div>
         </div>
 
     </section>
@@ -115,15 +133,29 @@
             $('#orderSearchByConfirmCode').show();
             $('#orderSearchByCustomerPhone').hide();
             $('#orderSearchByCustomerName').hide();
+            $('#orderSearchByOrderId').hide();
+
+
 
         } else if(selectedOption == 1 ) { //based on Customer Name
             $('#orderSearchByCustomerName').show();
             $('#orderSearchByCustomerPhone').hide();
             $('#orderSearchByConfirmCode').hide();
+            $('#orderSearchByOrderId').hide();
+
         } else if (selectedOption == 2){ //based on Customer Phone
             $('#orderSearchByCustomerPhone').show();
             $('#orderSearchByCustomerName').hide();
             $('#orderSearchByConfirmCode').hide();
+            $('#orderSearchByOrderId').hide();
+        }
+
+        else if (selectedOption == 3){ //based on Customer Phone
+            $('#orderSearchByOrderId').show();
+        $('#orderSearchByCustomerPhone').hide();
+            $('#orderSearchByCustomerName').hide();
+            $('#orderSearchByConfirmCode').hide();
+
         }
     });
 
@@ -153,15 +185,23 @@
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
         $.get('/services/admin/GetCustomersBasedOnConfirmation/'+confirmCode, displayOrder);
+    });
 
 
+    $('#searchOrderByOrderId').click(function(){
+
+        console.log("Search orders by OrderId");
+        var OrderId = $('#OrderId').val();
+        jQuery("#orderSearchResult").empty();
+        $('#searchResultsPage').show();
+        $.get('/services/admin/GetOrderBasedOnOrderId/'+OrderId, displayOrder);
     });
 
     $(function(){
         $('#orderSearchByConfirmCode').show();
         $('#orderSearchByCustomerPhone').hide();
         $('#orderSearchByCustomerName').hide();
-
+        $('#orderSearchByOrderId').hide();
         $('#searchResultsPage').hide();
 
 
