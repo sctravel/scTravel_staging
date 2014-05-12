@@ -1,6 +1,6 @@
 function compute_total(){
    
-    subs = $('.subtotal');
+   var subs = $('.subtotal');
     var total = 0;
     for(var i = 0; i <subs.length; i ++ ) {
 
@@ -33,11 +33,11 @@ function init(lineNum){
         regional: 'zh-CN'
     });
 
-    date = new Date();
+   var  date = new Date();
     var n = date.getDay();
-    endDate = new Date();
-    endDate.setDate(endDate.getDate() + 14);
-    startDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+  var   endDate = new Date();
+   endDate.setDate(endDate.getDate() + 14);
+   var  startDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
 
     $('#date_' + line_Num).datepicker( "option", "minDate",startDate);
@@ -61,13 +61,11 @@ function init(lineNum){
 
     }});
 
-    start_id = '#start_' + line_Num;
+   var  start_id = '#start_' + line_Num;
     $(start_id).change(function() {
 
-        var id = this.id;
+         id = this.id;
         var curr_lineNum= id.substring(id.indexOf('_') + 1);
-        delete picked_offers[curr_lineNum] ;
-        delete picked_routes[curr_lineNum] ;
         var end_id = '#end_'+ curr_lineNum;
         $(end_id).empty();
         var type_id = '#type_'+ curr_lineNum;
@@ -83,10 +81,10 @@ function init(lineNum){
 
         $.ajax({url:"/services/getAll/routesByStartSpot", success:function(results) {
 
-            routes = results;
-            startSpot_id = $('#start_' + curr_lineNum).val();
+           var  routes = results;
+             startSpot_id = $('#start_' + curr_lineNum).val();
 
-            route = routes[startSpot_id];
+             var route = routes[startSpot_id];
             for( var i=0; i < route.length; i++) {
 
 
@@ -102,12 +100,12 @@ function init(lineNum){
 
 
     });
-    end_id = '#end_' + line_Num;
+    var end_id = '#end_' + line_Num;
     $(end_id).change(function(){
         var id = this.id;
+
         var curr_lineNum= id.substring(id.indexOf('_') + 1);
-        delete picked_offers[curr_lineNum] ;
-        delete picked_routes[curr_lineNum] ;
+
         var type_id = '#type_'+ curr_lineNum;
         $(type_id).empty();
 		var date_id = "#date_" + curr_lineNum;
@@ -119,14 +117,14 @@ function init(lineNum){
 
         $(option).appendTo($(type_id));
         $.ajax({url:"/services/getAll/offersByRoute", success:function(results) {
-            route_id =  $('#end_' + curr_lineNum).val();
-            offers = results;
+            var route_id =  $('#end_' + curr_lineNum).val();
+             offers = results;
             offer = offers[route_id];
             for (var i =0; i < offer.length;i ++) {
 
 
                 var s= offer[i].offer_name.indexOf("(");
-                type='只含车票';
+                var type='只含车票';
                 if(s>=0){
 
                     var e = offer[i].offer_name.indexOf(")");
@@ -146,42 +144,33 @@ function init(lineNum){
     });
 
     $('.type').change(function(){
-
-        id = this.id;
-        curr_lineNum = id.substring(id.indexOf("_")+1);
+        var id = this.id;
+        var curr_lineNum = id.substring(id.indexOf("_")+1);
 		var date_id = "#date_" + curr_lineNum;
 		$(date_id).datepicker( "setDate", "" ); 
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
-		
-        route_id = $('#end_' +curr_lineNum).val();
-        offer = offers[route_id];
-        type_id = "#" + id;
+        var type_id = "#" + id;
         var price = offer[$(type_id).val()].offer_price;
-        var price_id = "#price_" + curr_lineNum
+        var price_id = "#price_" + curr_lineNum;
         $(price_id).attr("value",price );
 
-		var amount_id = "#amount_" + curr_lineNum
-        num = $(amount_id).val();
+		var amount_id = "#amount_" + curr_lineNum;
+        var num = $(amount_id).val();
         
 		var subtotal = price * num;
-        subtotal_id = "#subtotal_" + curr_lineNum;
+        var subtotal_id = "#subtotal_" + curr_lineNum;
         $(subtotal_id).attr("value", subtotal);
 
-
-        picked_offers.push(offer[$(type_id).val()].offer_id);
-
-        picked_routes.push(offer[$(type_id).val()].route_id);
-      //  picked_offers.push(offer[$(type_id).val()]);
         compute_total();
 
     });
 
 
-  date_id = "#date_" +line_Num;
+ var  date_id = "#date_" +line_Num;
     $(date_id).change(function(){
-        id = this.id;
-        curr_lineNum = id.substring(id.indexOf('_') + 1);
+        var id = this.id;
+        var curr_lineNum = id.substring(id.indexOf('_') + 1);
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
         var option = "<option value =  0>" +  "请选择" + "</option>";
@@ -191,8 +180,8 @@ function init(lineNum){
         $.ajax({url:"/services/getAll/validSchedules", success:function(results) {
             var end_id = "#end_" + curr_lineNum;
             var route_id = $(end_id).val();
-            schedules = results;
-            schedule = schedules[route_id];
+            var schedules = results;
+            var schedule = schedules[route_id];
             var date_id = "#date_" + curr_lineNum;
 
 
@@ -209,8 +198,8 @@ function init(lineNum){
     });
 
     $( ".amount" ).change(function() {
-        id = this.id;
-        curr_lineNum = id.substring(id.indexOf("_")+1);
+        var id = this.id;
+        var curr_lineNum = id.substring(id.indexOf("_")+1);
 
         var num = $(this).val();
 		if (num >= 10)
@@ -220,27 +209,24 @@ function init(lineNum){
 			return; 
 		}
 
-        price_id = "#price_" + curr_lineNum;
+        var price_id = "#price_" + curr_lineNum;
         var price = $(price_id).val();
         var subtotal = price * num;
-        subtotal_id = "#subtotal_" + curr_lineNum;
+        var subtotal_id = "#subtotal_" + curr_lineNum;
         $(subtotal_id).attr("value", subtotal);
 
         compute_total();
 
     });
 
-    $( ".time" ).change(function() {
 
-        var scheduleId  =  $(this).val();
-
-        picked_schedules.push(scheduleId);
-
-    });
 
 }
 
 $("#buyButton").click(function() {
+    var picked_offers = [];
+    var picked_routes=[];
+    var picked_schedules = [];
     var start = $('.start option:selected');
     var end  = $('.end option:selected');
     var type = $('.type option:selected');
@@ -261,8 +247,28 @@ $("#buyButton").click(function() {
     }
     
 	var order_total = {"cell": [' ',' ',' ',' ',' ',' ','合计',total.val()]};
+
+
     orders_picked.push(order_total);
-    orderlist= {"rows" : orders_picked};
+
+
+
+   var orderlist= {"rows" : orders_picked};
+
+    for(var i =0; i < end.length; i ++ ) {
+
+        var route = end[i].value;
+        var offer = offers[route];
+        var schedule_id = time[i].value;
+        var type_val = type[i].value;
+        var offer_id = offer[type_val].offer_id;
+        var route_id = offer[type_val].route_id;
+        picked_offers.push(offer_id);
+        picked_routes.push(route_id);
+        picked_schedules.push(schedule_id);
+
+    }
+
     orderlist.offers = picked_offers;
     orderlist.routes = picked_routes;
     orderlist.schedules = picked_schedules;
@@ -480,16 +486,16 @@ jQuery(function($){
 
 $(function(){
     //##### Accordion with gmap3 http://127.0.0.1:3000/test
+    $('#datepicker').datepicker({
+        inline: true
+    });
 
-    picked_offers = [];
-    picked_routes=[];
-    picked_schedules = [];
 
     lineNum = 1;
     $.ajax({url:"/services/getAll/sceneryspots", success:function(results){
 
-        spots = results;
-        cordinators = [];
+        var spots = results;
+        var cordinators = [];
         for(var spotIndex in spots) {
 
             spot = spots[spotIndex];
