@@ -15,9 +15,9 @@ function MessageReporter(divId) {
 MessageReporter.prototype = {
     render: function() {
         if(this.error) {
-            $('#'+this.divId).html(this.error).css({"text-align":"center","color":"red","font-size":"large"});
+            $('#'+this.divId).html(this.error).css({"text-align":"center","color":"red","font-family":"arial","font-size":"small","font-style":"italic"});
         } else if(this.success){
-            $('#'+this.divId).html(this.success).css({"text-align":"center","color":"green","font-size":"large"});
+            $('#'+this.divId).html(this.success).css({"text-align":"center","color":"green","font-family":"arial","font-size":"small","font-style":"italic"});
         }
         $('#'+this.divId).show();
     },

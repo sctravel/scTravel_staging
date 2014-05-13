@@ -6,8 +6,7 @@
     <% include layout/navibar.ejs%>
 </head>
 
-<div id="messageReporter">
-</div>
+
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
@@ -30,6 +29,8 @@
                 <div class="page-header">
                     <h1>请填写您的信息</h1>
                 </div>
+                <div id="messageReporter">
+                </div>
                 <form  class="well form-inline">
                     <div class="row-fluid userInfo" >
                         <div  class="span2"><bold>姓名：</bold><input id="name"  type="text" class="amount input-small" /></div>
@@ -37,6 +38,8 @@
                         <div  class="span2"><bold>Email：</bold><input  id="email" type="text" class="input-large" /></div>
                     </div>
                 </form>
+                <div  class="span2"><bold>验证码：</bold> <input id="confCode"  type="text" class="amount input-small" /></div>
+                <img src="/services/getConfirmPic" id="confPic"/><button id="changeConfPic" font-style="italic"><u>看不清，换一张</u></button>
                 <div class="row-fluid" >
                     
                     <div ><button id="preorder">预定</button><button id="cancel">取消</button></div>
@@ -61,6 +64,7 @@
     <script>
         var reporter = new MessageReporter("messageReporter");
 
+
         function isblank(s) {
             for (var i = 0; i < s.length; i++) {
                 var c = s.charAt(i);
@@ -78,10 +82,16 @@
             if (s.length < 6) return false;
             for (var i = 0; i < s.length; i++) {
                 var c = s.charAt(i);
-                if ((c >= '9') ||  (c <= '0')) return false;
+                if ((c > '9') ||  (c <'0')) {
+                    return false;
+                }
             }
             return true;
         }
+
+        $("#changeConfPic").click(function(){
+            $("#confPic").attr("src", "/services/getConfirmPic");
+        })
 
         $("#preorder").click(function() {
 
@@ -115,12 +125,20 @@
 
                 //userInfo.order_total_amount = orders.total_amount;
                 orders.userInfo = userInfo;
-                console.log("userName-"+userInfo.customerName+"; email-"+userInfo.email);
-                $.post('/preorder', {"preorders" : orders},  function(data){
-                    console.log("Preorder finished");
+                orders.confirmText = $("#confCode").val();
+                console.log("userName-"+userInfo.customerName+"; email-"+userInfo.email+"; confirmText-"+orders.confirmText);
+                reporter.clear();
+                $.post('/preorder', {"preorders" : orders },  function(data){
+
                     console.dir(data);
-                    if(data.isSuccess==true){
+
+                    if(data.hasError==true){
+                        reporter.errorStatus(data.errorMessage);
+                        reporter.render();
+                        return;
+                    } else if(data.isSuccess==true){
                         //req.session.results = data;
+                        console.log("Preorder finished");
                         window.location.href="/finalOrder";
                     }
                 });
