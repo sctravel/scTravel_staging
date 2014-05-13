@@ -112,37 +112,37 @@ app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,re
 app.get('/services/admin/GetCustomersBasedOnConfirmation/:confirmNum', function(req,res) {
     var confirmNum = req.params.confirmNum;
     console.log("Parameter: " + confirmNum);
-    queryDB.getCustomersFromConfirmationNumber(confirmNum,function(results){
+    queryDB.getOrderFromCustomersConfirmationNumber(confirmNum,function(results){
         res.send(results);
     })
 });
 
 
 //Order: look up by order number
-app.get('/services/admin/GetCustomersBasedOnOrder/:orderNum', function(req,res) {
+app.get('/services/admin/GetOrderBasedOnOrderId/:orderNum', function(req,res) {
     var orderNum = req.params.orderNum;
     console.log("Parameter: " + orderNum);
-    queryDB.getCustomersFromOrderNumber(orderNum,function(results){
+    queryDB.getOrderFromOrderNumber(orderNum,function(results){
         res.send(results);
     })
 });
 
 
 
-//Customer:  lookup by name
-app.get('/services/admin/GetCustomersBasedOnName/:name', function(req,res) {
+//Order:  lookup order by customer name
+app.get('/services/admin/GetOrdersBasedOnName/:name', function(req,res) {
     var name = req.params.name;
     console.log("Parameter: " + name);
-    queryDB.getCustomersFromName(name,function(results){
+    queryDB.geOrdersFromCustomerName(name,function(results){
         res.send(results);
     })
 });
 
-//Customer: lookup by phone
-app.get('/services/admin/GetCustomersBasedOnPhoneNumber/:phone', function(req,res) {
+//Order: lookup by customer phone
+app.get('/services/admin/GetOrderBasedOnPhoneNumber/:phone', function(req,res) {
     var phone = req.params.phone;
     console.log("Parameter: " + phone);
-    queryDB.getCustomersFromPhoneNumber(phone,function(results){
+    queryDB.getOrderFromCustomersPhoneNumber(phone,function(results){
         res.send(results);
     })
 });
@@ -372,7 +372,7 @@ app.get('/orders', orders.orders);
 app.post('/preorder', orders.placeOrder);
 app.get('/orderConfir',orderConfir.orderConfir);
 
-app.post('/sctravel/alipayto',alipay.alipayto);
+app.post('/alipayto',alipay.alipayto);
 app.post('/paynotify',alipay.paynotify);
 app.get('/payreturn',alipay.payreturn);
 
@@ -459,6 +459,10 @@ app.get('/queryoffers', isLoggedIn, function(req,res){
     res.render('query_offers.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
+app.get('/queryorders', isLoggedIn, function(req,res){
+
+    res.render('query_orders.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+});
 
 app.get('/toolPermission', isLoggedIn, function(req,res){
 
