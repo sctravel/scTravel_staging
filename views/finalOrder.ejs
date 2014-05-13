@@ -12,8 +12,6 @@
             preorder = {};
             t={};
             $(function(){
-              //##### Accordion with gmap3 http://127.0.0.1:3000/test
-              
               $.ajax({url:"/orderConfir", success:function(results){
                      t = results;
                      preorder = results.preorders;
@@ -25,16 +23,11 @@
                      if(preorder[0].order_status == 'booked'){ status = "否";}
 
                      $('#orders').append( "<form  class=\"well form-inline\" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
-
-                          " <div class=\"row-fluid\" id=\"body\" style=\"clear: left\"> " +
-
-                          " <div class=\"span4 \"><bold>订单号：&nbsp&nbsp </bold> <input class=\" input-large\" type=\"text\" size=30 name=orderId readonly value=" + preorder[0].order_id + " /></div> " +
-                          " <div class=\"span4 \"><bold>标题：&nbsp&nbsp</bold> <input class=\"input-large\"  type=\"text\" size=30 name=subject readonly value=\"成都旅游网\" /> </div> " +
-                          " <div class=\"span4 \"><bold>付款金额：&nbsp&nbsp</bold> <input class=\"input-large\"   type=\"text\" maxLength=10 size=30 name=total_fee readonly value=" + preorder[0].total_order_amount + " /> </div>  " +
-                          " <div class=\"row-fluid\" id=\"body\" style=\"clear: left\"> " +
-                          " <div class=\"span4\"><bold>备&nbsp&nbsp&nbsp注：&nbsp&nbsp&nbsp</bold> <input class=\"input-large\" readonly type=\"text\" name=alibody  value=\"欢迎使用成都旅游网\" ></input></div></div>" +
-                          "  <span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></div></form> ");
-
+                          "<input type=\"hidden\" name=orderId value=" + preorder[0].order_id + " />" +
+                          "<input type=\"hidden\" name=subject value=\"成都旅游网\" /> " +
+                          "<input type=\"hidden\" name=total_fee value=" + preorder[0].total_order_amount + " /> " +
+                          "<input type=\"hidden\" name=alibody  value=\"欢迎使用成都旅游网\" ></input>" +
+                          " <span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></form> ");
 
                      $('#orders').append("<div class=\"row-fluid\" ><div class=\"span4\"><bold>确认码：&nbsp&nbsp</bold><input class=\"input-large\" type=\"text\" readonly value=" + con_num + "></input></div><div class=\"span4\"><bold>已付款：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" + status + "></input></div></div>");
                      for(var i = 0 ; i < preorder.length; i ++) {
