@@ -5,7 +5,7 @@
         <% include layout/jqGridInclude.ejs%>
         <% include layout/navibar.ejs%>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/redmond/jquery-ui-custom.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/jqgrid.css" />
 
 
 
@@ -21,23 +21,23 @@
                      t = results;
                      preorder = results.preorders;
 
-                  $('#toSubmit').append( "<form  class=\"well form-inline\" style= \"background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
+                  $('#toSubmit').append( "<form  class=\"well form-inline\" style= \"padding-left: 0;background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
                           "<input type=\"hidden\" name=orderId value=" + preorder[0].order_id + " />" +
                           "<input type=\"hidden\" name=subject value=\"成都旅游网\" /> " +
                           "<input type=\"hidden\" name=total_fee value=" + preorder[0].total_order_amount + " /> " +
                           "<input type=\"hidden\" name=alibody  value=\"欢迎使用成都旅游网\" ></input>" +
                           " <span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></form> ");
 
-                  $('#user').append("<form  class=\"well form-inline\"  style= \"background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \"><div class=\"row-fluid\">"
-                                  + "<div><div class=\"span3\"><bold>姓名：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].customer_name + "></input></div>"
-                                  + "<div class=\"span3\"><bold>Email：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].email + "></input></div>"
-                                  + "<div class=\"span3\"><bold>电话：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].mobile_phone + "></input></div> "
-                                  + "<div class=\"span3\"><bold>确认码：</bold><input class=\"input-small\" type=\"text\" readonly value=" + t.confir + "></input></div> "
+                  $('#user').append("<form  class=\"well form-inline\"  style= \" padding-left:0px; background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \"><div class=\"row-fluid\">"
+                                  + "<div class=\"span6\" style = \"padding-left:0px\" ><bold >姓名：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].customer_name + "></input>"
+                                  + "<bold style = \"padding-left:10px\">Email：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].email + "></input>"
+                                  + "<bold style = \"padding-left:10px\">电话：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].mobile_phone + "></input> "
+                                  + "</div><div class=\"span6\" style = \"align: right\"><div style = \"float:right\"><bold>确认码：</bold><bold style = \"font-size: 20px \">" + t.confir + "</bold></div></div> "
                                   +  "</div></form>" );
 
 
 
-                 var  itemsToshow = [];
+                   itemsToshow = [];
 
                           for(var i =0; i < preorder.length; i ++) {
 
@@ -48,7 +48,7 @@
                               if(preorder[i].order_status=='booked')
                                  { itemToshow.order_status='否';}
 
-                              itemToshow.valid_date=preorder[i].valid_date;
+                              itemToshow.valid_date=preorder[i].valid_date.substring(0,10);
                               itemToshow.departure_time=preorder[i].departure_time;
                               itemToshow.quantity=preorder[i].quantity;
                               itemToshow.offer_subtotal_amount=preorder[i].offer_subtotal_amount;
