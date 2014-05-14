@@ -8,9 +8,23 @@ var queryDB = require('../node_modules/queryDB');
 
 exports.placeOrder = function(req,res) {
 
+        var returnObject={};
+
+
         var preorders = req.body.preorders;
 
         var userInfo = preorders.userInfo;
+
+        var confirmTextInSession = req.session.confirmText;
+        var confirmText = preorders.confirmText;
+        console.log("confirmText-"+confirmText+"; confirmTextInSession-"+confirmTextInSession);
+
+        if(confirmText != confirmTextInSession) {
+            returnObject.hasError = true;
+            returnObject.errorMessage = "验证码不正确,请重新输入！";
+            res.send(returnObject);
+            return;
+        }
 
         var orderInfoArray= {};
 

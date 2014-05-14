@@ -16,7 +16,7 @@ var queryDB = require('./node_modules/queryDB');
 var stringUtils = require('./node_modules/stringUtils');
 var tableNames = require('./node_modules/tableNames');
 var constants = require('./node_modules/constants')
-
+var confirmPicGenerator = require('./node_modules/confirmPicGenerator');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
@@ -473,7 +473,12 @@ app.get('/adminUserManagement', isLoggedIn, function(req,res){
     res.render('adminUserManagement.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
-
+app.get('/services/getConfirmPic',function(req,res){
+    var conf = confirmPicGenerator.generateConfirmPic();
+    req.session.confirmText = conf[0];
+    console.log("text is "+conf[0]);
+    res.end(conf[1]);
+})
 //app.all('/users', isLoggedIn);
 app.get('/logout', isLoggedIn, function (req, res) {
     console.log(req.user.username + " logged out.");
