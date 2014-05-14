@@ -4,30 +4,100 @@
         <% include layout/bootstrap.ejs%>
         <% include layout/jqGridInclude.ejs%>
         <% include layout/navibar.ejs%>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/redmond/jquery-ui-custom.css" />
+
+
+
     </head>
 
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
         <script language="JavaScript">
             preorder = {};
-            t={};
-            $(function(){
-              $.ajax({url:"/orderConfir", success:function(results){
+           t={};
+            $(function() {
+              $.ajax( { url:"/orderConfir", success:function(results) {
                      t = results;
                      preorder = results.preorders;
-                     con_num = results.confir;
-                     
-                     
-                     // if(preroder.satus)
-                     var status;
-                     if(preorder[0].order_status == 'booked'){ status = "否";}
 
-                     $('#orders').append( "<form  class=\"well form-inline\" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
+                  $('#toSubmit').append( "<form  class=\"well form-inline\" style= \"background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \" name=alipayment onSubmit=\"return CheckForm();\" action=alipayto method=post target=\"_blank\">"  +
                           "<input type=\"hidden\" name=orderId value=" + preorder[0].order_id + " />" +
                           "<input type=\"hidden\" name=subject value=\"成都旅游网\" /> " +
                           "<input type=\"hidden\" name=total_fee value=" + preorder[0].total_order_amount + " /> " +
                           "<input type=\"hidden\" name=alibody  value=\"欢迎使用成都旅游网\" ></input>" +
                           " <span class=\"new-btn-login-sp\"> <button class=\"new-btn-login\" type=\"submit\" style=\"text-align: center;\">付款</button></span></form> ");
+
+                  $('#user').append("<form  class=\"well form-inline\"  style= \"background-color:#ffffff; border :0; box-shadow : 0 0 0 rgba(0, 0, 0, 0.05) inset \"><div class=\"row-fluid\">"
+                                  + "<div><div class=\"span3\"><bold>姓名：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].customer_name + "></input></div>"
+                                  + "<div class=\"span3\"><bold>Email：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].email + "></input></div>"
+                                  + "<div class=\"span3\"><bold>电话：</bold><input class=\"input-small\" type=\"text\" readonly value=" + preorder[0].mobile_phone + "></input></div> "
+                                  + "<div class=\"span3\"><bold>确认码：</bold><input class=\"input-small\" type=\"text\" readonly value=" + t.confir + "></input></div> "
+                                  +  "</div></form>" );
+
+
+
+                 var  itemsToshow = [];
+
+                          for(var i =0; i < preorder.length; i ++) {
+
+                              var  itemToshow = {};
+                              itemToshow.depart_spot_name=preorder[i].depart_spot_name;
+                              itemToshow.to_label=preorder[i].to_label;
+
+                              if(preorder[i].order_status=='booked')
+                                 { itemToshow.order_status='否';}
+
+                              itemToshow.valid_date=preorder[i].valid_date;
+                              itemToshow.departure_time=preorder[i].departure_time;
+                              itemToshow.quantity=preorder[i].quantity;
+                              itemToshow.offer_subtotal_amount=preorder[i].offer_subtotal_amount;
+                              itemsToshow.push(itemToshow);
+                          }
+
+                          var  itemToshow = {};
+                          itemToshow.valid_date='';
+                          itemToshow.departure_time='';
+                          itemToshow.quantity='合计';
+                          itemToshow.offer_subtotal_amount=preorder[0].total_order_amount;
+                          itemsToshow.push(itemToshow);
+                          con_num = results.confir;
+                          jQuery("#orders").jqGrid( {
+
+                              datatype: "local",
+                              data: itemsToshow,
+                              colNames:['出发地','景点','日期','时间','人数','总价'],
+                              colModel:[
+
+
+                                  {name:'depart_spot_name',index:'depart_spot_name',align:"center"},
+                                  {name:'to_label',index:'to_label', align:"center"},
+
+                                  {name:'valid_date',index:'valid_date',align:"center"},
+                                  {name:'departure_time',index:'departure_time',align:"center"},
+                                  {name:'quantity',index:'quantity',align:"center"},
+                                  {name:'offer_subtotal_amount',index:'offer_subtotal_amount',align:"center"}
+
+
+                              ],
+                              caption: "行程订单",
+                              autowidth: true,
+                              height: "100%"
+
+                          });
+
+
+                      }
+                     })
+                  });
+
+
+/*
+                     // if(preroder.satus)
+                     var status;
+                     if(preorder[0].order_status == 'booked'){ status = "否";}
+
+
 
                      $('#orders').append("<div class=\"row-fluid\" ><div class=\"span4\"><bold>确认码：&nbsp&nbsp</bold><input class=\"input-large\" type=\"text\" readonly value=" + con_num + "></input></div><div class=\"span4\"><bold>已付款：&nbsp&nbsp</bold><input class=\"input-small\" type=\"text\" readonly value=" + status + "></input></div></div>");
                      for(var i = 0 ; i < preorder.length; i ++) {
@@ -42,10 +112,10 @@
                      $("#order_id").val(t.preorders[0].order_id);
                      $("#total_fee").val(t.preorders[0].total_order_amount);
               // force maps to refresh on show
-              
+
               });
               
-              
+        */
               
               
         </script>
@@ -54,7 +124,10 @@
             <div class="page-header">
                 <h1>成功预定以下行程:</h1>
             </div>
-            <div id="orders"></div>
+            <div id="user"></div>
+
+            <table id="orders"></table>
+            <div id="toSubmit"></div>
 
         </div>
         
@@ -64,9 +137,9 @@
         <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/js/holder.js"></script>
         <script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-        <script src="/assets/js/google-code-prettify/prettify.js"></script>
         <script src="/assets/js/docs.js"></script>
-        <script src="calmap.js"></script>
+        <script src="/sctravel/grid.locale-en.js" type="text/javascript"></script>
+        <script src="/sctravel/jquery.jqGrid.min.js" type="text/javascript"></script>
         <script src="/sctravel/orderprocess.js" type="text/javascript"></script>
     </body>
 </html>
