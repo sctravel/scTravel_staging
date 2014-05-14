@@ -231,8 +231,6 @@ function init(lineNum){
 function validateBuyTicketForm() {
     var reporter = new MessageReporter("validationReporter");
 
-
-
     for(var i=1; i<=lineNum; ++i) {
         $('#start_'+i).css({border:"none"});
         $('#end_'+i).css({border:"none"});
