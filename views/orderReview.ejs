@@ -105,21 +105,18 @@
                 {
                     reporter.errorStatus("请输入您的姓名");
                     reporter.render();
-                    alert ("请输入您的姓名");
                     return;
                 }
                 if(!validateEmail(userInfo.email))
                 {
                     reporter.errorStatus("请输入您的电子邮件信箱");
                     reporter.render();
-                    alert ("请输入您的电子邮件信箱");
                     return;
                 }
                 if(!validatePhone(userInfo.mobilePhone))
                 {
                     reporter.errorStatus("请输入您的手机号码");
                     reporter.render();
-                    alert ("请输入您的手机号码");
                     return;
                 }
 

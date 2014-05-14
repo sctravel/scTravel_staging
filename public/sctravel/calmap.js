@@ -46,7 +46,7 @@ function init(lineNum){
     $.ajax({url:"/services/getAll/startSpots", success:function(results) {
 
         var startSpots = results;
-        var option = "<option value =  0>" +  "请选择" + "</option>";
+        var option = "<option value = \"\">" +  "请选择" + "</option>";
 
         $(option).appendTo($('#start_' + line_Num));
         for(var startSpotIndex in startSpots) {
@@ -75,7 +75,7 @@ function init(lineNum){
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
 
-        var option = "<option value =  0>" +  "请选择" + "</option>";
+        var option = "<option value =  \"\">" +  "请选择" + "</option>";
 
         $(option).appendTo($(end_id));
 
@@ -113,7 +113,7 @@ function init(lineNum){
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
 
-        var option = "<option value =  0>" +  "请选择" + "</option>";
+        var option = "<option value =  \"\">" +  "请选择" + "</option>";
 
         $(option).appendTo($(type_id));
         $.ajax({url:"/services/getAll/offersByRoute", success:function(results) {
@@ -173,7 +173,7 @@ function init(lineNum){
         var curr_lineNum = id.substring(id.indexOf('_') + 1);
         var time_id = "#time_" + curr_lineNum;
         $(time_id).empty();
-        var option = "<option value =  0>" +  "请选择" + "</option>";
+        var option = "<option value =  \"\">" +  "请选择" + "</option>";
 
         $(option).appendTo($(time_id));
 
@@ -223,7 +223,76 @@ function init(lineNum){
 
 }
 
+/***
+ * Customize the validation process and warning style for the buyTicket form
+ * @xitu
+ * @returns {boolean}
+ */
+function validateBuyTicketForm() {
+    var reporter = new MessageReporter("validationReporter");
+
+
+
+    for(var i=1; i<=lineNum; ++i) {
+        $('#start_'+i).css({border:"none"});
+        $('#end_'+i).css({border:"none"});
+        $('#type_'+i).css({border:"none"});
+        $('#date_'+i).css({border:"none"});
+        $('#time_'+i).css({border:"none"});
+        $('#amount_'+i).css({border:"none"});
+
+        var start = $('#start_'+i).val();
+        if(start == "") {
+            $('#start_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请选择第"+i+"行的出发地.");
+            reporter.render();
+            return false;
+        }
+        var end = $('#end_'+i).val();
+        if(end == "") {
+            $('#end_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请选择第"+i+"行的行程景点.");
+            reporter.render();
+            return false;
+        }
+        var type = $('#type_'+i).val();
+        if(type == "") {
+            $('#type_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请选择第"+i+"行的票的种类.");
+            reporter.render();
+            return false;
+        }
+        var date = $('#date_'+i).val();
+        if(/Invalid|NaN/.test(new Date(date).toString())) {
+            $('#date_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请输入第"+i+"行的正确的日期格式.");
+            reporter.render();
+            return false;
+        }
+        var time = $('#time_'+i).val();
+        if(time == "") {
+            $('#time_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请选择第"+i+"行的出发时间.");
+            reporter.render();
+            return false;
+        }
+        var number = $('#amount_'+i).val();
+        if(!/^\d+$/.test(number) ) {
+            $('#amount_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("第"+i+"行的人数必须是大于0的整数.");
+            reporter.render();
+            return false;
+        }
+    }
+    return true;
+}
+
 $("#buyButton").click(function() {
+    var reporter = new MessageReporter("validationReporter");
+    reporter.clear();
+    if(!validateBuyTicketForm()) {
+       return;
+    }
     var picked_offers = [];
     var picked_routes=[];
     var picked_schedules = [];
@@ -347,12 +416,12 @@ $('#resetButton').click(
     function(){
 
         $('.well')[0].reset();
-        $('.new').remove();		
+        $('.new').remove();
 		$("#price_1").attr("value", 0);
 		$("#subtotal_1").attr("value", 0);
 		$("#end_1").empty();
 		$("#type_1").empty();
-		$("#time_1").empty();		
+		$("#time_1").empty();
         if($("#total").val()==0){
             $("#buyButton").attr('disabled','disabled');
         }else {
@@ -487,7 +556,7 @@ jQuery(function($){
 $(function(){
     //##### Accordion with gmap3 http://127.0.0.1:3000/test
     $('#datepicker').datepicker({
-        inline: true
+        inline: false
     });
 
 
