@@ -34,14 +34,15 @@ function init(lineNum){
     });
 
    var  date = new Date();
-    var n = date.getDay();
-  var   endDate = new Date();
+   var n = date.getDay();
+   var   endDate = new Date();
    endDate.setDate(endDate.getDate() + 14);
    var  startDate = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
 
     $('#date_' + line_Num).datepicker( "option", "minDate",startDate);
     $('#date_' + line_Num).datepicker( "option", "maxDate", endDate);
+
 
     $.ajax({url:"/services/getAll/startSpots", success:function(results) {
 
@@ -429,7 +430,8 @@ $('#resetButton').click(
 
  }
 );
- 
+
+
 
 
  $( "#count" ).spinner();

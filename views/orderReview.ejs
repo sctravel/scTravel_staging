@@ -4,6 +4,7 @@
     <% include layout/bootstrap.ejs%>
     <% include layout/jqGridInclude.ejs%>
     <% include layout/navibar.ejs%>
+    <link rel="stylesheet" type="text/css" media="screen" href="/jqgrid.css" />
 </head>
 
 
@@ -38,8 +39,12 @@
                         <div  class="span2"><bold>Email：</bold><input  id="email" type="text" class="input-large" /></div>
                     </div>
                 </form>
-                <div  class="span2"><bold>验证码：</bold> <input id="confCode"  type="text" class="amount input-small" /></div>
-                <img src="/services/getConfirmPic" id="confPic"/><button id="changeConfPic" font-style="italic"><u>看不清，换一张</u></button>
+                <div  class="row-fluid">
+                    <bold>验证码：</bold> <input id="confCode"  type="text" class="amount input-small" />
+                    <img src="/services/getConfirmPic" id="confPic"/><button id="changeConfPic" font-style="italic"><u>看不清，换一张</u></button>
+
+                </div>
+
                 <div class="row-fluid" >
                     
                     <div ><button id="preorder">预定</button><button id="cancel">取消</button></div>
@@ -90,7 +95,8 @@
         }
 
         $("#changeConfPic").click(function(){
-            $("#confPic").attr("src", "/services/getConfirmPic");
+             var date = new Date();
+            $("#confPic").attr("src", "/services/getConfirmPic?random=" + date);
         })
 
         $("#preorder").click(function() {
@@ -105,18 +111,21 @@
                 {
                     reporter.errorStatus("请输入您的姓名");
                     reporter.render();
+
                     return;
                 }
                 if(!validateEmail(userInfo.email))
                 {
                     reporter.errorStatus("请输入您的电子邮件信箱");
                     reporter.render();
+
                     return;
                 }
                 if(!validatePhone(userInfo.mobilePhone))
                 {
                     reporter.errorStatus("请输入您的手机号码");
                     reporter.render();
+
                     return;
                 }
 
