@@ -10,7 +10,6 @@ var dateFormat = require('dateformat');
 var alipay = require('alipayUtil.js');
 var orders = require('./routes/orders');
 var orderConfir = require('./routes/orderConfir');
-var routes = require('./routes');
 var mail=require('./node_modules/emailUtil');
 var queryDB = require('./node_modules/queryDB');
 var stringUtils = require('./node_modules/stringUtils');
