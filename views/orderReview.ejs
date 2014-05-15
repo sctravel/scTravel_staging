@@ -95,7 +95,7 @@
         }
 
         $("#changeConfPic").click(function(){
-             var date = new Date();
+            var date = new Date();
             $("#confPic").attr("src", "/services/getConfirmPic?random=" + date);
         })
 
@@ -184,6 +184,9 @@
                 autowidth: true,
                 caption:"选购订单"
             });
+
+            var date = new Date();
+            $("#confPic").attr("src", "/services/getConfirmPic?random=" + date);
         });
 
     </script>
