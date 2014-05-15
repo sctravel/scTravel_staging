@@ -51,6 +51,7 @@ $("#preorder").click(function() {
                             console.log("Preorder finished");
                             console.dir(data);
                             if(data.isSuccess==true){
+                                //orders=null;
                                 //req.session.results = data;
                                 window.location.href="/finalOrder";
                              }
