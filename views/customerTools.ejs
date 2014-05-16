@@ -81,11 +81,11 @@
                 {name:'depart_spot_name',index:'depart_spot_name',align:'right',sortable:false,width:150},
                 {name:'to_label',index:'to_label', align:"right",sortable:false,width:150},
                 {name:'offer_name', index:'offer_name', align:"right" ,sortable:false,width:300},
-                {name:'valid_date',index:'valid_date', align:"right"},
+                {name:'valid_date',index:'valid_date', align:"right", formatter:dateDisplayFormatter},
                 {name:'departure_time',index:'departure_time', align:"right",sortable:false},
                 {name:'quantity',index:'quantity', align:"right",sortable:false},
                 {name:'offer_subtotal_amount',index:'offer_subtotal_amount', align:"right",sortable:false},
-                {name:'order_status',index:'order_status', align:"right",sortable:false}
+                {name:'order_status',index:'order_status', align:"right",sortable:false,formatter:orderStatusFormatter}
 
             ],
             caption: "您的订单：",
