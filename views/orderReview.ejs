@@ -34,6 +34,7 @@
                 </div>
                 <form  class="well form-inline">
                     <div class="row-fluid userInfo" >
+                        <input type = "hidden" id = "verify" value=" 0" />
                         <div  class="span2"><bold>姓名：</bold><input id="name"  type="text" class="amount input-small" /></div>
                         <div  class="span2"><bold>联系电话：</bold><input id="phone"  type="text" class="amount input-small" /></div>
                         <div  class="span2"><bold>Email：</bold><input  id="email" type="text" class="input-large" /></div>
@@ -52,7 +53,7 @@
                 
             </section>
         </div>
-        
+
         
         
     <!-- Placed at the end of the document so the pages load faster -->
@@ -99,11 +100,19 @@
             $("#confPic").attr("src", "/services/getConfirmPic?random=" + date);
         })
 
+        $("#cancel").click(function(){
+
+
+            window.location.href="/";
+
+        });
         $("#preorder").click(function() {
 
             if(orders !==null) {
 
                 var userInfo= {};
+
+
                 userInfo.customerName = $('#name').val();
                 userInfo.email = $('#email').val();
                 userInfo.mobilePhone = $('#phone').val();
@@ -143,6 +152,12 @@
                         reporter.render();
                         return;
                     } else if(data.isSuccess==true){
+
+                        $('#name').val('');
+                        $('#email').val('');
+                        $('#phone').val('');
+                        $('#list2').remove();
+                        $('#confCode').val('');
                         //req.session.results = data;
                         console.log("Preorder finished");
                         window.location.href="/finalOrder";
