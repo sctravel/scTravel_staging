@@ -8,6 +8,7 @@
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
 
 <%include layout/navibar.ejs%>
+<script src="../sctravel/messageReporter.js"></script>
 
 <div class="container">
 
@@ -21,7 +22,7 @@
                 </select>
             </div>
         </div>
-
+        <div id="errorReporter"></div>
         <section id="orderSearchByCustomerInfo">
             <div class="page-header">
                 <b>请输入您的姓名和手机号码: </b>
@@ -51,6 +52,8 @@
             </div>
 
         </section>
+
+
     </div>
 
 
@@ -69,6 +72,7 @@
 
 <script>
     searchResults = {};
+    var reporter = new MessageReporter("errorReporter");
     var displayOrder = function(data){
         searchResults=data;
         console.dir(searchResults);
@@ -116,12 +120,17 @@
     });
 
     $('#searchOrderByCustomerInfo').click(function(){
-
+        reporter.clear();
 
         console.log("Search orders by customer name and mobile phone");
         var customerInfo={};
         customerInfo.customerName = $('#name').val();
         customerInfo.mobilePhone = $('#phone').val();
+        if(!customerInfo.customerName || customerInfo.customerName==0 || !customerInfo.mobilePhone || customerInfo.mobilePhone.length<10) {
+            reporter.errorStatus("用户名字不能为空，并且手机号码不能小于10位.");
+            reporter.render();
+            return;
+        }
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
         $.get('/services/search/orders', {"customerInfo" : customerInfo},  displayOrder);
@@ -129,10 +138,17 @@
 
     });
 
+
     $('#searchOrderByConfirmCode').click(function(){
+        reporter.clear();
 
         console.log("Search orders by confirmCOde");
         var confirmCode = $('#confirmCode').val();
+        if(!confirmCode || confirmCode.length!=10) {
+            reporter.errorStatus("验证码必须为10位.");
+            reporter.render();
+            return;
+        }
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
         $.get('/services/search/orders', {"confirmCode" : confirmCode}, displayOrder);

@@ -11,10 +11,10 @@
 <script src="/assets/js/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js" type="text/javascript"></script>
 <script>
     function orderStatusFormatter( cellvalue, options, rowObject ){
-        var formattedValue ="已预订";
+        var formattedValue ="未付款";
         switch(cellvalue) {
             case 'booked' :
-                formattedValue = "已预订";
+                formattedValue = "未付款";
                 break;
             case 'paid' :
                 formattedValue = "已付款";

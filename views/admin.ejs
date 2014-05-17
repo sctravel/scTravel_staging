@@ -24,7 +24,7 @@
 
                 <div class="clearfix">
                     <ul id="menu">
-                        <li>
+                        <li id="1001" style="display:none">
                             <a href="#">景点管理</a>
                             <ul>
                                 <li><a id="query_spots" class="tag">查找景点</a></li>
@@ -33,7 +33,7 @@
                                 <li><a id="delete_spots" class="tag">删除景点</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li id="2001" style="display:none">
                             <a href="#">路线管理</a>
                             <ul>
                                 <li><a id="query_routes" class="route">查找路线</a></li>
@@ -42,7 +42,7 @@
                                 <li><a id="delete_routes" class="route">>删除路线</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li id="3001" style="display:none">
                             <a href="#">套餐管理</a>
                             <ul>
                                 <li><a id="query_offers" class="offers">查找套餐</a></li>
@@ -51,7 +51,9 @@
                                 <li><a id="delete_offers" class="offers">>删除套餐</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">订单管理</a>
+                        <li id="4001" style="display:none"><a id=scheduleManagement class="scheduleManagement"> 车辆管理</a>
+
+                        <li id="5001" style="display:none"><a href="#">订单管理</a>
                             <ul>
                                 <li><a id="query_orders" class="orders">查找订单</a></li>
                                 <li><a id="change_orders" class="orders">修改订单</a></li>
@@ -60,10 +62,10 @@
                             </ul>
                         </li>
 
-                        <li><a id="managerPermission" class="managerPermission"> 用户权限管理</a>
+                        <li id="6001" style="display:none"><a id="managerPermission" class="managerPermission"> 用户权限管理</a>
 
                         </li>
-                        <li><a id="managerUser" class="managerUser">用户账号管理</a>
+                        <li id="7001" style="display:none"><a id="managerUser" class="managerUser">用户账号管理</a>
 
                         </li>
                     </ul>
@@ -93,8 +95,13 @@
             username = "<%= username %>";
             randomKey = "<%= randomKey %>";
 
+            //show the tools that the user has permission to view
             $.get("/services/admin/toolIdsByAdminUser/"+username,function(results){
-                console.log(results);
+
+                for(var i in results) {
+                    $('#'+results[i].tool_id).show();
+                }
+
             });
             console.log(username);
 
