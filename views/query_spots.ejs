@@ -3,6 +3,8 @@
 
    <button id="getAllSpots">查询景点</button>
 
+   <button id="deleteSelectedSpots">删除选择景点</button>
+
 
    <table id="listResult">
 
@@ -12,33 +14,98 @@
 
 <script>
 
-    $("#getAllSpots").click(function(){
-        $.get("/services/getAll/sceneryspots", function(results){
+
+
+
+    var searchSpots = function() {
+
+        console.log("searchSpots Now,hahaha");
+        $.get("/services/getAll/sceneryspots", function (results) {
             spots = []; //results is an object, not an array
-            for(i in results){
+            for (i in results) {
                 spots.push(results[i]);
             }
 
             jQuery("#listResult").GridUnload();
             console.dir(spots);
             jQuery("#listResult").jqGrid({
-                    datatype: "local",
-                    data: spots,
-                    colNames:['名称','类型','纬度','精度','是否景点','是否发车地','是否有效'],
-                    colModel:[
-                    {name:'spot_name',index:'spot_name', align:"center",editable: true,sortable:false},
-                    {name:'spot_type',index:'spot_type', align:"center",editable: true,sortable:false},
-                    {name:'longitude',index:'longitude', align:"center",editable: true,sortable:false},
-                    {name:'latitude',index:'latitude', align:"center",editable: true,sortable:false},
-                    {name:'is_scenery',index:'is_scenery', align:"right"},
-                    {name:'is_start',index:'is_start', align:"right"},
-                    {name:'is_active',index:'is_active', align:"center",editable: true,sortable:false}
-                    ],
-                    caption: "景点列表",
-                    width: 770,
-                    height: "100%"
+                datatype: "local",
+                data: spots,
+                colNames: ['名称', '类型', '纬度', '精度', '是否景点', '是否发车地', '是否有效', '删除'],
+                colModel: [
+                    {name: 'spot_name', index: 'spot_name', align: "center", editable: true, sortable: false},
+                    {name: 'spot_type', index: 'spot_type', align: "center", editable: true, sortable: false},
+                    {name: 'longitude', index: 'longitude', align: "center", editable: true, sortable: false},
+                    {name: 'latitude', index: 'latitude', align: "center", editable: true, sortable: false},
+                    {name: 'is_scenery', index: 'is_scenery', align: "right"},
+                    {name: 'is_start', index: 'is_start', align: "right"},
+                    {name: 'is_active', index: 'is_active', align: "center", editable: true, sortable: false},
+                    {name: 'is_valid', index: 'is_valid', formatter: "is_valid",
+                        formatoptions: {disabled: false},
+                        editable: true, edittype: 'checkbox', cellEdit: true, sortable: false,
+                        editoptions: { value: "1:0", defaultValue: 0 }  }
+                ],
+
+                gridComplete: function(){ var ids = jQuery("#listResult").jqGrid('getDataIDs');
+                    for(var i=0;i < ids.length;i++){
+                    var cl = ids[i];
+                    ce = "<input style='height:22px;width:80px;' type='button' value='删除'" +
+                            " onclick=\"jQuery('#listResult').delRowData('"+cl+"');\" />";
+                       jQuery("#listResult").jqGrid('setRowData',ids[i],{is_valid:ce}); } },
+                caption: "景点列表",
+                width: 770,
+                height: "100%"
             });
+
+            for(var i in spots) {
+                $('#listResult').jqGrid('setCell',spots[i].spot_name,'is_valid',0)
+            }
+        });
+    };
+
+
+    jQuery("#a2").click( function()
+    { var su=jQuery("#listResult").jqGrid('delRowData',12);
+        if(su) alert("Succes. Write custom code to delete row from server");
+        else alert("Allready deleted or not in list");
+    });
+
+    $("#getAllSpots").click(searchSpots);
+
+
+    $("#deleteSelectedSpots").click( function() {
+
+        var spotChanges = [];
+
+        var dataIds = $('#listResult').getDataIDs();
+        if (dataIds.length != spots.length) {
+            alert("length not match");
+            return;
+        }
+
+        for(var i in dataIds) {
+            var value = $('#listResult').jqGrid('getCell',dataIds[i],'is_valid');
+            var spot_name = $('#listResult').jqGrid('getCell',dataIds[i],'spot_name');
+
+            if(value == 1) {
+                spotChanges.push({type:'remove',id:spot_name});
+
+            }
+        }
+        //Need to check finalPermission contains the same ids as userPermissions or not
+        // if the finalPermissions contains different ids from userPermissions
+        // submit request to change permissions;
+        // otherwise, report a warning that no permission has been changed
+
+        $.post("/services/admin/deleteSpots",spotChanges ,function(data){
+            if(data=="done") {
+                searchSpots();
+            } else {
+                //TODO deal with the edit failed case
+            }
         })
+
+
     });
 
 </script>
