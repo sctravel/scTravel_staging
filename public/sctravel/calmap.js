@@ -421,6 +421,7 @@ $('#resetButton').click(
 		$("#end_1").empty();
 		$("#type_1").empty();
 		$("#time_1").empty();
+		lineNum = 1;
         if($("#total").val()==0){
             $("#buyButton").attr('disabled','disabled');
         }else {
