@@ -262,9 +262,10 @@ function validateBuyTicketForm() {
             return false;
         }
         var date = $('#date_'+i).val();
-        if(/Invalid|NaN/.test(new Date(date).toString())) {
+		var validDateFormat=/^\d{4}-\d{2}-\d{2}$/
+        if(!validDateFormat.test(date)) {
             $('#date_'+i).css({border:"2px solid red"});
-            reporter.errorStatus("请输入第"+i+"行的正确的日期格式.");
+            reporter.errorStatus("请输入第"+i+"行的正确的日期格式 (YYYY-MM-DD)");
             reporter.render();
             return false;
         }
