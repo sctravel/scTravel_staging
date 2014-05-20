@@ -375,13 +375,13 @@ $("#buyButton").click(function() {
 
   $("#buyTicket").append("<div class=\"row-fluid order new\" >" +
     " <div  class=\"span2\"><bold>出发地：</bold><select id=\"" +start_id + "\" class=\"start\" style=\"width:140px;\"></select></div>"
-     +  " <div  class=\"span2\"><bold>景点：</bold><select id=\"" +end_id + "\" class=\"end input-small\" ></select></div>"
-     +"<div  class=\"span1\" ><bold>票种：</bold><select id=\"" +type_id + "\" class=\"type input-small\"  ></select></div>"
-     + " <div  class=\"span2\"><bold>日期：<input  id = \"" +date_id + "\"class=\"datepicker input-small\" type=\"text\"></input></bold></div>"
-     + " <div  class=\"span2\"><bold>时间：</bold><select id = \"" +time_id + "\" class=\"time input-small\"></select></div>"
-     + " <div  class=\"span2\"><bold>人数：</bold><input id= \"" +amount_id + "\" type=\"text\" class=\"amount input-small\" width=\"50px\" value=\"1\"/></div>"
-     + " <div  class=\"span2\"><bold>单价：</bold><input  id = \"" +price_id + "\"  class=\"price input-small\" type=\"text\" readonly value=\"\" width=\"50px\"></input></div>"
-     + " <div  class=\"span2\"><bold>总价：</bold><input  id = \"" +subtotal_id + "\"  class=\"subtotal input-small\" type=\"text\" readonly value=0></input></div>"
+     +  " <div  class=\"span2\"><bold>景点：</bold><select id=\"" +end_id + "\" class=\"end input-small\" style=\"width:140px;\"></select></div>"
+     +"<div  class=\"span2\" ><bold>票种：</bold><select id=\"" +type_id + "\" class=\"type input-small\"  style=\"width:140px;\"></select></div>"
+     + " <div  class=\"span2\"><bold>日期：<input  id = \"" +date_id + "\"class=\"datepicker input-small\" type=\"text\" style=\"width:120px;\"></input></bold></div>"
+     + " <div  class=\"span2\"><bold>时间：</bold><select id = \"" +time_id + "\" class=\"time input-small\" style=\"width:100px;\"></select></div>"
+     + " <div  class=\"span1\"><bold>人数：</bold><input id= \"" +amount_id + "\" type=\"text\" class=\"amount input-small\" style=\"width:50px;\" value=\"1\"/></div>"
+     + " <div  class=\"span1\"><bold>单价：</bold><input  id = \"" +price_id + "\"  class=\"price input-small\" type=\"text\" readonly value=\"\" style=\"width:50px;\"></input></div>"
+     + " <div  class=\"span1\"><bold>总价：</bold><input  id = \"" +subtotal_id + "\"  class=\"subtotal input-small\" type=\"text\" style=\"width:50px;\" readonly value=0></input></div>"
 
      +   "</div>");
 
