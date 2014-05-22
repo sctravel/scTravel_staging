@@ -108,6 +108,16 @@ app.get('/services/admin/DeleteSpots/:values', function(req,res) {
     })
 });
 
+app.get('/services/admin/DeleteOffers/:values', function(req,res) {
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
+
+        res.send(results);
+    })
+});
 
 
 
