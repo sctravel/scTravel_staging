@@ -35,7 +35,11 @@
     <link rel="shortcut icon" href="assets/ico/favicon.png">
 
 </head>
-<table id="list2"></table>
+
+<button id="getAllOffers">查询套餐</button>
+
+
+<table id="listResult"></table>
 <div id="pager2"></div>
 
 <script src="/assets/js/jquery-1.9.1.min.js"></script>
@@ -48,52 +52,92 @@
 
 
 <script>
-    $(function(){
 
-        $.ajax({url:"/services/getAll/offers", success:function(results){
+
+
+    var DeleteRow = function(cl){
+        var rowData = jQuery('#listResult').getRowData(cl);
+
+        alert(rowData['offer_name']);
+
+        $.get("/services/admin/deleteOffers/"+rowData['offer_id'] ,function(data){
+            if(data=="done") {
+                searchOffers();
+            } else {
+                //TODO deal with the edit failed case
+            }
+        });
+
+        jQuery('#listResult').delRowData(cl);
+    };
+
+
+    var searchOffers =function(){
+
+        $.get("/services/getAll/offers", function (results) {
 
             spots = results;
 
-            spot_show =  {"rows" : [
+            spot_show = {"rows": []};
 
-            ]
-
-            };
-
-            for( var spot_index in spots){
+            for (var spot_index in spots) {
                 spot = spots[spot_index];
                 var val = [];
-                for(var attr in spot){
+                for (var attr in spot) {
                     val.push(spot[attr]);
 
                 }
-                var cell = {"cell" : val};
+                var cell = {"cell": val};
                 spot_show.rows.push(cell);
             }
 
-            jQuery(document).ready(function(){
-                jQuery("#list2").jqGrid({
+            jQuery(document).ready(function () {
+                jQuery("#listResult").jqGrid({
 
                     datastr: spot_show,
                     datatype: "jsonstring",
-                    colNames:['id','套餐名称','套餐价格','是否往返','套餐描述','创建时间','是否生效','最近更新时间'],
-                    colModel:[  {name:'offer_id',index:'offer_id',align:'right'},
-                        {name:'offer_name',index:'offer_name', align:"right"},
-                        {name:'offer_price',index:'offer_price', align:"right"},
-                        {name:'is_round_trip',index:'is_round_trip', align:"right"},
-                        {name:'offer_description',index:'offer_description', align:"right"},
-                        {name:'creation_datetime',index:'creation_datetime', align:"right"},
-                        {name:'is_active',index:'is_active', align:"right"},
-                        {name:'last_updated_time',index:'last_updated_time', align:"right"},
-
+                    colNames: ['id', '套餐名称', '套餐价格', '是否往返', '套餐描述', '创建时间', '是否生效', '最近更新时间', '删除'],
+                    colModel: [
+                        {name: 'offer_id', index: 'offer_id', align: 'right'},
+                        {name: 'offer_name', index: 'offer_name', align: "right"},
+                        {name: 'offer_price', index: 'offer_price', align: "right"},
+                        {name: 'is_round_trip', index: 'is_round_trip', align: "right"},
+                        {name: 'offer_description', index: 'offer_description', align: "right"},
+                        {name: 'creation_datetime', index: 'creation_datetime', align: "right"},
+                        {name: 'is_active', index: 'is_active', align: "right"},
+                        {name: 'last_updated_time', index: 'last_updated_time', align: "right"},
+                        {name: 'is_valid', index: 'is_valid', formatter: "is_valid",
+                            formatoptions: {disabled: false},
+                            editable: true, edittype: 'checkbox', cellEdit: true, sortable: false,
+                            editoptions: { value: "1:0", defaultValue: 0 }  }
                     ],
+
+                    gridComplete: function () {
+                        var ids = jQuery("#listResult").jqGrid('getDataIDs');
+
+                        var i = 0;
+                        for (i = 0; i < ids.length; i++) {
+                            var cl = ids[i];
+
+                            ce = "<input style='height:22px;width:80px;' type='button' value='删除'" +
+                                    " onclick=\"DeleteRow('" + cl + "') \" />";
+
+                            jQuery("#listResult").jqGrid('setRowData', ids[i], {is_valid: ce});
+
+
+                        }
+                    },
                     width: 770,
                     height: "100%"
                 });
             });
 
-        }})
-    })
+        });
+    };
+
+
+    $("#getAllOffers").click(searchOffers);
+
 </script>
 
 
