@@ -95,6 +95,22 @@ app.get('/', function (req,res){
  * Data Services using http GET method
  *************************************************************/
 // Order: insert data record:
+
+//Ticket : delete\Disable ticket
+app.get('/services/admin/DeleteSpots/:values', function(req,res) {
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
+
+        res.send(results);
+    })
+});
+
+
+
+
 app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,res) {
 
 
