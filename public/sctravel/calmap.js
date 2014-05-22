@@ -601,3 +601,203 @@ $(function(){
     // force maps to refresh on show
 
 });
+
+$("#adminBuyButton").click(function() {
+
+    function validateBuyTicketForm() {
+        reporter.clear();
+
+        for(var i=1; i<=lineNum; ++i) {
+            $('#start_'+i).css({border:"none"});
+            $('#end_'+i).css({border:"none"});
+            $('#type_'+i).css({border:"none"});
+            $('#date_'+i).css({border:"none"});
+            $('#time_'+i).css({border:"none"});
+            $('#amount_'+i).css({border:"none"});
+
+            var start = $('#start_'+i).val();
+            if(start == "") {
+                $('#start_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("请选择第"+i+"行的出发地.");
+                reporter.render();
+                return false;
+            }
+            var end = $('#end_'+i).val();
+            if(end == "") {
+                $('#end_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("请选择第"+i+"行的行程景点.");
+                reporter.render();
+                return false;
+            }
+            var type = $('#type_'+i).val();
+            if(type == "") {
+                $('#type_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("请选择第"+i+"行的票的种类.");
+                reporter.render();
+                return false;
+            }
+            var date = $('#date_'+i).val();
+            var validDateFormat=/^\d{4}-\d{2}-\d{2}$/
+            if(!validDateFormat.test(date)) {
+                $('#date_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("请输入第"+i+"行的正确的日期格式 (YYYY-MM-DD)");
+                reporter.render();
+                return false;
+            }
+            var time = $('#time_'+i).val();
+            if(time == "") {
+                $('#time_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("请选择第"+i+"行的出发时间.");
+                reporter.render();
+                return false;
+            }
+            var number = $('#amount_'+i).val();
+            if(!/^\d+$/.test(number) ) {
+                $('#amount_'+i).css({border:"2px solid red"});
+                reporter.errorStatus("第"+i+"行的人数必须是大于0的整数.");
+                reporter.render();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function validateUserInfoForm(){
+        function isblank(s) {
+            for (var i = 0; i < s.length; i++) {
+                var c = s.charAt(i);
+                if ((c != ' ') && (c != '\n') && (c != '\t')) return false;
+            }
+            return true;
+        }
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        function validatePhone(s) {
+            if (s.length <10 || s.length>15) return false;
+            for (var i = 0; i < s.length; i++) {
+                var c = s.charAt(i);
+                if ((c > '9') ||  (c <'0')) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        reporter.clear();
+        var customerName = $('#name').val();
+        var mobilePhone = $('#phone').val();
+        var email = $('#email').val();
+
+
+        if(isblank(customerName))
+        {
+            $('#amount_'+i).css({border:"2px solid red"});
+            reporter.errorStatus("请输入您的姓名");
+            reporter.render();
+
+            return false;
+        }
+        if(!validatePhone(mobilePhone))
+        {
+            reporter.errorStatus("请输入您的手机号码");
+            reporter.render();
+
+            return false;
+        }
+        if(!validateEmail(email))
+        {
+            reporter.errorStatus("请输入您的电子邮件信箱");
+            reporter.render();
+
+            return false;
+        }
+
+
+        return true;
+    }
+    var reporter = new MessageReporter("adminOrderReporter");
+
+    reporter.clear();
+    if(!validateBuyTicketForm() || !validateUserInfoForm()) {
+        return;
+    }
+
+    var customerName = $('#name').val();
+    var mobilePhone = $('#phone').val();
+    var email = $('#email').val();
+
+    var userInfo = {};
+    userInfo.customerName = $('#name').val();
+    userInfo.mobilePhone = $('#phone').val();
+    userInfo.email = $('#email').val();
+
+    var orderInfo = {};
+    orderInfo.vouchersArray=[];
+    orderInfo.totalAmount=$('.total').val();
+
+    var start = $('.start option:selected');
+    var end  = $('.end option:selected');
+    var type = $('.type option:selected');
+
+    var date = $('.datepicker');
+    var time = $('.time option:selected');
+    var amount= $('.amount');
+
+    var price = $('.price');
+    var subtotal= $('.subtotal');
+
+
+
+    for(var i =0; i < end.length; i ++ ) {
+        var voucher = {};
+
+        var route = end[i].value;
+        var offer = offers[route]; //global variable in calmap.js
+        var schedule_id = time[i].value;
+        var type_val = type[i].value;
+        var offer_id = offer[type_val].offer_id;
+        var route_id = offer[type_val].route_id;
+
+        voucher.offerId    =  offer_id;
+        voucher.skuId      =  route_id;
+        voucher.scheduleId = schedule_id;
+        voucher.quantity   =  amount[i].value;
+        voucher.validDate  = date[i].value;
+        voucher.offerSubtotalAmount = subtotal[i].value;
+
+        orderInfo.vouchersArray.push(voucher);
+
+    }
+    var orders={};
+    orders.userInfo = userInfo;
+    orders.orderInfo = orderInfo;
+
+    console.dir(orders);
+    if(orderInfo.vouchersArray.length<1) {
+        reporter.errorStatus("订单内容为空，请重试.");
+        reporter.render();
+        return;
+    }
+
+
+    $.post('/services/admin/placeOrder', {"preOrders" : orders},  function(data){
+        console.log("admin place order finished");
+        console.dir(data);
+        if(data.isSuccess==true){
+            reporter.successStatus("恭喜您成功下了一个订单. 确认码为："+data.confirmCode);
+            reporter.render();
+        } else {
+            reporter.errorStatus("下订单失败，请联系管理员.");
+            reporter.render();
+        }
+
+        $('#name').val("");
+        $('#phone').val("");
+        $('#email').val("");
+
+    });
+});

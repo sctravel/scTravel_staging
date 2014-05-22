@@ -64,7 +64,7 @@ exports.placeOrder = function(req,res) {
 
         }
 
-         orderInfoArray.totalAmount=preorders.total_amount;
+        orderInfoArray.totalAmount=preorders.total_amount;
 
 
         var result ={};
@@ -76,7 +76,7 @@ exports.placeOrder = function(req,res) {
 
         }
 
-        queryDB.placeOrder(userInfo,orderInfoArray,handleOrder);
+        queryDB.placeOrder(userInfo,orderInfoArray,'sysuser',handleOrder);
 
 
 }
