@@ -564,6 +564,17 @@ app.post('/services/admin/accounts/update',isLoggedIn, function(req,res) {
     });
 
 });
+app.post('/services/admin/DeleteSpots/:values', function(req,res) {
+   console.info(req);
+    var values = req.body.spot_id;
+    console.log("Parameter: " + values);
+
+    queryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
+
+        res.send(results);
+    })
+});
+
 app.post('/services/admin/accounts/delete',isLoggedIn, function(req,res) {
     var deleteUsername = req.body.deleteUsername;
 
