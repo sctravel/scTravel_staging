@@ -25,6 +25,8 @@ var flash = require('connect-flash');
 var adminUtil = require('./node_modules/adminLogin');
 var accountManager = require('./node_modules/adminUserManagement');
 var permissionManager = require('./node_modules/adminToolPermission');
+var orderManager = require('./node_modules/adminOrderManagement');
+
 
 var app = express();
 
@@ -95,6 +97,32 @@ app.get('/', function (req,res){
  * Data Services using http GET method
  *************************************************************/
 // Order: insert data record:
+
+//Ticket : delete\Disable ticket
+app.get('/services/admin/DeleteSpots/:values', function(req,res) {
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
+
+        res.send(results);
+    })
+});
+
+app.get('/services/admin/DeleteOffers/:values', function(req,res) {
+
+    var values = req.params.values;
+    console.log("Parameter: " + values);
+
+    queryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
+
+        res.send(results);
+    })
+});
+
+
+
 app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,res) {
 
 
@@ -318,6 +346,8 @@ app.get('/services/getAll/validSchedules', function(req,res) {
 });
 
 
+
+
 app.get('/services/search/orders', function(req,res){
     //console.dir(req);
     var confirmCode = req.query.confirmCode;
@@ -465,6 +495,37 @@ app.get('/queryorders', isLoggedIn, function(req,res){
 
     res.render('query_orders.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
+
+app.get('/adminPlaceOrders',isLoggedIn,function(req,res){
+    res.render('adminPlaceOrders.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+})
+
+app.post('/services/admin/placeOrder',isLoggedIn,function(req,res){
+    var username = req.user.username;
+    var randomKey = req.user.randomKey;
+    var preOrders = req.body.preOrders;
+
+    orderManager.adminPlaceOrder(preOrders.userInfo, preOrders.orderInfo,username,randomKey,function(results){
+        console.log(results);
+        res.send(results);
+    });
+
+
+})
+//Do we really need to expose this to external? Or just within Admin
+app.post('/services/orders/cancel', isLoggedIn,function(req,res){
+    var orderId = req.body.orderId;
+    var username = req.user.username;
+    var randomKey = req.user.randomKey;
+
+    orderManager.adminCancelOrder(orderId,username,randomKey,function(err,results){
+        if(err){
+            console.err(err);
+            return;
+        }
+        res.send("done");
+    })
+})
 
 app.get('/toolPermission', isLoggedIn, function(req,res){
 

@@ -1,6 +1,8 @@
 <%include layout/jqGridInclude.ejs%>
-<div class="container" >
+<script src="/sctravel/messageReporter.js" type="text/javascript"></script>
 
+<div class="container" >
+    <div id="toolManagementMessageReporter"></div>
     <div >
         <!-- Menu -->
             <div id = "selectUser">
@@ -26,7 +28,7 @@
 </div>
 
 <script>
-
+    var reporter = new MessageReporter("toolManagementMessageReporter");
     //Hardcoded all the possible tools here
     allTools=[{tool_id:1001, tool_name:"景点管理",has_permission:0},
         {tool_id:2001, tool_name:"路线管理",has_permission:0},
@@ -43,6 +45,7 @@
     selectedUserPermissions=[];
 
     var searchUserPermissions = function(){
+        reporter.clear();
         $('#toolPermissionResults').show();
         selectedUsername = $('#usernameSelect').val();
         if(selectedUsername == 0) {
@@ -93,6 +96,7 @@
     };
 
     $('#usernameSelect').change(function(){
+        reporter.clear();
         $('#toolPermissionResults').hide();
     })
 
@@ -104,7 +108,7 @@
     $("#searchPermission").click(searchUserPermissions);
 
     $("#submitChange").click( function(){
-
+        reporter.clear();
         var permissionChanges = [];
 
         if(selectedUsername == 0) {
@@ -158,8 +162,12 @@
         $.post("/services/admin/editPermissions", {permissionChanges:permissionChanges, selectedUsername:selectedUsername},function(data){
             if(data=="done") {
                 searchUserPermissions();
+                reporter.successStatus("您已经成功修改了用户"+selectedUsername+"的权限.");
+                reporter.render();
                 $('#toolPermissionResults').hide();
             } else {
+                reporter.errorStatus("修改用户权限出现错误。请重试或者联系管理员.");
+                reporter.render();
                 //TODO deal with the edit failed case
             }
         })

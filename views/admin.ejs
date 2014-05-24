@@ -54,14 +54,12 @@
                                 <li><a id="delete_offers" class="offers">删除套餐</a></li>
                             </ul>
                         </li>
-                        <li id="4001" style="display:none"><a id=scheduleManagement class="scheduleManagement"> 车辆管理</a>
+                        <li id="4001" style="display:none"><a id=scheduleManagement class="scheduleManagement">车辆管理</a>
 
                         <li id="5001" style="display:none"><a href="#">订单管理</a>
                             <ul>
-                                <li><a id="query_orders" class="orders">查找订单</a></li>
-                                <li><a id="change_orders" class="orders">修改订单</a></li>
+                                <li><a id="query_orders" class="orders">查找/取消订单</a></li>
                                 <li><a id="add_orders" class="orders">增加订单</a></li>
-                                <li><a id="delete_orders" class="orders">删除订单</a></li>
                             </ul>
                         </li>
 
@@ -127,9 +125,14 @@
             $('#content').load("queryoffers");
         });
 
-        $(".orders").click( function(){
+        $("#query_orders").click( function(){
             $('#content').load("queryorders");
         });
+        $("#add_orders").click( function(){
+            $('#content').load("adminPlaceOrders");
+        });
+
+
 
         $(".users").click( function(){
             $('#content').load("queryusers");
