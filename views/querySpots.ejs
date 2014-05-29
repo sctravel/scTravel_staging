@@ -24,7 +24,7 @@
 <body>
 <div class="container" >
 
-   <button id="getAllSpots">查询景点</button>
+ <!--  <button id="getAllSpots">查询景点</button>-->
 
 
    <table id="listResult"></table>
@@ -50,8 +50,8 @@
    };
 
 
-    var searchSpots = function() {
 
+   $(function() {
         console.log("searchSpots Now");
         $.get("/services/getAll/sceneryspots", function (results) {
             spots = []; //results is an object, not an array
@@ -59,11 +59,9 @@
                 spots.push(results[i]);
             }
 
-
-
             console.dir(spots);
-
-            jQuery("#listResult").jqGrid( {
+        jQuery(document).ready( function() {
+            jQuery("#listResult").jqGrid ( {
                 datatype: "local",
                 data: spots,
                 colNames: ['Id','名称', '类型', '纬度', '精度', '是否景点', '是否发车地', '是否有效'],
@@ -97,13 +95,15 @@
             jQuery("#listResult").jqGrid('inlineNav',"#pagerResults");
 
         });
-    };
+
+    })
+
+   })
 
 
 
 
-
-    $("#getAllSpots").click(searchSpots);
+   // $("#getAllSpots").click(searchSpots);
 
 </script>
 
