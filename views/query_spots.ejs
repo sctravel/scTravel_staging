@@ -62,7 +62,8 @@
 
 
             console.dir(spots);
-            jQuery("#listResult").jqGrid({
+
+            jQuery("#listResult").jqGrid( {
                 datatype: "local",
                 data: spots,
                 colNames: ['Id','名称', '类型', '纬度', '精度', '是否景点', '是否发车地', '是否有效'],
@@ -71,10 +72,10 @@
                     {name: 'spot_name', index: 'spot_name', align: "center", editable: true, sortable: true},
                     {name: 'spot_type', index: 'spot_type', align: "center", editable: true, sortable: true},
                     {name: 'longitude', index: 'longitude', align: "center", editable: true, sortable: true},
-                    {name: 'latitude', index: 'latitude', align: "center", editable: true, sortable: true},
-                    {name: 'is_scenery', index: 'is_scenery', align: "right"},
-                    {name: 'is_start', index: 'is_start', align: "right"},
-                    {name: 'is_active', index: 'is_active', align: "center", editable: true, sortable: true}
+                    {name: 'latitude', index: 'latitude', align: "center",   editable: true, sortable: true},
+                    {name: 'is_scenery', index: 'is_scenery', align: "center", editable:true, edittype: 'select', editoptions: {value: "1:Y;2:N"}},
+                    {name: 'is_start', index: 'is_start', align: "center",editable : true , edittype: 'select', editoptions: {value: "1:Y;2:N"}},
+                    {name: 'is_active', index: 'is_active', align: "center", editable: true, sortable: true,edittype: 'select', editoptions: {value: "1:Y;2:N"}}
 
                 ],
                 rowNum:10,
@@ -85,19 +86,7 @@
                 viewrecords: true,
                 sortorder: "desc",
 
-                gridComplete: function(){ var ids = jQuery("#listResult").jqGrid('getDataIDs');
 
-                    var i=0;
-                    for( i=0;i < ids.length;i++){
-                    var cl = ids[i];
-
-                    ce = "<input style='height:22px;width:80px;' type='button' value='删除'" +
-                        " onclick=\"DeleteRow('"+cl+"') \" />";
-
-                       jQuery("#listResult").jqGrid('setRowData',ids[i],{is_valid:ce});
-
-
-                    } },
 
                 caption: "景点列表",
                 width: 770,
@@ -107,9 +96,6 @@
             jQuery("#listResult").jqGrid('navGrid',"#pagerResults",{edit:false,add:false,del:true});
             jQuery("#listResult").jqGrid('inlineNav',"#pagerResults");
 
-            for(var i in spots) {
-                $('#listResult').jqGrid('setCell',spots[i].spot_name,'is_valid',0)
-            }
         });
     };
 

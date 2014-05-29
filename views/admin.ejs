@@ -28,22 +28,11 @@
                 <div class="clearfix">
                     <ul id="menu">
                         <li id="1001" style="display:none">
-                            <a href="#">景点管理</a>
-                            <ul>
-                                <li><a id="query_spots" class="tag">查找景点</a></li>
-                                <li><a id="change_spots" class="tag">修改景点</a></li>
-                                <li><a id="add_spots" class="tag">增加景点</a></li>
-                                <li><a id="delete_spots" class="tag">删除景点</a></li>
-                            </ul>
+                            <a id="spots">景点管理</a>
                         </li>
                         <li id="2001" style="display:none">
-                            <a href="#">路线管理</a>
-                            <ul>
-                                <li><a id="query_routes" class="route">查找路线</a></li>
-                                <li><a id="change_routes" class="route">修改路线</a></li>
-                                <li><a id="add_routes" class="route">增加路线</a></li>
-                                <li><a id="delete_routes" class="route">删除路线</a></li>
-                            </ul>
+                            <a id="routes">路线管理</a>
+
                         </li>
                         <li id="3001" style="display:none">
                             <a href="#">套餐管理</a>
@@ -113,11 +102,11 @@
             window.location.href=("/logout");
         });
 
-        $(".tag").click( function(){
+        $("#spots").click( function(){
             $('#content').load("queryspots");
         });
 
-        $(".route").click( function(){
+        $("#routes").click( function(){
             $('#content').load("queryroutes");
         });
 
