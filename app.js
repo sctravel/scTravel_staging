@@ -488,22 +488,22 @@ app.get('/services/admin/toolIdsByAdminUser/:username', isLoggedIn, function(req
 
 app.get('/queryspots', isLoggedIn, function(req,res){
 
-    res.render('query_spots.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+    res.render('querySpots.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
 app.get('/queryroutes', isLoggedIn, function(req,res){
 
-    res.render('query_routes.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+    res.render('queryRoutes.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
 app.get('/queryoffers', isLoggedIn, function(req,res){
 
-    res.render('query_offers.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+    res.render('queryOffers.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
 app.get('/queryorders', isLoggedIn, function(req,res){
 
-    res.render('query_orders.ejs',{username : req.user.username, randomKey: req.user.randomKey });
+    res.render('queryOrders.ejs',{username : req.user.username, randomKey: req.user.randomKey });
 });
 
 app.get('/adminPlaceOrders',isLoggedIn,function(req,res){
