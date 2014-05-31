@@ -2,6 +2,7 @@
 <head>
     <%include layout/bootstrap.ejs%>
     <%include layout/jqGridInclude.ejs%>
+    <script src="/assets/js/jquery.jqGrid-4.6.0/src/grid.subgrid.js" type="text/javascript"></script>
     <script src="/sctravel/messageReporter.js" type="text/javascript"></script>
 
 </head>
@@ -106,15 +107,16 @@
         jQuery("#orderSearchResult").jqGrid({
             data: searchResults,
             datatype: "local",
-            colNames:['订单号','时间','客户ID','总金额','确认码','支付状态','创建者','最近更新时间','取消订单'],
+            colNames:['订单号','时间','客户姓名','客户手机','客户邮箱','总金额','确认码','支付状态','创建者','取消订单'],
             colModel:[  {name:'order_id',index:'order_id',align:'right'},
                 {name:'order_datetime',index:'order_datetime', align:"right",formatter:dateDisplayFormatter},
-                {name:'customer_id',index:'customer_id', align:"right"},
+                {name:'customer_name',index:'customer_name', align:"right"},
+                {name:'mobile_phone',index:'mobile_phone', align:"right"},
+                {name:'email',index:'email', align:"right"},
                 {name:'total_order_amount',index:'total_order_amount', align:"right"},
                 {name:'confirmation_code',index:'confirmation_code', align:"right"},
                 {name:'order_status',index:'order_status', align:"right", formatter: orderStatusFormatter},
                 {name:'created_by',index:'created_by', align:"right"},
-                {name:'last_updated_time',index:'created_by', align:"right",formatter:dateDisplayFormatter},
                 {name: 'is_valid', index: 'is_valid', formatter: "is_valid",
                     formatoptions: {disabled: false},
                     editable: true, edittype: 'checkbox', cellEdit: true, sortable: false,
@@ -156,10 +158,47 @@
                         });
 
                     } else {
-                        var ce = "<input style='height:22px;width:80px; background-color: yellow' id=" + data.order_id+ "  value='无法取消' />" ;
+                        var ce = "<input style='height:22px;width:80px; background-color: yellow' id=" + data.order_id+ "  value="+data.order_status+" />" ;
                         jQuery("#orderSearchResult").jqGrid('setRowData',(i+1)+"",{is_valid:ce});
                     }
                 }},
+
+            shrikToFit: true,
+            subGrid: true,  // (1)开启子表格支持
+            subGridRowExpanded: function(subgrid_id, row_id) {
+                var orderId = jQuery("#orderSearchResult").jqGrid('getRowData',row_id).order_id;
+
+                $.get('/services/search/orders', {"orderId" : orderId}, function(data){
+                    console.log('getting data from orderId');
+                    console.dir(data);
+                    var subgrid_table_id;
+                    subgrid_table_id = subgrid_id + "_t";   //
+                    var subgrid_pager_id;
+                    subgrid_pager_id = subgrid_id + "_pgr"  //
+                    $("#" + subgrid_id).html("<table id='"+subgrid_table_id+"'class='scroll'></table><div id='"+subgrid_pager_id+"'class='scroll'></div>");
+                    $("#" + subgrid_table_id).jqGrid({
+                        data: data,
+                        datatype: "local",
+                        colNames:['出发地','景点','套餐名','日期','时间','人数','价格'],
+                        colModel:[
+                            {name:'depart_spot_name',index:'depart_spot_name',align:'right',sortable:false,width:120},
+                            {name:'to_label',index:'to_label', align:"right",sortable:false,width:100},
+                            {name:'offer_name', index:'offer_name', align:"right" ,sortable:false,width:300},
+                            {name:'valid_date',index:'valid_date', align:"right", formatter:dateDisplayFormatter,width:130},
+                            {name:'departure_time',index:'departure_time', align:"right",sortable:false,width:60},
+                            {name:'quantity',index:'quantity', align:"right",sortable:false,width:40},
+                            {name:'offer_subtotal_amount',index:'offer_subtotal_amount', align:"right",sortable:false,width:40},
+
+                        ],
+                        prmNames: {search: "search"},
+                        pager: subgrid_pager_id,
+                        viewrecords: true,
+                        height: "100%",
+                        rowNum: 5
+                    });
+                });
+
+            },
 
             caption: "您的订单：",
             //rowNum:10,

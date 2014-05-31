@@ -22,14 +22,17 @@ var confirmPicGenerator = require('./node_modules/confirmPicGenerator');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
+
 var adminUtil = require('./node_modules/adminLogin');
 var accountManager = require('./node_modules/adminUserManagement');
 var permissionManager = require('./node_modules/adminToolPermission');
 var orderManager = require('./node_modules/adminOrderManagement');
+var clientQueryDB = require('./node_modules/clientQueryDB');
+var customerToolsQueryDB = require('./node_modules/customerToolsQueryDB');
+var adminQueryDB = require('./node_modules/adminQueryDB');
 
 
 var app = express();
-
 
 
 
@@ -68,7 +71,7 @@ log4js.configure({
 });
 var logger = log4js.getLogger('normal');
 logger.setLevel('INFO');
-app.use(log4js.connectLogger(logger, {level:log4js.levels.INFO, format:':method :url'}));
+app.use(log4js.connectLogger(logger, {level:log4js.levels.INFO}));
 
 exports.logger=function(name){
     var logger = log4js.getLogger(name);
@@ -97,14 +100,14 @@ app.get('/', function (req,res){
  * Data Services using http GET method
  *************************************************************/
 // Order: insert data record:
-
+//TODO change all the Get method to Post
 //Ticket : delete\Disable ticket
 app.get('/services/admin/DeleteSpots/:values', function(req,res) {
 
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
+    adminQueryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
 
         res.send(results);
     })
@@ -115,7 +118,7 @@ app.get('/services/admin/DeleteOffers/:values', function(req,res) {
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
+    adminQueryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
 
         res.send(results);
     })
@@ -132,7 +135,7 @@ app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,re
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.orderTable ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.orderTable ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
@@ -142,7 +145,7 @@ app.get('/services/admin/InsertOrder/:tableColumnNames/:values', function(req,re
 app.get('/services/admin/GetCustomersBasedOnConfirmation/:confirmNum', function(req,res) {
     var confirmNum = req.params.confirmNum;
     console.log("Parameter: " + confirmNum);
-    queryDB.getOrderFromCustomersConfirmationNumber(confirmNum,function(results){
+    orderManager.getOrderFromCustomersConfirmationNumber(confirmNum,function(results){
         res.send(results);
     })
 });
@@ -152,7 +155,7 @@ app.get('/services/admin/GetCustomersBasedOnConfirmation/:confirmNum', function(
 app.get('/services/admin/GetOrderBasedOnOrderId/:orderNum', function(req,res) {
     var orderNum = req.params.orderNum;
     console.log("Parameter: " + orderNum);
-    queryDB.getOrderFromOrderNumber(orderNum,function(results){
+    orderManager.getOrderFromOrderNumber(orderNum,function(results){
         res.send(results);
     })
 });
@@ -163,7 +166,7 @@ app.get('/services/admin/GetOrderBasedOnOrderId/:orderNum', function(req,res) {
 app.get('/services/admin/GetOrdersBasedOnName/:name', function(req,res) {
     var name = req.params.name;
     console.log("Parameter: " + name);
-    queryDB.geOrdersFromCustomerName(name,function(results){
+    orderManager.geOrdersFromCustomerName(name,function(results){
         res.send(results);
     })
 });
@@ -172,7 +175,7 @@ app.get('/services/admin/GetOrdersBasedOnName/:name', function(req,res) {
 app.get('/services/admin/GetOrderBasedOnPhoneNumber/:phone', function(req,res) {
     var phone = req.params.phone;
     console.log("Parameter: " + phone);
-    queryDB.getOrderFromCustomersPhoneNumber(phone,function(results){
+    orderManager.getOrderFromCustomersPhoneNumber(phone,function(results){
         res.send(results);
     })
 });
@@ -186,7 +189,7 @@ app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
@@ -201,7 +204,7 @@ app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.customerTable ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
@@ -211,7 +214,7 @@ app.get('/services/admin/InsertCustomer/:tableColumnNames/:values', function(req
 app.get('/services/admin/GetCustomersBasedOnTicket/:ticketNum', function(req,res) {
     var ticketNum = req.params.ticketNum;
     console.log("Parameter: " +ticketNum);
-    queryDB.getCustomersFromTicketNumber(ticketNum,function(results){
+    orderManager.getCustomersFromTicketNumber(ticketNum,function(results){
         res.send(results);
     })
 });
@@ -225,7 +228,7 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
 
         res.send(results);
     })
@@ -240,7 +243,7 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
 
         res.send(results);
     })
@@ -257,7 +260,7 @@ app.get('/services/admin/InsertTicket/:tableColumnNames/:values', function(req,r
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.sc_sku_tickets ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
@@ -272,85 +275,85 @@ app.get('/services/admin/InsertRoutes/:tableColumnNames/:values', function(req,r
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.insertRecord(tableNames.routeTable ,tableColumnNames, values, function(results){
+    adminQueryDB.insertRecord(tableNames.routeTable ,tableColumnNames, values, function(results){
         res.send(results);
     })
 });
-
-
-
-
-app.get('/services/getAll/scenerySpots', function(req,res) {
-
-    queryDB.getAllScenerySpots(function(results){
-        res.send(results);
-    })
-});
-
-app.get('/services/getAll/startSpots', function(req,res) {
-
-    queryDB.getAllStartSpots(function(results){
-        res.send(results);
-    })
-});
-
-app.get('/services/getAll/routesByStartSpot', function(req,res) {
-
-    queryDB.getRoutesFromStartSpots(function(results){
-        res.send(results);
-    })
-});
-
-app.get('/services/getAll/offersByRoute', function(req,res) {
-
-    queryDB.getOffersFromRouteId(function(results){
-        res.send(results);
-    })
-});
-
 
 app.get('/services/admin/DeleteOffers/:values', function(req,res) {
 
     var values = req.params.values;
     console.log("Parameter: " + values);
 
-    queryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
+    adminQueryDB.disableRecord(tableNames.offerTable ,'offer_id', values, function(results){
 
         res.send(results);
     })
 });
 
+
+app.get('/services/getAll/scenerySpots', function(req,res) {
+
+    clientQueryDB.getAllScenerySpots(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/startSpots', function(req,res) {
+
+    clientQueryDB.getAllStartSpots(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/routesByStartSpot', function(req,res) {
+
+    clientQueryDB.getRoutesFromStartSpots(function(results){
+        res.send(results);
+    })
+});
+
+app.get('/services/getAll/offersByRoute', function(req,res) {
+
+    clientQueryDB.getOffersFromRouteId(function(results){
+        res.send(results);
+    })
+});
+
+
+
+
 app.get('/services/getAll/offers', function(req,res) {
 
-    queryDB.getAllOffers(function(results){
+    clientQueryDB.getAllOffers(function(results){
         res.send(results);
     })
 });
 
 app.get('/services/getAll/routes', function(req,res) {
 
-    queryDB.getAllRoutes(function(results){
+    clientQueryDB.getAllRoutes(function(results){
         res.send(results);
     })
 });
 
 app.get('/services/getAll/buses', function(req,res) {
 
-    queryDB.getAllBuses(function(results){
+    clientQueryDB.getAllBuses(function(results){
         res.send(results);
     })
 });
 
 app.get('/services/getAll/drivers', function(req,res) {
 
-    queryDB.getAllDrivers(function(results){
+    clientQueryDB.getAllDrivers(function(results){
         res.send(results);
     })
 });
 
 app.get('/services/getAll/validSchedules', function(req,res) {
 
-    queryDB.getAllValidSchedules(function(results){
+    clientQueryDB.getAllValidSchedules(function(results){
         res.send(results);
     })
 });
@@ -362,23 +365,28 @@ app.get('/services/search/orders', function(req,res){
     //console.dir(req);
     var confirmCode = req.query.confirmCode;
     var customerInfo = req.query.customerInfo;
+    var orderId = req.query.orderId;
 
     console.log("ConfirmCode-"+confirmCode);
     console.log("CustomerInfo-"+customerInfo);
     if(confirmCode) {
-        console.log("Searching orders by confirmCode-"+confirmCode);
-        queryDB.getVouchersFromConfirmationCode(confirmCode,function(results){
+        customerToolsQueryDB.getVouchersFromConfirmationCode(confirmCode,function(results){
             console.log("Search order by confirmation code!");
             console.dir(results);
             res.send(results);
         });
     } else if(customerInfo) {
-        console.log("Searching orders by customerInfo");
-        queryDB.getVouchersFromCustomerInfo(customerInfo,function(results){
+        customerToolsQueryDB.getVouchersFromCustomerInfo(customerInfo,function(results){
             console.log("Search order by customer information!");
             console.dir(results);
             res.send(results);
         });
+    } else if(orderId) {
+        customerToolsQueryDB.getVouchersFromOrderId(orderId,function(results){
+            console.log("Search order by orderId!");
+            console.dir(results);
+            res.send(results);
+        })
     }
 });
 
@@ -640,7 +648,7 @@ app.post('/services/admin/DeleteSpots/:values', function(req,res) {
     var values = req.body.spot_id;
     console.log("Parameter: " + values);
 
-    queryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
+    adminQueryDB.disableRecord(tableNames.spotTable ,'spot_id', values, function(results){
 
         res.send(results);
     })

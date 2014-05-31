@@ -93,13 +93,7 @@
                 //{name:'cancel_order',index:'order_status', edittype:"button", sortable:false,formatter:cancelOrderFormatter}
 
             ],
-            gridComplete: function(){ var ids = jQuery("#orderSearchResult").jqGrid('getDataIDs');
-                for(var i=0;i < ids.length;i++){
-                    var cl = ids[i];
-                    ce = "<input style='height:22px;width:80px;' type='button' value='取消预订'" +
-                            " onclick=\"jQuery('#orderSearchResult').delRowData('"+cl+"');\" />";
-                    jQuery("#orderSearchResult").jqGrid('setRowData',ids[i],{is_valid:ce}); }
-            },
+
             caption: "您的订单：",
             //rowNum:10,
             //pager:$('#pager2'),
