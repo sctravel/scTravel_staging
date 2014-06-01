@@ -27,22 +27,25 @@
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li>
-                                <a id="spots">景点管理</a>
+                                <a id="spotsManagement">景点管理</a>
                             </li>
                             <li>
-                                <a id="routes">路线管理</a>
+                                <a id="routesManagement">路线管理</a>
                             </li>
                             <li>
-                                <a id="offer">套餐管理</a>
+                                <a id="offersManagement">套餐管理</a>
                             </li>
                             <li>
-                                <a id="scheduleManagement">日程管理</a>
+                                <a id="schedulesManagement">日程管理</a>
                             </li>
                             <li>
-                                <a id="managerPermission">用户权限管理</a>
+                                <a id="ordersManagement">订单管理</a>
                             </li>
                             <li>
-                                <a id="managerUser">用户管理</a>
+                                <a id="permissionManagement">用户权限管理</a>
+                            </li>
+                            <li>
+                                <a id="userManagement">用户账号管理</a>
                             </li>
                         </ul>
                     </div>
@@ -89,41 +92,41 @@
             window.location.href=("/logout");
         });
 
-        $("#spots").click( function(){
+        $("#spotsManagement").click( function(){
             $('#content').load("queryspots");
         });
 
-        $("#routes").click( function(){
+        $("#routesManagement").click( function(){
             $('#content').load("queryroutes");
         });
 
-        $(".offers").click( function(){
+        $("#offersManagement").click( function(){
             $('#content').load("queryoffers");
         });
 
-        $("#query_orders").click( function(){
+        $("#ordersManagement").click( function(){
             $('#content').load("queryorders");
         });
-        $("#add_orders").click( function(){
+        $("#addOrders").click( function(){
             $('#content').load("adminPlaceOrders");
         });
 
 
-
+/*
         $(".users").click( function(){
             $('#content').load("queryusers");
         });
 
         $(".superusers").click( function(){
             $('#content').load("querysuperusers");
-        });
+        });*/
 
 
-        $(".managerPermission").click( function(){
+        $("#permissionManagement").click( function(){
             $('#content').load("toolPermission");
         });
 
-        $(".managerUser").click( function(){
+        $("#userManagement").click( function(){
             $('#content').load("adminUserManagement");
         });
         /*

@@ -76,7 +76,7 @@
         </div>
         <form  class="well form-inline">
             <div class="row-fluid userInfo" >
-                <div  class="span2"><bold>订单号：</bold><input id="OrderId"  type="text" class="amount input-small" /></div>
+                <div  class="span2"><bold>订单号：</bold><input id="orderId"  type="text" class="amount input-small" /></div>
             </div>
         </form>
         <div class="row-fluid" >
@@ -107,16 +107,16 @@
         jQuery("#orderSearchResult").jqGrid({
             data: searchResults,
             datatype: "local",
-            colNames:['订单号','时间','客户姓名','客户手机','客户邮箱','总金额','确认码','支付状态','创建者','取消订单'],
-            colModel:[  {name:'order_id',index:'order_id',align:'right'},
+            colNames:['订单号','下单时间','客户姓名','客户手机','客户邮箱','总金额','确认码','支付状态','创建者','取消订单'],
+            colModel:[  {name:'order_id',index:'order_id',align:'right',width:160},
                 {name:'order_datetime',index:'order_datetime', align:"right",formatter:dateDisplayFormatter},
-                {name:'customer_name',index:'customer_name', align:"right"},
+                {name:'customer_name',index:'customer_name', align:"right",width:100},
                 {name:'mobile_phone',index:'mobile_phone', align:"right"},
-                {name:'email',index:'email', align:"right"},
-                {name:'total_order_amount',index:'total_order_amount', align:"right"},
+                {name:'email',index:'email', align:"right",width:200},
+                {name:'total_order_amount',index:'total_order_amount', align:"right",width:60},
                 {name:'confirmation_code',index:'confirmation_code', align:"right"},
-                {name:'order_status',index:'order_status', align:"right", formatter: orderStatusFormatter},
-                {name:'created_by',index:'created_by', align:"right"},
+                {name:'order_status',index:'order_status', align:"right", formatter: orderStatusFormatter,width:80},
+                {name:'created_by',index:'created_by', align:"right",width:80},
                 {name: 'is_valid', index: 'is_valid', formatter: "is_valid",
                     formatoptions: {disabled: false},
                     editable: true, edittype: 'checkbox', cellEdit: true, sortable: false,
@@ -238,7 +238,7 @@
 
         else if (selectedOption == 3){ //based on Customer Phone
             $('#orderSearchByOrderId').show();
-        $('#orderSearchByCustomerPhone').hide();
+            $('#orderSearchByCustomerPhone').hide();
             $('#orderSearchByCustomerName').hide();
             $('#orderSearchByConfirmCode').hide();
 
@@ -249,13 +249,13 @@
         reporter.clear();
 
         var customerName = $('#name').val();
-        if(!customerName || customerName.isEmpty()) {
+        if(!customerName || customerName.length==0) {
             reporter.errorStatus("请输入您要查询的用户名");
             reporter.render();
         }
 
         $('#phone').val('');
-        $('#OrderId').val('');
+        $('#orderId').val('');
         $('#confirmCode').val('');
         console.log("Search orders by customer name");
         jQuery("#orderSearchResult").empty();
@@ -270,17 +270,17 @@
         reporter.clear();
 
         var phone = $('#phone').val();
-        if(!phone || phone.isEmpty()) {
+        if(!phone || phone.length<10) {
             reporter.errorStatus("请输入您要查询的电话号码");
             reporter.render();
         }
         $('#name').val('');
-        $('#OrderId').val('');
+        $('#orderId').val('');
         $('#confirmCode').val('');
         console.log("Search orders by customer mobile phone");
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
-        $.get('/services/admin/GetOrderBasedOnPhoneNumber/'+$('#phone').val(),  displayOrder);
+        $.get('/services/admin/GetOrderBasedOnPhoneNumber/'+phone,  displayOrder);
     }
     $('#searchOrderByCustomerPhone').click(searchByPhone);
 
@@ -295,7 +295,7 @@
 
         $('#name').val('');
         $('#phone').val('');
-        $('#OrderId').val('');
+        $('#orderId').val('');
         console.log("Search orders by confirmCOde");
         jQuery("#orderSearchResult").empty();
         $('#searchResultsPage').show();
@@ -307,7 +307,7 @@
     function searchByOrderId() {
         reporter.clear();
 
-        var orderId = $('#OrderId').val();
+        var orderId = $('#orderId').val();
         if(!orderId || orderId.length <15) {
             reporter.errorStatus("请输入正确的订单号");
             reporter.render();
