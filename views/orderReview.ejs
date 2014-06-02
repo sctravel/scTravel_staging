@@ -37,11 +37,11 @@
                         <input type = "hidden" id = "verify" value=" 0" />
                         <div  class="span2"><bold>姓名：</bold><input id="name"  type="text" class="amount input-small" /></div>
                         <div  class="span2"><bold>联系电话：</bold><input id="phone"  type="text" class="amount input-small" /></div>
-                        <div  class="span2"><bold>Email：</bold><input  id="email" type="text" class="input-large" /></div>
+                        <div  class="span2"><bold>电子信箱：</bold><input  id="email" type="text" class="input-large" /></div>
                     </div>
                 </form>
                 <div  class="row-fluid">
-                    <bold>验证码：</bold> <input id="confCode"  type="text" class="amount input-small" />
+                    <bold>验证码(请区别字母大小写)：</bold> <input id="confCode"  type="text" class="amount input-small" />
                     <img src="/services/getConfirmPic" id="confPic"/><button id="changeConfPic" font-style="italic"><u>看不清，换一张</u></button>
 
                 </div>
@@ -85,7 +85,7 @@
         }
 
         function validatePhone(s) {
-            if (s.length <10) return false;
+            if (s.length <8 || s.length > 14) return false;
             for (var i = 0; i < s.length; i++) {
                 var c = s.charAt(i);
                 if ((c > '9') ||  (c <'0')) {
@@ -132,7 +132,7 @@
                 }
                 if(!validatePhone(userInfo.mobilePhone))
                 {
-                    reporter.errorStatus("请输入您的手机号码");
+                    reporter.errorStatus("请输入您的手机号码 (8-14位)");
                     reporter.render();
 
                     return;
